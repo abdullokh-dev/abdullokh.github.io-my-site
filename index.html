@@ -1,406 +1,619 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Abdullokh Bakirov Super App</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ABU AGENT</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&display=swap');
 
-body{
-margin:0;
-font-family:Poppins;
-background:linear-gradient(120deg,#020617,#0f172a);
-color:white;
-overflow:hidden;
+:root {
+  --c: #00ffcc;
+  --g: #00ff88;
+  --bg: #060c06;
+  --panel: #091409;
+  --border: rgba(0,255,136,0.2);
+  --text: #ccffee;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-#menu{
-position:fixed;
-top:10px;
-left:10px;
-display:flex;
-gap:8px;
-z-index:100;
+/* scanlines */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,255,136,0.012) 3px, rgba(0,255,136,0.012) 4px);
+  pointer-events:none; z-index:9998;
 }
 
-#menu button{
-padding:10px 14px;
-border:none;
-border-radius:14px;
-background:rgba(255,255,255,0.1);
-color:white;
-backdrop-filter:blur(10px);
+canvas#mx {
+  position:fixed; top:0; left:0;
+  width:100%; height:100%;
+  opacity:.06; pointer-events:none; z-index:0;
 }
 
-.page{
-display:none;
-height:100vh;
-justify-content:center;
-align-items:center;
-flex-direction:column;
+/* ===== LAUNCH SCREEN ===== */
+#launch {
+  position:fixed; inset:0;
+  background: var(--bg);
+  z-index:9999;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:24px;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
 }
 
-.active{
-display:flex;
+.lring-wrap {
+  position:relative; width:160px; height:160px;
+}
+.lr {
+  position:absolute; border-radius:50%;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  border:2px solid;
+  animation:spin 6s linear infinite;
+}
+.lr1{width:160px;height:160px;border-color:rgba(0,255,204,.5);animation-duration:7s;}
+.lr2{width:126px;height:126px;border-color:rgba(0,255,136,.4);animation-direction:reverse;animation-duration:4.5s;}
+.lr3{width:94px;height:94px;border-color:rgba(0,255,204,.3);animation-duration:10s;}
+.lface {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  font-size:54px;
+  filter:drop-shadow(0 0 18px var(--c));
+  animation:fp 2s ease-in-out infinite;
+  z-index:2;
+}
+@keyframes fp{0%,100%{filter:drop-shadow(0 0 12px #00ffcc)}50%{filter:drop-shadow(0 0 30px #00ffcc) drop-shadow(0 0 50px #00ff88)}}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+.ltitle {
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(28px,8vw,46px);
+  font-weight:900; color:var(--c);
+  text-shadow:0 0 25px var(--c);
+  letter-spacing:5px;
+}
+.lsub {
+  color:var(--g);
+  font-size:clamp(13px,3.5vw,17px);
+  letter-spacing:2px; opacity:.85;
+  text-align:center; padding:0 20px;
+}
+.lbtn {
+  background:linear-gradient(135deg,rgba(0,255,136,.15),rgba(0,255,204,.15));
+  border:2px solid var(--c);
+  color:var(--c);
+  padding:16px 48px;
+  border-radius:6px;
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(14px,4vw,18px);
+  font-weight:700; cursor:pointer;
+  letter-spacing:3px;
+  animation:bg 2s ease-in-out infinite;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+@keyframes bg{0%,100%{box-shadow:0 0 20px rgba(0,255,204,.3)}50%{box-shadow:0 0 50px rgba(0,255,204,.7),0 0 80px rgba(0,255,136,.4)}}
+
+/* ===== MAIN ===== */
+.wrap {
+  position:relative; z-index:10;
+  max-width:860px; margin:0 auto;
+  padding:14px; min-height:100vh;
+  display:flex; flex-direction:column;
 }
 
-canvas{
-border-radius:20px;
-box-shadow:0 0 30px rgba(255,255,255,0.1);
+/* header */
+header { text-align:center; padding:16px 0 12px; }
+.ring-wrap {
+  position:relative; width:120px; height:120px;
+  margin:0 auto 10px;
+}
+.r {
+  position:absolute; border-radius:50%;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  border:1.5px solid;
+  animation:spin 6s linear infinite;
+}
+.r1{width:120px;height:120px;border-color:rgba(0,255,204,.5);animation-duration:7s;}
+.r2{width:94px;height:94px;border-color:rgba(0,255,136,.4);animation-direction:reverse;animation-duration:4.5s;}
+.r3{width:70px;height:70px;border-color:rgba(0,255,204,.3);animation-duration:10s;}
+.face {
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:42px;
+  filter:drop-shadow(0 0 14px var(--c));
+  animation:fp 2s ease-in-out infinite;
+  z-index:2;
+}
+.scanl {
+  position:absolute;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--c),transparent);
+  opacity:.5; animation:scl 3s ease-in-out infinite; z-index:3; top:0;
+}
+@keyframes scl{0%{top:15%;opacity:0}10%{opacity:.5}90%{opacity:.5}100%{top:85%;opacity:0}}
+
+h1 {
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(20px,5.5vw,34px);
+  font-weight:900; color:var(--c);
+  text-shadow:0 0 20px var(--c);
+  letter-spacing:4px;
+  position:relative;
+}
+h1::before,h1::after{
+  content:attr(data-t);
+  position:absolute;top:0;left:0;width:100%;
+}
+h1::before{color:#ff00ff;clip-path:polygon(0 0,100% 0,100% 35%,0 35%);animation:g1 5s infinite;}
+h1::after{color:#00ffff;clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%);animation:g2 5s infinite;}
+@keyframes g1{0%,88%,100%{transform:none;opacity:0}90%{transform:translateX(-3px);opacity:.7}93%{transform:translateX(2px);opacity:0}}
+@keyframes g2{0%,85%,100%{transform:none;opacity:0}87%{transform:translateX(3px);opacity:.7}90%{transform:none;opacity:0}}
+
+.sub {
+  font-family:'Rajdhani',sans-serif;
+  font-size:clamp(11px,2.8vw,14px);
+  color:var(--g); letter-spacing:3px;
+  margin-top:4px; opacity:.8;
+}
+.dots {
+  display:flex; justify-content:center;
+  gap:14px; margin-top:8px; flex-wrap:wrap;
+}
+.dot-item {
+  font-size:10px; color:var(--g);
+  display:flex; align-items:center; gap:4px;
+}
+.dot {
+  width:6px;height:6px;border-radius:50%;
+  background:var(--g);
+  box-shadow:0 0 6px var(--g);
+  animation:bl 1.5s ease-in-out infinite;
+}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.15}}
+
+/* chat panel */
+.chat-panel {
+  flex:1; background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:8px; margin:10px 0;
+  display:flex; flex-direction:column;
+  overflow:hidden;
+  box-shadow:0 0 30px rgba(0,255,136,.08),inset 0 0 40px rgba(0,0,0,.3);
+}
+.chat-top {
+  padding:7px 12px;
+  border-bottom:1px solid var(--border);
+  background:#07110a;
+  display:flex; align-items:center; gap:7px;
+}
+.td { width:8px;height:8px;border-radius:50%; }
+.td1{background:#ff5f56}.td2{background:#ffbd2e}.td3{background:#27c93f;box-shadow:0 0 6px #27c93f}
+.ttl { margin-left:4px;font-size:10px;color:rgba(0,255,136,.6);letter-spacing:2px; }
+
+#msgs {
+  flex:1; overflow-y:auto;
+  padding:14px; display:flex;
+  flex-direction:column; gap:12px;
+  min-height:260px; max-height:400px;
+  scroll-behavior:smooth;
+}
+#msgs::-webkit-scrollbar{width:3px}
+#msgs::-webkit-scrollbar-thumb{background:rgba(0,255,136,.2);border-radius:2px}
+
+.msg { display:flex;gap:9px;animation:mi .3s ease;max-width:100%; }
+@keyframes mi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.msg.u { flex-direction:row-reverse; }
+
+.av {
+  width:30px;height:30px;border-radius:50%;
+  border:1px solid var(--c);
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px; flex-shrink:0;
+  box-shadow:0 0 8px rgba(0,255,204,.4);
+}
+.msg.u .av { border-color:var(--g);box-shadow:0 0 8px rgba(0,255,136,.4); }
+
+.bubble {
+  background:#0a1f0d;
+  border:1px solid rgba(0,255,136,.15);
+  border-radius:4px 12px 12px 12px;
+  padding:9px 13px;
+  font-size:clamp(13px,3.5vw,15px);
+  line-height:1.65; color:var(--text);
+  max-width:calc(100% - 44px);
+  word-break:break-word;
+}
+.msg.u .bubble {
+  background:#081a0e;
+  border-color:rgba(0,255,136,.2);
+  border-radius:12px 4px 12px 12px;
+  color:#aaffcc;
 }
 
-.whatsapp{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#25D366;
-padding:14px 20px;
-border-radius:40px;
-text-decoration:none;
-color:white;
+.tm { font-size:9px;color:rgba(0,255,136,.35);margin-top:3px;letter-spacing:1px; }
+
+/* speak button */
+.spk {
+  display:inline-flex; align-items:center; gap:5px;
+  background:transparent;
+  border:1px solid rgba(0,255,136,.25);
+  color:var(--g); cursor:pointer;
+  padding:4px 10px; border-radius:4px;
+  font-size:11px; font-family:'Share Tech Mono',monospace;
+  margin-top:6px; letter-spacing:1px;
+  transition:all .2s; -webkit-tap-highlight-color:transparent;
+}
+.spk:hover,.spk:active { background:rgba(0,255,136,.08);border-color:var(--g);box-shadow:0 0 10px rgba(0,255,136,.2); }
+.spk.on { color:var(--c);border-color:var(--c);box-shadow:0 0 12px rgba(0,255,204,.3); }
+
+/* typing */
+.typing { display:none;gap:9px;align-items:flex-end; }
+.typing.on { display:flex; }
+.tdots {
+  background:#0a1f0d;
+  border:1px solid rgba(0,255,136,.15);
+  border-radius:4px 12px 12px 12px;
+  padding:11px 15px;
+  display:flex;gap:5px;align-items:center;
+}
+.tdots span {
+  width:7px;height:7px;
+  background:var(--c);border-radius:50%;
+  animation:db 1.2s ease-in-out infinite;
+  box-shadow:0 0 5px var(--c);
+}
+.tdots span:nth-child(2){animation-delay:.2s}
+.tdots span:nth-child(3){animation-delay:.4s}
+@keyframes db{0%,80%,100%{transform:translateY(0);opacity:.3}40%{transform:translateY(-7px);opacity:1}}
+
+/* quick */
+.quick {
+  display:flex;gap:7px;padding:0 12px 10px;
+  flex-wrap:wrap;background:#07110a;
+}
+.qb {
+  background:transparent;
+  border:1px solid rgba(0,255,136,.18);
+  color:rgba(0,255,136,.7);
+  padding:5px 10px; border-radius:20px;
+  font-size:10px; font-family:'Share Tech Mono',monospace;
+  cursor:pointer; transition:all .2s;
+  letter-spacing:.5px;
+  -webkit-tap-highlight-color:transparent;
+}
+.qb:hover,.qb:active { border-color:var(--c);color:var(--c);background:rgba(0,255,204,.06); }
+
+/* input */
+.inp-area {
+  padding:10px 12px;
+  border-top:1px solid var(--border);
+  background:#07110a;
+  display:flex; gap:8px; align-items:flex-end;
+}
+#inp {
+  flex:1; background:#0a1a0d;
+  border:1px solid rgba(0,255,136,.25);
+  border-radius:6px; color:var(--text);
+  font-family:'Share Tech Mono',monospace;
+  font-size:clamp(13px,3.5vw,15px);
+  padding:10px 12px; resize:none; outline:none;
+  min-height:42px; max-height:110px;
+  line-height:1.5;
+  transition:border-color .2s,box-shadow .2s;
+}
+#inp:focus { border-color:var(--c);box-shadow:0 0 14px rgba(0,255,204,.15); }
+#inp::placeholder { color:rgba(0,255,136,.3); }
+
+.mbtn {
+  background:transparent;
+  border:1px solid rgba(0,255,136,.3);
+  color:var(--g); width:42px;height:42px;
+  border-radius:6px; cursor:pointer;
+  font-size:17px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s; flex-shrink:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.mbtn.mic.on { border-color:#ff4444;color:#ff6666;box-shadow:0 0 14px rgba(255,68,68,.3);animation:mp 1s ease-in-out infinite; }
+@keyframes mp{0%,100%{box-shadow:0 0 8px rgba(255,68,68,.2)}50%{box-shadow:0 0 22px rgba(255,68,68,.6)}}
+.sbtn {
+  background:linear-gradient(135deg,rgba(0,255,136,.1),rgba(0,255,204,.1));
+  border:1px solid var(--c);color:var(--c);
+  width:42px;height:42px;border-radius:6px;
+  cursor:pointer;font-size:19px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;flex-shrink:0;
+  box-shadow:0 0 10px rgba(0,255,204,.15);
+  -webkit-tap-highlight-color:transparent;
+}
+.sbtn:hover,.sbtn:active { background:linear-gradient(135deg,rgba(0,255,136,.2),rgba(0,255,204,.2));box-shadow:0 0 20px rgba(0,255,204,.35);transform:scale(1.04); }
+
+footer {
+  text-align:center;padding:8px 0;
+  font-size:9px;color:rgba(0,255,136,.25);letter-spacing:2px;
 }
 
-.credit{
-position:fixed;
-bottom:10px;
-left:10px;
-opacity:0.6;
+@media(max-width:480px){
+  #msgs{max-height:320px}
+  .quick{gap:5px}
+  .qb{font-size:9px;padding:4px 8px}
 }
-
-.glass{
-background:rgba(255,255,255,0.08);
-padding:30px;
-border-radius:20px;
-backdrop-filter:blur(20px);
-}
-
+@media(min-width:768px){ #msgs{max-height:460px} }
+@media(min-width:1024px){ #msgs{max-height:520px} }
 </style>
-
 </head>
 <body>
 
-<div id="menu">
+<canvas id="mx"></canvas>
 
-<button onclick="openPage('draw')">Draw</button>
-<button onclick="openPage('ramadan')">Ramadan</button>
-<button onclick="openPage('game')">Games</button>
-<button onclick="openPage('calc')">Calc</button>
-<button onclick="openPage('ai')">AI</button>
-<button onclick="openPage('support')">Support</button>
-
+<!-- LAUNCH SCREEN -->
+<div id="launch">
+  <div class="lring-wrap">
+    <div class="lr lr1"></div>
+    <div class="lr lr2"></div>
+    <div class="lr lr3"></div>
+    <div class="lface">🤖</div>
+  </div>
+  <div class="ltitle">ABU AGENT</div>
+  <div class="lsub">Aqlli Toshkent Yordamchisi<br>Bosing — boshlaymiz!</div>
+  <button class="lbtn" id="startBtn">▶ &nbsp;BOSHLASH</button>
 </div>
 
-<!-- DRAW -->
+<div class="wrap">
+  <header>
+    <div class="ring-wrap">
+      <div class="r r1"></div>
+      <div class="r r2"></div>
+      <div class="r r3"></div>
+      <div class="scanl"></div>
+      <div class="face">🤖</div>
+    </div>
+    <h1 data-t="ABU AGENT">ABU AGENT</h1>
+    <div class="sub">AQLLI TOSHKENT YORDAMCHISI v2.0</div>
+    <div class="dots">
+      <div class="dot-item"><div class="dot"></div>ONLINE</div>
+      <div class="dot-item"><div class="dot" style="background:var(--c);box-shadow:0 0 6px var(--c);animation-delay:.5s"></div>FAOL</div>
+      <div class="dot-item"><div class="dot" style="animation-delay:1s"></div>TAYYOR</div>
+    </div>
+  </header>
 
-<div id="draw" class="page active">
+  <div class="chat-panel">
+    <div class="chat-top">
+      <div class="td td1"></div><div class="td td2"></div><div class="td td3"></div>
+      <span class="ttl">// ABU_AGENT :: TERMINAL</span>
+    </div>
 
-<video id="video" style="display:none"></video>
-<canvas id="canvas" width="800" height="500"></canvas>
+    <div id="msgs">
+      <!-- welcome injected by JS -->
+      <div class="typing" id="typ">
+        <div class="av">🤖</div>
+        <div class="tdots"><span></span><span></span><span></span></div>
+      </div>
+    </div>
 
-</div>
+    <div class="quick" id="quickbtns">
+      <button class="qb" onclick="qa('Toshkentda nima qilish mumkin?')">📍 Toshkent</button>
+      <button class="qb" onclick="qa('Dasturlashni qanday o\'rganaman?')">💻 Dasturlash</button>
+      <button class="qb" onclick="qa('Sen kimsan Abu Agent?')">🤖 Kim sen?</button>
+      <button class="qb" onclick="qa('Ingliz tilini tez o\'rganish usullari?')">🌍 Til</button>
+      <button class="qb" onclick="qa('Menga biznes g\'oyalari ber')">💰 Biznes</button>
+    </div>
 
-<!-- RAMADAN -->
+    <div class="inp-area">
+      <button class="mbtn mic" id="micBtn" onclick="toggleMic()">🎤</button>
+      <textarea id="inp" placeholder="Savol yoz yoki mikrofon bos..." rows="1"
+        onkeydown="onKey(event)" oninput="resize(this)"></textarea>
+      <button class="sbtn" onclick="send()">➤</button>
+    </div>
+  </div>
 
-<div id="ramadan" class="page">
-
-<canvas id="ramadanCanvas" width="800" height="400"></canvas>
-
-</div>
-
-<!-- GAME -->
-
-<div id="game" class="page">
-
-<canvas id="gameCanvas" width="400" height="400"></canvas>
-
-<br>
-
-<button onclick="startSnake()">Snake</button>
-<button onclick="startBall()">Ball</button>
-<button onclick="startClick()">Click</button>
-
-</div>
-
-<!-- CALC -->
-
-<div id="calc" class="page">
-
-<div class="glass">
-
-<input id="display" style="width:220px;height:40px;font-size:20px">
-
-<br><br>
-
-<button onclick="press(1)">1</button>
-<button onclick="press(2)">2</button>
-<button onclick="press(3)">3</button>
-<button onclick="press('+')">+</button>
-
-<br>
-
-<button onclick="press(4)">4</button>
-<button onclick="press(5)">5</button>
-<button onclick="press(6)">6</button>
-<button onclick="press('-')">-</button>
-
-<br>
-
-<button onclick="press(7)">7</button>
-<button onclick="press(8)">8</button>
-<button onclick="press(9)">9</button>
-<button onclick="press('*')">*</button>
-
-<br>
-
-<button onclick="press(0)">0</button>
-<button onclick="calc()">=</button>
-<button onclick="press('.')">.</button>
-<button onclick="press('/')">/</button>
-
-</div>
-
-</div>
-
-<!-- AI -->
-
-<div id="ai" class="page">
-
-<div class="glass">
-
-<h2>AI Assistant</h2>
-
-<input id="aiInput" placeholder="savol yozing">
-
-<button onclick="askAI()">Send</button>
-
-<p id="aiAnswer"></p>
-
-</div>
-
-</div>
-
-<!-- SUPPORT -->
-
-<div id="support" class="page">
-
-<div class="glass">
-
-<h2>Support</h2>
-
-<p>WhatsApp</p>
-
-<a href="https://wa.me/996228882999">
-+996228882999
-</a>
-
-<p>Telegram</p>
-
-<a href="https://t.me/uzgen12345">
-@uzgen12345
-</a>
-
-</div>
-
-</div>
-
-<a class="whatsapp" href="https://wa.me/996228882999">
-
-WhatsApp
-
-</a>
-
-<div class="credit">
-
-Abdullokh Bakirov tomonidan yasalgan
-
+  <footer>◈ ABU AGENT v2.0 :: POWERED BY AI :: TOSHKENT ◈</footer>
 </div>
 
 <script>
+// ========= MATRIX =========
+const cv = document.getElementById('mx');
+const cx = cv.getContext('2d');
+function rsz(){cv.width=innerWidth;cv.height=innerHeight;}
+rsz(); addEventListener('resize',rsz);
+const CH='アイウエオカキクケコABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ابوداست';
+let fs=13,cols=Math.floor(innerWidth/fs),dr=Array(cols).fill(1);
+function mat(){
+  cx.fillStyle='rgba(6,12,6,.05)';cx.fillRect(0,0,cv.width,cv.height);
+  cx.fillStyle='#00ff88';cx.font=fs+'px Share Tech Mono';
+  dr.forEach((y,i)=>{cx.fillText(CH[Math.floor(Math.random()*CH.length)],i*fs,y*fs);if(y*fs>cv.height&&Math.random()>.975)dr[i]=0;dr[i]++;});
+}
+setInterval(mat,55);
+addEventListener('resize',()=>{cols=Math.floor(innerWidth/fs);dr=Array(cols).fill(1);});
 
-/* menu */
+// ========= AUDIO + LAUNCH =========
+let unlocked=false;
+let pendingSpeak='';
 
-function openPage(id){
+document.getElementById('startBtn').addEventListener('click', async function(){
+  // Unlock AudioContext
+  try{
+    const ac=new(window.AudioContext||window.webkitAudioContext)();
+    const buf=ac.createBuffer(1,1,22050);
+    const src=ac.createBufferSource();
+    src.buffer=buf; src.connect(ac.destination); src.start(0);
+    await ac.resume();
+  }catch(e){}
+  unlocked=true;
+  document.getElementById('launch').style.display='none';
+  // inject welcome
+  const welcomeText='Salom! Men Abu Agent — sening aqlli Toshkent do\'sting! Savol ber, javob beraman — ham yozib, ham gapirib. Qani, boshlaymizmi bro?';
+  addMsg('bot', welcomeText, true);
+});
 
-document.querySelectorAll(".page").forEach(p=>{
-p.classList.remove("active")
-})
+// ========= TTS =========
+let curUtt=null;
 
-document.getElementById(id).classList.add("active")
+function speak(text, btn){
+  if(!unlocked) return;
 
+  // if same btn is playing — stop
+  if(btn && btn.classList.contains('on')){
+    speechSynthesis.cancel(); curUtt=null;
+    btn.classList.remove('on'); btn.innerHTML='🔊 Gapirib ber';
+    return;
+  }
+  // reset other btns
+  document.querySelectorAll('.spk.on').forEach(b=>{b.classList.remove('on');b.innerHTML='🔊 Gapirib ber';});
+  if(btn){btn.classList.add('on');btn.innerHTML='⏹ To\'xtat';}
+  speechSynthesis.cancel();
+
+  function doSpeak(){
+    const utt=new SpeechSynthesisUtterance(text);
+    utt.rate=0.88; utt.pitch=1.05; utt.volume=1;
+    const vv=speechSynthesis.getVoices();
+    const uzV=vv.find(v=>v.lang.startsWith('uz'));
+    const ruV=vv.find(v=>v.lang.startsWith('ru'));
+    const enV=vv.find(v=>v.lang.startsWith('en'));
+    if(uzV){utt.voice=uzV;utt.lang='uz-UZ';}
+    else if(ruV){utt.voice=ruV;utt.lang='ru-RU';}
+    else if(enV){utt.voice=enV;utt.lang='en-US';}
+    utt.onend=utt.onerror=()=>{curUtt=null;if(btn){btn.classList.remove('on');btn.innerHTML='🔊 Gapirib ber';}};
+    curUtt=utt;
+    speechSynthesis.speak(utt);
+  }
+
+  // voices may not be ready yet
+  if(speechSynthesis.getVoices().length>0){ doSpeak(); }
+  else { speechSynthesis.onvoiceschanged=()=>{speechSynthesis.onvoiceschanged=null;doSpeak();}; }
 }
 
-/* calculator */
+speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();
 
-function press(v){
-display.value+=v
+// ========= CHAT =========
+function ts(){return new Date().toLocaleTimeString('uz-UZ',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+
+function addMsg(role, text, autoSpeak=false){
+  const box=document.getElementById('msgs');
+  const typ=document.getElementById('typ');
+
+  const div=document.createElement('div');
+  div.className='msg '+(role==='bot'?'b':'u');
+
+  const av=document.createElement('div');
+  av.className='av';
+  av.textContent=role==='bot'?'🤖':'👤';
+
+  const inner=document.createElement('div');
+
+  const bub=document.createElement('div');
+  bub.className='bubble';
+  bub.innerHTML=text.replace(/\n/g,'<br>');
+
+  const tm=document.createElement('div');
+  tm.className='tm';
+  tm.textContent=(role==='bot'?'ABU':'SEN')+' :: '+ts();
+
+  inner.appendChild(bub);
+  inner.appendChild(tm);
+
+  if(role==='bot'){
+    const plain=text.replace(/<[^>]*>/g,'');
+    const spkBtn=document.createElement('button');
+    spkBtn.className='spk';
+    spkBtn.innerHTML='🔊 Gapirib ber';
+    spkBtn.onclick=()=>speak(plain, spkBtn);
+    inner.appendChild(spkBtn);
+  }
+
+  div.appendChild(av);
+  div.appendChild(inner);
+  box.insertBefore(div, typ);
+  box.scrollTop=box.scrollHeight;
+
+  if(role==='bot' && autoSpeak && unlocked){
+    const plain=text.replace(/<[^>]*>/g,'').replace(/<br>/g,' ');
+    // find the speak btn just added
+    const spkBtn=inner.querySelector('.spk');
+    setTimeout(()=>speak(plain, spkBtn), 200);
+  }
 }
 
-function calc(){
-display.value=eval(display.value)
+function showTyp(on){
+  const t=document.getElementById('typ');
+  t.classList.toggle('on',on);
+  if(on){const b=document.getElementById('msgs');b.scrollTop=b.scrollHeight;}
 }
 
-/* AI assistant */
+const SYS=`Sen "Abu Agent" degan aqlli sun'iy intellekt yordamchisan.
+Sen FAQAT o'zbek tilida, Toshkent shevasida gapirasan.
+Hech qachon inglizcha, ruscha yoki boshqa tilda javob berma — faqat o'zbekcha!
+Toshkentcha so'zlar ishlatasan: "aka", "bro", "uka", "zo'r", "a?", "xo'p", "tamom", "aniq gap", "ha xo'sh", "nima qilamiz endi" kabi.
+Javoblar qisqa va tushunarli — 3-5 jumladan oshmsin.
+Do'stona, samimiy va yordam beruvchi bo'l.
+Agar kimsan deb so'rasalar: "Men Abu Agent, Toshkentning aqlli yordamchisi! Meni Abu o'zi yaratgan — zo'r dasturchi!" de.
+Hech qachon boshqa tilda javob berma. Hatto savol inglizcha bo'lsa ham, o'zbekcha javob ber.`;
 
-function askAI(){
+async function send(){
+  const inp=document.getElementById('inp');
+  const txt=inp.value.trim();
+  if(!txt) return;
+  inp.value=''; inp.style.height='auto';
+  addMsg('user', txt);
+  showTyp(true);
 
-let q=aiInput.value.toLowerCase()
-
-let a=""
-
-if(q.includes("salom")) a="Salom!"
-
-else if(q.includes("vaqt")) a=new Date().toLocaleTimeString()
-
-else a="Men oddiy AI yordamchiman"
-
-aiAnswer.innerText=a
-
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        model:"claude-sonnet-4-20250514",
+        max_tokens:1000,
+        system:SYS,
+        messages:[{role:"user",content:txt}]
+      })
+    });
+    const d=await r.json();
+    showTyp(false);
+    if(d.content&&d.content[0]){
+      addMsg('bot', d.content[0].text, true);
+    } else {
+      addMsg('bot','Voy, bir muammo bo\'ldi bro. Yana urinib ko\'r!', true);
+    }
+  }catch(e){
+    showTyp(false);
+    addMsg('bot','Internet bilan muammo bor shekilli aka. Tekshirib ko\'r!', true);
+  }
 }
 
-/* Ramadan animation */
+function qa(q){document.getElementById('inp').value=q;send();}
+function onKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
+function resize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,110)+'px';}
 
-let rcanvas=document.getElementById("ramadanCanvas")
-let rctx=rcanvas.getContext("2d")
-
-let t=0
-
-function ramadan(){
-
-rctx.clearRect(0,0,800,400)
-
-rctx.font="80px Poppins"
-
-rctx.fillStyle="gold"
-
-rctx.fillText("Ramadan",200+Math.sin(t)*20,200)
-
-t+=0.05
-
-requestAnimationFrame(ramadan)
-
+// ========= MIC =========
+let recog=null, mic=false;
+function toggleMic(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const btn=document.getElementById('micBtn');
+  if(!SR){addMsg('bot','Bu brauzer mikrofon qo\'llamaydi bro 😕', false);return;}
+  if(mic){recog&&recog.stop();mic=false;btn.classList.remove('on');btn.textContent='🎤';return;}
+  recog=new SR();
+  recog.lang='uz-UZ';
+  recog.interimResults=false;
+  recog.onresult=e=>{
+    document.getElementById('inp').value=e.results[0][0].transcript;
+    mic=false;btn.classList.remove('on');btn.textContent='🎤';send();
+  };
+  recog.onerror=recog.onend=()=>{mic=false;btn.classList.remove('on');btn.textContent='🎤';};
+  recog.start();
+  mic=true;btn.classList.add('on');btn.textContent='🔴';
 }
-
-ramadan()
-
-/* game */
-
-let gcanvas=document.getElementById("gameCanvas")
-let gctx=gcanvas.getContext("2d")
-
-function startBall(){
-
-let ball={x:200,y:200,vx:3,vy:2}
-
-function loop(){
-
-gctx.clearRect(0,0,400,400)
-
-gctx.beginPath()
-gctx.arc(ball.x,ball.y,20,0,Math.PI*2)
-gctx.fillStyle="gold"
-gctx.fill()
-
-ball.x+=ball.vx
-ball.y+=ball.vy
-
-if(ball.x<20||ball.x>380) ball.vx*=-1
-if(ball.y<20||ball.y>380) ball.vy*=-1
-
-requestAnimationFrame(loop)
-
-}
-
-loop()
-
-}
-
-function startSnake(){
-
-gctx.fillStyle="lime"
-
-gctx.fillRect(200,200,20,20)
-
-}
-
-function startClick(){
-
-gcanvas.onclick=()=>{
-
-gctx.fillStyle="red"
-
-gctx.fillRect(Math.random()*380,Math.random()*380,20,20)
-
-}
-
-}
-
-/* hand tracking */
-
-const video=document.getElementById("video")
-const canvas=document.getElementById("canvas")
-const ctx=canvas.getContext("2d")
-
-function onResults(results){
-
-if(results.multiHandLandmarks){
-
-for(const landmarks of results.multiHandLandmarks){
-
-let x=landmarks[8].x*canvas.width
-let y=landmarks[8].y*canvas.height
-
-ctx.fillStyle="yellow"
-
-ctx.beginPath()
-
-ctx.arc(x,y,5,0,Math.PI*2)
-
-ctx.fill()
-
-}
-
-}
-
-}
-
-const hands=new Hands({
-
-locateFile:file=>{
-return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
-}
-
-})
-
-hands.setOptions({
-
-maxNumHands:1
-
-})
-
-hands.onResults(onResults)
-
-const camera=new Camera(video,{
-
-onFrame:async()=>{
-await hands.send({image:video})
-},
-
-width:640,
-height:480
-
-})
-
-camera.start()
-
 </script>
-
 </body>
 </html>
