@@ -1,157 +1,55 @@
-/* ============================== ABDULLOH REAL FULL-STACK ACADEMY FRONTEND + BACKEND SYSTEM ============================== */
-
-<!DOCTYPE html><html lang="uz">
+<!DOCTYPE html>
+<html lang="uz">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Abdulloh REAL SYSTEM Academy</title>
-<style>
-body{
-margin:0;
-font-family:Consolas, monospace;
-background:#05070f;
-color:#00ff9f;
-}header{ padding:20px; text-align:center; border-bottom:1px solid #00ff9f; background:linear-gradient(90deg,#000,#001a00,#000); }
-
-h1{text-shadow:0 0 10px #00ff9f;}
-
-.container{max-width:1200px;margin:auto;padding:20px;}
-
-.card{ border:1px solid #00ff9f; box-shadow:0 0 12px #00ff9f33; padding:15px; margin:15px 0; background:#07110a; border-radius:10px; }
-
-button{ background:#000; color:#00ff9f; border:1px solid #00ff9f; padding:10px; cursor:pointer; margin-top:10px; }
-
-button:hover{ background:#00ff9f; color:#000; }
-
-input{ width:100%; padding:10px; background:#000; color:#00ff9f; border:1px solid #00ff9f; }
-
-.bar{ height:10px; background:#003300; width:0%; transition:0.3s; }
-
-.progress{ height:10px; background:#001a00; }
-
-#terminal{ height:200px; overflow:auto; border:1px solid #00ff9f; padding:10px; background:#000; } </style>
-
+    <meta charset="UTF-8">
+    <title>Abdullokh's Academy | IT & English</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: #1e293b; padding: 30px; border-radius: 15px; }
+        h1, h2 { color: #38bdf8; }
+        .lesson-box { background: #334155; padding: 15px; margin: 10px 0; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .lesson-box:hover { background: #475569; }
+        #certificate { display: none; border: 5px solid #38bdf8; padding: 40px; margin-top: 20px; background: white; color: black; text-align: center; }
+        input { padding: 10px; width: 80%; margin: 5px; }
+        button { padding: 10px 20px; background: #38bdf8; border: none; color: white; cursor: pointer; font-weight: bold; }
+    </style>
 </head>
-<body><header>
-<h1>💀 ABDULLOH REAL FULL STACK ACADEMY 💀</h1>
-<p>Python • Cyber Security • Data • IELTS • Backend System</p>
-</header><div class="container"><div class="card">
-<h2>👤 PROFILE</h2>
-<p>Abdulloh Bakirov Ravshanbekovich</p>
-<p>11.11.2010</p>
-</div><div class="card">
-<h2>📅 REAL 40 DAY SYSTEM (SAVED)</h2>
-<div class="progress"><div class="bar" id="bar"></div></div>
-<p id="day">Loading...</p>
-<button onclick="nextDay()">COMPLETE DAY</button>
-</div><div class="card">
-<h2>💻 BACKEND API CONNECT</h2>
-<button onclick="loadFromServer()">LOAD DATA FROM BACKEND</button>
-<p id="serverData"></p>
-</div><div class="card">
-<h2>🧠 AI TEACHER</h2>
-<input id="q" placeholder="Ask anything">
-<button onclick="ask()">SEND</button>
-<div id="chat"></div>
-</div><div class="card">
-<h2>💀 TERMINAL</h2>
-<div id="terminal"></div>
-<input id="cmd" placeholder="run command">
-<button onclick="run()">EXECUTE</button>
-</div><div class="card">
-<h2>🏆 CERTIFICATE FROM SERVER</h2>
-<button onclick="getCert()">GET CERTIFICATE</button>
-</div></div><script>
-let day = localStorage.getItem("day") || 0;
-const total = 40;
+<body>
 
-function updateUI(){
-document.getElementById("day").innerText = "DAY: " + day + " / 40";
-document.getElementById("bar").style.width = (day/total*100)+"%";
-}
+<div class="container">
+    <h1>Salom, Abdullokh Ravshanbekovich!</h1>
+    <p>Maqsad: IELTS 9.0 va Senior Cyber Security Engineer.</p>
 
-updateUI();
+    <h2>30 Kunlik Dastur</h2>
+    <div id="lessons">
+        <!-- Darslar shu yerda bo'ladi -->
+        <div class="lesson-box" onclick="alert('Python asoslari: O\'zgaruvchilar va sikllar')">Kun 1-10: Python & Data Analytics</div>
+        <div class="lesson-box" onclick="alert('Cyber Security: Network basics')">Kun 11-20: Cyber Security Basics</div>
+        <div class="lesson-box" onclick="alert('IELTS Speaking & Reading')">Kun 21-30: English Intensive (IELTS 9.0)</div>
+    </div>
 
-function nextDay(){
-if(day<total){
-day++;
-localStorage.setItem("day",day);
-updateUI();
-}
-}
+    <h2>Sertifikatni Rasmiylashtirish</h2>
+    <input type="text" id="fio" placeholder="Ism Familiya Sharifingizni yozing">
+    <input type="date" id="dob">
+    <button onclick="generateCert()">Sertifikatni Ko'rish</button>
 
-function ask(){
-let q=document.getElementById("q").value;
-let chat=document.getElementById("chat");
-let ans="AI: Learning... keep going 💀";
+    <div id="certificate">
+        <h1>SERTIFIKAT</h1>
+        <p>Ushbu sertifikat tasdiqlaydi:</p>
+        <h2 id="nameDisplay"></h2>
+        <p>Tug'ilgan sana: <span id="dobDisplay"></span></p>
+        <p>IT, Cyber Security va Ingliz tili kurslarini muvaffaqiyatli tamomladi.</p>
+        <button onclick="window.print()">Yuklab olish (PDF)</button>
+    </div>
+</div>
 
-if(q.includes("python")) ans="Python backend + AI integration language";
-if(q.includes("cyber")) ans="Cyber Security = defense systems + ethical hacking";
-if(q.includes("ielts")) ans="IELTS requires daily speaking + writing practice";
+<script>
+    function generateCert() {
+        document.getElementById('nameDisplay').innerText = document.getElementById('fio').value;
+        document.getElementById('dobDisplay').innerText = document.getElementById('dob').value;
+        document.getElementById('certificate').style.display = 'block';
+    }
+</script>
 
-chat.innerHTML += `<p>You: ${q}</p><p>${ans}</p>`;
-}
-
-function run(){
-let cmd=document.getElementById("cmd").value;
-let t=document.getElementById("terminal");
-
-let out="UNKNOWN";
-if(cmd.includes("node")) out="Backend Node.js simulation running...";
-if(cmd.includes("python")) out="Python runtime initialized...";
-if(cmd.includes("cyber")) out="Security scan active...";
-
-t.innerHTML += `<p>> ${cmd}</p><p>${out}</p>`;
-}
-
-async function loadFromServer(){
-// FRONTEND CALL TO BACKEND
-let res = await fetch("/api/progress");
-let data = await res.json();
-document.getElementById("serverData").innerText = JSON.stringify(data);
-}
-
-async function getCert(){
-let res = await fetch("/api/certificate");
-let blob = await res.blob();
-let url = URL.createObjectURL(blob);
-let a=document.createElement("a");
-a.href=url;
-a.download="certificate.png";
-a.click();
-}
-</script></body>
-</html>/* ================= BACKEND (server.js - NODE JS) ================= const express = require('express'); const app = express();
-
-app.use(express.json());
-
-let progress = 0;
-
-app.get('/api/progress',(req,res)=>{ res.json({day: progress, total: 40}); });
-
-app.post('/api/progress',(req,res)=>{ progress = req.body.day; res.json({status:'saved'}); });
-
-app.get('/api/certificate',(req,res)=>{ const fs = require('fs'); const { createCanvas } = require('canvas');
-
-const c = createCanvas(800,500); const ctx = c.getContext('2d');
-
-ctx.fillStyle='white'; ctx.fillRect(0,0,800,500); ctx.fillStyle='black'; ctx.font='30px Arial'; ctx.fillText('ABDULLOH CERTIFICATE',200,200);
-
-res.setHeader('Content-Type','image/png'); c.createPNGStream().pipe(res); });
-
-app.listen(3000,()=>console.log('SERVER RUNNING')); =========================================================== */async function askAI(){
-  let q = document.getElementById("q").value;
-  let chat = document.getElementById("chat");
-
-  chat.innerHTML += "<p><b>You:</b> "+q+"</p>";
-
-  let res = await fetch("/api/ai", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ message: q })
-  });
-
-  let data = await res.json();
-
-  chat.innerHTML += "<p><b>AI:</b> "+data.reply+"</p>";
-}
+</body>
+</html>
