@@ -1,185 +1,157 @@
+/* ============================== ABDULLOH REAL FULL-STACK ACADEMY FRONTEND + BACKEND SYSTEM ============================== */
+
 <!DOCTYPE html><html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Abdulloh Academy | AI IT & IELTS Platform</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #070b14;
-      color: #e5e7eb;
-    }header {
-  background: linear-gradient(90deg, #2563eb, #06b6d4);
-  padding: 25px;
-  text-align: center;
-}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdulloh REAL SYSTEM Academy</title>
+<style>
+body{
+margin:0;
+font-family:Consolas, monospace;
+background:#05070f;
+color:#00ff9f;
+}header{ padding:20px; text-align:center; border-bottom:1px solid #00ff9f; background:linear-gradient(90deg,#000,#001a00,#000); }
 
-header h1 {
-  margin: 0;
-  font-size: 26px;
-}
+h1{text-shadow:0 0 10px #00ff9f;}
 
-.container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 20px;
-}
+.container{max-width:1200px;margin:auto;padding:20px;}
 
-.card {
-  background: #111827;
-  padding: 15px;
-  border-radius: 14px;
-  margin-bottom: 15px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
-}
+.card{ border:1px solid #00ff9f; box-shadow:0 0 12px #00ff9f33; padding:15px; margin:15px 0; background:#07110a; border-radius:10px; }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
-}
+button{ background:#000; color:#00ff9f; border:1px solid #00ff9f; padding:10px; cursor:pointer; margin-top:10px; }
 
-button {
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  background: #06b6d4;
-  color: white;
-  cursor: pointer;
-  margin-top: 10px;
-  font-weight: bold;
-}
+button:hover{ background:#00ff9f; color:#000; }
 
-button:hover {
-  background: #0891b2;
-}
+input{ width:100%; padding:10px; background:#000; color:#00ff9f; border:1px solid #00ff9f; }
 
-input {
-  padding: 10px;
-  width: 100%;
-  border-radius: 8px;
-  border: none;
-  margin-top: 8px;
-}
+.bar{ height:10px; background:#003300; width:0%; transition:0.3s; }
 
-.progress {
-  height: 12px;
-  background: #334155;
-  border-radius: 10px;
-  overflow: hidden;
-}
+.progress{ height:10px; background:#001a00; }
 
-.bar {
-  height: 12px;
-  width: 0%;
-  background: #22c55e;
-  transition: 0.3s;
-}
+#terminal{ height:200px; overflow:auto; border:1px solid #00ff9f; padding:10px; background:#000; } </style>
 
-.lesson {
-  padding: 10px;
-  background: #1f2937;
-  margin-top: 8px;
-  border-radius: 10px;
-}
-
-.chat {
-  background: #0f172a;
-  padding: 10px;
-  border-radius: 10px;
-  height: 200px;
-  overflow-y: auto;
-  margin-top: 10px;
-}
-
-.msg {
-  margin: 5px 0;
-}
-
-  </style>
 </head>
 <body><header>
-  <h1>Abdulloh AI Academy | IT + IELTS + Cyber Security + Data</h1>
-</header><div class="container">  <div class="card">
-    <h2>👤 Profil</h2>
-    <p><b>Abdulloh Bakirov Ravshanbekovich</b></p>
-    <p>Tug'ilgan: 11.11.2010</p>
-  </div>  <div class="card">
-    <h2>📅 40 kunlik real roadmap</h2>
-    <p>1-10 kun: Python asoslari + IELTS foundation</p>
-    <p>11-20 kun: Cyber Security + Network basics</p>
-    <p>21-30 kun: Data Analytics + Excel + SQL</p>
-    <p>31-40 kun: Project + IELTS mock + Certificate</p>
-  </div>  <div class="card">
-    <h2>📊 Progress</h2>
-    <div class="progress"><div id="bar" class="bar"></div></div>
-    <button onclick="nextDay()">Kun o‘tkazish</button>
-    <p id="dayText">Kun: 0 / 40</p>
-  </div>  <div class="card">
-    <h2>🤖 AI O‘qituvchi</h2>
-    <input id="q" placeholder="Savol yozing... masalan: Python nima?" />
-    <button onclick="askAI()">Yuborish</button>
-    <div class="chat" id="chat"></div>
-  </div>  <div class="card">
-    <h2>📚 Kurslar</h2>
-    <div class="lesson">🐍 Python: variables, if, loops</div>
-    <div class="lesson">🔐 Cyber Security: hacking basics</div>
-    <div class="lesson">📊 Data Analytics: Excel + SQL</div>
-    <div class="lesson">📘 IELTS: Writing + Reading + Speaking</div>
-  </div>  <div class="card">
-    <h2>🏆 Sertifikat</h2>
-    <button onclick="certificate()">Yuklab olish</button>
-  </div></div><canvas id="c" width="800" height="500" style="display:none"></canvas>
-
-<script>
-let day = 0;
+<h1>💀 ABDULLOH REAL FULL STACK ACADEMY 💀</h1>
+<p>Python • Cyber Security • Data • IELTS • Backend System</p>
+</header><div class="container"><div class="card">
+<h2>👤 PROFILE</h2>
+<p>Abdulloh Bakirov Ravshanbekovich</p>
+<p>11.11.2010</p>
+</div><div class="card">
+<h2>📅 REAL 40 DAY SYSTEM (SAVED)</h2>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<p id="day">Loading...</p>
+<button onclick="nextDay()">COMPLETE DAY</button>
+</div><div class="card">
+<h2>💻 BACKEND API CONNECT</h2>
+<button onclick="loadFromServer()">LOAD DATA FROM BACKEND</button>
+<p id="serverData"></p>
+</div><div class="card">
+<h2>🧠 AI TEACHER</h2>
+<input id="q" placeholder="Ask anything">
+<button onclick="ask()">SEND</button>
+<div id="chat"></div>
+</div><div class="card">
+<h2>💀 TERMINAL</h2>
+<div id="terminal"></div>
+<input id="cmd" placeholder="run command">
+<button onclick="run()">EXECUTE</button>
+</div><div class="card">
+<h2>🏆 CERTIFICATE FROM SERVER</h2>
+<button onclick="getCert()">GET CERTIFICATE</button>
+</div></div><script>
+let day = localStorage.getItem("day") || 0;
 const total = 40;
 
-function nextDay() {
-  if (day < total) {
-    day++;
-    document.getElementById('dayText').innerText = `Kun: ${day} / ${total}`;
-    document.getElementById('bar').style.width = (day/total*100) + "%";
-  }
+function updateUI(){
+document.getElementById("day").innerText = "DAY: " + day + " / 40";
+document.getElementById("bar").style.width = (day/total*100)+"%";
 }
 
-function askAI() {
-  let q = document.getElementById('q').value.toLowerCase();
-  let chat = document.getElementById('chat');
+updateUI();
 
-  let answer = "Tushunmadim, lekin o‘rganishda davom et! 🚀";
-
-  if (q.includes("python")) answer = "Python - bu dasturlash tili, boshlash uchun eng oson tildir 🐍";
-  if (q.includes("cyber")) answer = "Cyber Security - bu tizimlarni hackerlardan himoya qilish 🔐";
-  if (q.includes("ielts")) answer = "IELTS - ingliz tili imtihoni, 4 skill: reading, writing, listening, speaking 📘";
-  if (q.includes("data")) answer = "Data Analytics - bu ma'lumotlarni tahlil qilish 📊";
-
-  chat.innerHTML += `<div class='msg'><b>Siz:</b> ${q}</div>`;
-  chat.innerHTML += `<div class='msg'><b>AI:</b> ${answer}</div>`;
-  document.getElementById('q').value = "";
+function nextDay(){
+if(day<total){
+day++;
+localStorage.setItem("day",day);
+updateUI();
+}
 }
 
-function certificate() {
-  const c = document.getElementById('c');
-  const ctx = c.getContext('2d');
+function ask(){
+let q=document.getElementById("q").value;
+let chat=document.getElementById("chat");
+let ans="AI: Learning... keep going 💀";
 
-  ctx.fillStyle = "white";
-  ctx.fillRect(0,0,800,500);
+if(q.includes("python")) ans="Python backend + AI integration language";
+if(q.includes("cyber")) ans="Cyber Security = defense systems + ethical hacking";
+if(q.includes("ielts")) ans="IELTS requires daily speaking + writing practice";
 
-  ctx.fillStyle = "black";
-  ctx.font = "28px Arial";
-  ctx.fillText("SERTIFIKAT", 320, 80);
+chat.innerHTML += `<p>You: ${q}</p><p>${ans}</p>`;
+}
 
-  ctx.font = "20px Arial";
-  ctx.fillText("Abdulloh Bakirov Ravshanbekovich", 200, 180);
-  ctx.fillText("IT + IELTS + Cyber Security + Data Analytics", 160, 240);
-  ctx.fillText("Tug'ilgan: 11.11.2010", 260, 300);
+function run(){
+let cmd=document.getElementById("cmd").value;
+let t=document.getElementById("terminal");
 
-  const link = document.createElement('a');
-  link.download = "certificate.png";
-  link.href = c.toDataURL();
-  link.click();
+let out="UNKNOWN";
+if(cmd.includes("node")) out="Backend Node.js simulation running...";
+if(cmd.includes("python")) out="Python runtime initialized...";
+if(cmd.includes("cyber")) out="Security scan active...";
+
+t.innerHTML += `<p>> ${cmd}</p><p>${out}</p>`;
+}
+
+async function loadFromServer(){
+// FRONTEND CALL TO BACKEND
+let res = await fetch("/api/progress");
+let data = await res.json();
+document.getElementById("serverData").innerText = JSON.stringify(data);
+}
+
+async function getCert(){
+let res = await fetch("/api/certificate");
+let blob = await res.blob();
+let url = URL.createObjectURL(blob);
+let a=document.createElement("a");
+a.href=url;
+a.download="certificate.png";
+a.click();
 }
 </script></body>
-</html>
+</html>/* ================= BACKEND (server.js - NODE JS) ================= const express = require('express'); const app = express();
+
+app.use(express.json());
+
+let progress = 0;
+
+app.get('/api/progress',(req,res)=>{ res.json({day: progress, total: 40}); });
+
+app.post('/api/progress',(req,res)=>{ progress = req.body.day; res.json({status:'saved'}); });
+
+app.get('/api/certificate',(req,res)=>{ const fs = require('fs'); const { createCanvas } = require('canvas');
+
+const c = createCanvas(800,500); const ctx = c.getContext('2d');
+
+ctx.fillStyle='white'; ctx.fillRect(0,0,800,500); ctx.fillStyle='black'; ctx.font='30px Arial'; ctx.fillText('ABDULLOH CERTIFICATE',200,200);
+
+res.setHeader('Content-Type','image/png'); c.createPNGStream().pipe(res); });
+
+app.listen(3000,()=>console.log('SERVER RUNNING')); =========================================================== */async function askAI(){
+  let q = document.getElementById("q").value;
+  let chat = document.getElementById("chat");
+
+  chat.innerHTML += "<p><b>You:</b> "+q+"</p>";
+
+  let res = await fetch("/api/ai", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ message: q })
+  });
+
+  let data = await res.json();
+
+  chat.innerHTML += "<p><b>AI:</b> "+data.reply+"</p>";
+}
