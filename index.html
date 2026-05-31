@@ -1,55 +1,1292 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <title>Abdullokh's Academy | IT & English</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: #1e293b; padding: 30px; border-radius: 15px; }
-        h1, h2 { color: #38bdf8; }
-        .lesson-box { background: #334155; padding: 15px; margin: 10px 0; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        .lesson-box:hover { background: #475569; }
-        #certificate { display: none; border: 5px solid #38bdf8; padding: 40px; margin-top: 20px; background: white; color: black; text-align: center; }
-        input { padding: 10px; width: 80%; margin: 5px; }
-        button { padding: 10px 20px; background: #38bdf8; border: none; color: white; cursor: pointer; font-weight: bold; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Dizayn Kursi — Abdullokh Bakirov</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050507;--bg2:#0a0a10;--bg3:#0f0f18;
+  --neon:#00ff88;--neon2:#00ccff;--neon3:#ff00aa;--neon4:#ffcc00;
+  --purple:#7000ff;--pink:#ff006e;
+  --text:#e0e0f0;--gray:#5a5a7a;--white:#ffffff;
+  --card:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.07);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);font-family:'Space Grotesk',sans-serif;color:var(--text);overflow-x:hidden;cursor:none}
+
+/* CUSTOM CURSOR */
+.cursor{position:fixed;width:12px;height:12px;background:var(--neon);border-radius:50%;pointer-events:none;z-index:99999;transition:transform .1s;mix-blend-mode:difference}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--neon2);border-radius:50%;pointer-events:none;z-index:99998;transition:all .12s ease;mix-blend-mode:difference}
+
+/* SCANLINES */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,136,0.015) 2px,rgba(0,255,136,0.015) 4px);pointer-events:none;z-index:9000}
+
+/* NOISE */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9001;opacity:.4}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,136,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.04) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 20s linear infinite}
+@keyframes gridMove{to{transform:translateY(60px)}}
+.hero-glow1{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(112,0,255,0.15),transparent 70%);top:-100px;left:-100px;animation:float1 8s ease infinite alternate}
+.hero-glow2{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(0,204,255,0.12),transparent 70%);bottom:-100px;right:-100px;animation:float2 10s ease infinite alternate}
+.hero-glow3{position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(255,0,110,0.1),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:float1 6s ease infinite alternate-reverse}
+@keyframes float1{to{transform:translate(50px,30px)}}
+@keyframes float2{to{transform:translate(-40px,-50px)}}
+
+.badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.3);
+  border-radius:100px;padding:.4rem 1.2rem;font-size:.75rem;
+  color:var(--neon);font-family:'JetBrains Mono',monospace;
+  margin-bottom:1.5rem;animation:fadeDown .6s ease both;letter-spacing:2px;
+}
+.badge::before{content:'▶';font-size:.6rem}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-title{
+  font-family:'Syne',sans-serif;font-size:clamp(2.8rem,8vw,7rem);
+  font-weight:800;line-height:.95;letter-spacing:-2px;
+  animation:fadeUp .8s ease .2s both;
+  margin-bottom:1rem;
+}
+.hero-title .line1{color:var(--white);display:block}
+.hero-title .line2{
+  display:block;
+  background:linear-gradient(90deg,var(--neon),var(--neon2),var(--neon3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradShift 3s ease infinite alternate;
+}
+@keyframes gradShift{
+  from{filter:hue-rotate(0deg)}
+  to{filter:hue-rotate(30deg)}
+}
+.hero-title .line3{color:var(--white);display:block;opacity:.3;font-size:.5em;letter-spacing:8px;font-weight:400;font-family:'JetBrains Mono',monospace;margin-top:.5rem}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-sub{
+  font-size:1.05rem;color:var(--gray);max-width:500px;line-height:1.7;
+  animation:fadeUp .8s ease .4s both;margin-bottom:2.5rem;
+}
+.hero-sub span{color:var(--neon);font-weight:600}
+
+.cta-btn{
+  display:inline-flex;align-items:center;gap:.8rem;
+  background:linear-gradient(135deg,var(--neon),var(--neon2));
+  border:none;border-radius:4px;padding:1.1rem 2.5rem;
+  color:#000;font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;
+  cursor:none;transition:all .25s;
+  animation:fadeUp .8s ease .6s both;
+  position:relative;overflow:hidden;
+  box-shadow:0 0 40px rgba(0,255,136,0.3);
+  text-decoration:none;
+}
+.cta-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--neon2),var(--neon3));opacity:0;transition:.3s}
+.cta-btn:hover::before{opacity:1}
+.cta-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 0 60px rgba(0,255,136,0.5)}
+.cta-btn span{position:relative;z-index:1}
+.cta-arrow{position:relative;z-index:1;font-size:1.2rem;transition:transform .2s}
+.cta-btn:hover .cta-arrow{transform:translateX(5px)}
+
+.hero-stats{
+  display:flex;gap:2.5rem;margin-top:3rem;
+  animation:fadeUp .8s ease .8s both;
+  flex-wrap:wrap;justify-content:center;
+}
+.stat{text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--neon);line-height:1}
+.stat-lbl{font-size:.72rem;color:var(--gray);letter-spacing:2px;text-transform:uppercase;margin-top:.3rem;font-family:'JetBrains Mono',monospace}
+
+/* SCROLL INDICATOR */
+.scroll-ind{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  color:var(--gray);font-size:.7rem;letter-spacing:2px;font-family:'JetBrains Mono',monospace;
+  animation:fadeUp 1s ease 1.2s both;
+}
+.scroll-line{width:1px;height:50px;background:linear-gradient(var(--neon),transparent);animation:scrollPulse 2s ease infinite}
+@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* SECTIONS */
+section{padding:6rem 1.5rem;max-width:1100px;margin:0 auto}
+
+.section-tag{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;
+  color:var(--neon);letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:1rem;opacity:.8;
+}
+.section-title{
+  font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:800;line-height:1.05;letter-spacing:-1px;
+  margin-bottom:1.5rem;
+}
+.section-title em{
+  font-style:normal;
+  background:linear-gradient(90deg,var(--neon),var(--neon2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;margin-top:3rem}
+.about-img{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:2rem;position:relative;overflow:hidden;
+}
+.about-img::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,136,0.05),rgba(0,204,255,0.05));pointer-events:none}
+.tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+.tech-item{
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);
+  border-radius:8px;padding:.7rem;text-align:center;font-size:.75rem;
+  color:var(--gray);transition:all .2s;font-family:'JetBrains Mono',monospace;
+}
+.tech-item:hover{border-color:var(--neon);color:var(--neon);background:rgba(0,255,136,0.05)}
+.tech-item .t-icon{font-size:1.5rem;margin-bottom:.3rem;display:block}
+.about-text p{color:var(--gray);line-height:1.8;margin-bottom:1rem}
+.about-text p strong{color:var(--white)}
+.highlight-box{
+  background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.2);
+  border-radius:8px;padding:1rem;margin-top:1rem;
+  font-family:'JetBrains Mono',monospace;font-size:.82rem;
+  color:var(--neon);line-height:1.7;
+}
+
+/* TOOLS */
+.tools-section{padding:4rem 1.5rem;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.tools-inner{max-width:1100px;margin:0 auto}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-top:2.5rem}
+.tool-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:1.3rem;display:flex;flex-direction:column;gap:.6rem;
+  transition:all .25s;cursor:none;position:relative;overflow:hidden;
+}
+.tool-card::before{content:'';position:absolute;inset:0;opacity:0;transition:.3s}
+.tool-card:hover{transform:translateY(-4px);border-color:rgba(0,255,136,0.3)}
+.tool-card:hover::before{opacity:1}
+.tool-icon{font-size:2rem}
+.tool-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:var(--white)}
+.tool-desc{font-size:.75rem;color:var(--gray);line-height:1.5}
+.tool-tag{
+  align-self:flex-start;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.2);
+  border-radius:4px;padding:.2rem .6rem;font-size:.65rem;
+  color:var(--neon);font-family:'JetBrains Mono',monospace;
+}
+
+/* CURRICULUM */
+.curriculum-section{padding:6rem 1.5rem}
+.curriculum-inner{max-width:1100px;margin:0 auto}
+.weeks-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem}
+.week-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:1.8rem;transition:all .25s;position:relative;overflow:hidden;cursor:none;
+}
+.week-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--neon),var(--neon2));
+  transform:scaleX(0);transform-origin:left;transition:.3s;
+}
+.week-card:hover::after{transform:scaleX(1)}
+.week-card:hover{border-color:rgba(0,255,136,0.2);transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,.3)}
+.week-num{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;
+  color:var(--neon);letter-spacing:2px;margin-bottom:.8rem;opacity:.7;
+}
+.week-title{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:700;color:var(--white);margin-bottom:1rem}
+.days-list{display:flex;flex-direction:column;gap:.5rem}
+.day-item{
+  display:flex;gap:.8rem;align-items:flex-start;
+  padding:.6rem .8rem;background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.04);border-radius:8px;
+  transition:all .2s;
+}
+.day-item:hover{background:rgba(0,255,136,0.04);border-color:rgba(0,255,136,0.15)}
+.day-num{
+  font-family:'JetBrains Mono',monospace;font-size:.68rem;
+  color:var(--neon2);min-width:36px;margin-top:.15rem;opacity:.8;
+}
+.day-info{}
+.day-title{font-size:.88rem;font-weight:600;color:var(--white);margin-bottom:.2rem}
+.day-topics{font-size:.72rem;color:var(--gray);line-height:1.5}
+.day-duration{
+  margin-left:auto;font-family:'JetBrains Mono',monospace;
+  font-size:.65rem;color:var(--neon);opacity:.6;white-space:nowrap;
+  margin-top:.15rem;
+}
+
+/* LESSON PAGE */
+#lessonPage{display:none;position:fixed;inset:0;background:var(--bg);z-index:1000;overflow-y:auto}
+.lesson-topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(5,5,7,0.97);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:1rem 1.5rem;display:flex;align-items:center;gap:1rem;
+}
+.close-lesson{
+  background:rgba(255,255,255,0.05);border:1px solid var(--border);
+  border-radius:6px;padding:.5rem 1rem;color:var(--gray);
+  cursor:none;font-family:'JetBrains Mono',monospace;font-size:.8rem;
+  transition:all .2s;
+}
+.close-lesson:hover{color:var(--neon);border-color:var(--neon)}
+.lesson-prog-wrap{flex:1;display:flex;flex-direction:column;gap:.3rem}
+.lesson-prog-bar{background:rgba(255,255,255,0.05);border-radius:2px;height:3px;overflow:hidden}
+.lesson-prog-fill{height:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));transition:width .4s ease}
+.lesson-prog-txt{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--gray)}
+
+.lesson-content{max-width:800px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-tag{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--neon);letter-spacing:2px;margin-bottom:.8rem}
+.lesson-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:var(--white);line-height:1.1;margin-bottom:1rem}
+.lesson-desc{font-size:1rem;color:var(--gray);line-height:1.8;margin-bottom:2rem}
+
+/* LESSON BLOCKS */
+.lesson-block{margin-bottom:2rem}
+.block-title{
+  font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;
+  color:var(--white);margin-bottom:.8rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.block-title::before{content:'';display:inline-block;width:3px;height:1.1em;background:var(--neon);border-radius:2px}
+
+.info-card{
+  background:rgba(0,255,136,0.04);border:1px solid rgba(0,255,136,0.15);
+  border-radius:10px;padding:1.2rem;margin-bottom:1rem;
+}
+.info-card p{font-size:.9rem;color:var(--text);line-height:1.8}
+.info-card strong{color:var(--neon)}
+
+.tool-learn-card{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:1.2rem;margin-bottom:.8rem;display:flex;gap:1rem;align-items:flex-start;
+  transition:all .2s;
+}
+.tool-learn-card:hover{border-color:rgba(0,204,255,0.3);background:rgba(0,204,255,0.03)}
+.tlc-icon{font-size:1.8rem;flex-shrink:0}
+.tlc-info{}
+.tlc-name{font-weight:700;color:var(--white);margin-bottom:.3rem}
+.tlc-desc{font-size:.82rem;color:var(--gray);line-height:1.6}
+.tlc-link{
+  display:inline-block;margin-top:.5rem;font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;color:var(--neon2);text-decoration:none;
+  border-bottom:1px solid rgba(0,204,255,0.3);
+}
+
+.steps-list{display:flex;flex-direction:column;gap:.7rem}
+.step-item{
+  display:flex;gap:1rem;align-items:flex-start;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:1rem;
+}
+.step-num{
+  font-family:'JetBrains Mono',monospace;font-size:.8rem;
+  color:var(--neon);font-weight:600;min-width:28px;
+  background:rgba(0,255,136,0.1);border-radius:4px;
+  width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.step-text{font-size:.88rem;color:var(--text);line-height:1.7}
+.step-text strong{color:var(--white)}
+
+.image-placeholder{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:2rem;margin:1rem 0;text-align:center;
+  font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--gray);
+  position:relative;overflow:hidden;
+}
+.image-placeholder::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,255,136,0.03),rgba(0,204,255,0.03));
+}
+.img-icon{font-size:3rem;margin-bottom:.5rem;display:block;position:relative;z-index:1}
+.img-caption{position:relative;z-index:1;color:var(--neon);font-size:.75rem;margin-top:.3rem}
+
+.practice-box{
+  background:rgba(255,204,0,0.04);border:1px solid rgba(255,204,0,0.2);
+  border-radius:10px;padding:1.2rem;margin-top:1.5rem;
+}
+.practice-label{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--neon4);letter-spacing:2px;margin-bottom:.6rem}
+.practice-task{font-size:.88rem;color:var(--text);line-height:1.7}
+.practice-task li{margin-bottom:.4rem;padding-left:1rem;position:relative}
+.practice-task li::before{content:'→';position:absolute;left:0;color:var(--neon4)}
+
+.complete-btn{
+  display:flex;align-items:center;justify-content:center;gap:.7rem;
+  width:100%;margin-top:2.5rem;
+  background:linear-gradient(135deg,var(--neon),var(--neon2));
+  border:none;border-radius:8px;padding:1.1rem;
+  color:#000;font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;
+  cursor:none;transition:all .25s;
+}
+.complete-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,255,136,0.3)}
+.complete-btn:active{transform:scale(.98)}
+
+/* SPEAK BTN */
+.speak-lesson-btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);
+  border-radius:6px;padding:.45rem 1rem;font-size:.8rem;
+  color:var(--neon);cursor:none;transition:all .2s;margin-bottom:1.5rem;
+  font-family:'JetBrains Mono',monospace;
+}
+.speak-lesson-btn:hover{background:rgba(0,255,136,0.15);border-color:var(--neon)}
+.speak-lesson-btn:active{transform:scale(.97)}
+
+/* SUCCESS */
+.success-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9000;
+  display:none;align-items:center;justify-content:center;
+}
+.success-overlay.show{display:flex}
+.success-box{
+  background:var(--bg2);border:1px solid rgba(0,255,136,0.3);
+  border-radius:16px;padding:2.5rem;text-align:center;
+  max-width:380px;width:90%;
+  animation:popIn .4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.s-icon{font-size:3.5rem;margin-bottom:.5rem}
+.s-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--white);margin-bottom:.5rem}
+.s-text{font-size:.88rem;color:var(--gray);margin-bottom:1.5rem;line-height:1.6}
+.s-btn{
+  background:linear-gradient(135deg,var(--neon),var(--neon2));border:none;
+  border-radius:8px;padding:.8rem 2rem;color:#000;font-weight:700;
+  cursor:none;font-family:'Syne',sans-serif;font-size:.95rem;
+}
+
+/* SUPPORT */
+.support-section{
+  padding:4rem 1.5rem;
+  background:linear-gradient(135deg,rgba(0,255,136,0.03),rgba(0,204,255,0.03));
+  border-top:1px solid var(--border);
+}
+.support-inner{max-width:700px;margin:0 auto;text-align:center}
+.support-btns{display:flex;gap:1rem;justify-content:center;margin-top:2rem;flex-wrap:wrap}
+.support-btn{
+  display:inline-flex;align-items:center;gap:.7rem;
+  border-radius:8px;padding:.9rem 1.8rem;font-weight:700;font-size:.95rem;
+  cursor:none;transition:all .25s;text-decoration:none;border:none;
+  font-family:'Space Grotesk',sans-serif;
+}
+.whatsapp-btn{background:#25D366;color:#000}
+.whatsapp-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(37,211,102,.3)}
+.telegram-btn{background:#0088cc;color:#fff}
+.telegram-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,136,204,.3)}
+
+/* FOOTER */
+footer{
+  text-align:center;padding:2.5rem 1rem;
+  border-top:1px solid var(--border);
+  font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--gray);
+}
+footer span{color:var(--neon)}
+
+/* CONFETTI */
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+.cp{position:absolute;border-radius:2px;animation:cf linear forwards}
+@keyframes cf{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+/* PROGRESS BAR HOME */
+.home-progress{
+  position:fixed;top:0;left:0;right:0;height:2px;z-index:500;
+  background:rgba(255,255,255,0.05);
+}
+.home-prog-fill{height:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));width:0%;transition:width .5s ease}
+
+@media(max-width:700px){
+  .about-grid,.weeks-grid{grid-template-columns:1fr}
+  .hero-title{letter-spacing:-1px}
+  .tech-grid{grid-template-columns:repeat(2,1fr)}
+  body{cursor:auto}
+  .cursor,.cursor-ring{display:none}
+}
+</style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Salom, Abdullokh Ravshanbekovich!</h1>
-    <p>Maqsad: IELTS 9.0 va Senior Cyber Security Engineer.</p>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="home-progress"><div class="home-prog-fill" id="homeProg"></div></div>
 
-    <h2>30 Kunlik Dastur</h2>
-    <div id="lessons">
-        <!-- Darslar shu yerda bo'ladi -->
-        <div class="lesson-box" onclick="alert('Python asoslari: O\'zgaruvchilar va sikllar')">Kun 1-10: Python & Data Analytics</div>
-        <div class="lesson-box" onclick="alert('Cyber Security: Network basics')">Kun 11-20: Cyber Security Basics</div>
-        <div class="lesson-box" onclick="alert('IELTS Speaking & Reading')">Kun 21-30: English Intensive (IELTS 9.0)</div>
+<!-- SUCCESS -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-box">
+    <div class="s-icon">⚡</div>
+    <div class="s-title">Zo'r! Kun tugadi!</div>
+    <div class="s-text" id="sText">Keyingi kun ochildi!</div>
+    <button class="s-btn" onclick="closeSuccess()">Davom et →</button>
+  </div>
+</div>
+
+<div class="confetti-wrap" id="confetti"></div>
+
+<!-- HERO -->
+<div id="mainPage">
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow1"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-glow3"></div>
+  <div style="position:relative;z-index:2">
+    <div class="badge">ABDULLOKH BAKIROV TOMONIDAN YASALDI</div>
+    <h1 class="hero-title">
+      <span class="line1">WEB DIZAYN</span>
+      <span class="line2">KURSI</span>
+      <span class="line3">UX/UI · FIGMA · AI · CODE</span>
+    </h1>
+    <p class="hero-sub">
+      <span>0 dan professional darajaga</span> — 2 hafta, kuniga 40 daqiqa.<br>
+      Figma, UX/UI, AI bilan sayt yasash — hammasi shu yerda.
+    </p>
+    <a href="#curriculum" class="cta-btn" onclick="smoothToCurriculum()">
+      <span>Web Dizayner Kursini Boshlash</span>
+      <span class="cta-arrow">→</span>
+    </a>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">14</div><div class="stat-lbl">Kun</div></div>
+      <div class="stat"><div class="stat-num">40</div><div class="stat-lbl">Min/Kun</div></div>
+      <div class="stat"><div class="stat-num">5+</div><div class="stat-lbl">Toollar</div></div>
+      <div class="stat"><div class="stat-num">0</div><div class="stat-lbl">Dan Boshlash</div></div>
     </div>
+  </div>
+  <div class="scroll-ind">
+    <div class="scroll-line"></div>
+    <span>SCROLL</span>
+  </div>
+</section>
 
-    <h2>Sertifikatni Rasmiylashtirish</h2>
-    <input type="text" id="fio" placeholder="Ism Familiya Sharifingizni yozing">
-    <input type="date" id="dob">
-    <button onclick="generateCert()">Sertifikatni Ko'rish</button>
-
-    <div id="certificate">
-        <h1>SERTIFIKAT</h1>
-        <p>Ushbu sertifikat tasdiqlaydi:</p>
-        <h2 id="nameDisplay"></h2>
-        <p>Tug'ilgan sana: <span id="dobDisplay"></span></p>
-        <p>IT, Cyber Security va Ingliz tili kurslarini muvaffaqiyatli tamomladi.</p>
-        <button onclick="window.print()">Yuklab olish (PDF)</button>
+<!-- ABOUT -->
+<section>
+  <div class="section-tag">// haqida</div>
+  <h2 class="section-title">Bu kursda nima <em>o'rganasiz?</em></h2>
+  <div class="about-grid">
+    <div class="about-img">
+      <div class="tech-grid">
+        <div class="tech-item"><span class="t-icon">🎨</span>Figma</div>
+        <div class="tech-item"><span class="t-icon">🖥️</span>HTML/CSS</div>
+        <div class="tech-item"><span class="t-icon">🤖</span>AI Tools</div>
+        <div class="tech-item"><span class="t-icon">📱</span>UX/UI</div>
+        <div class="tech-item"><span class="t-icon">🌐</span>Webflow</div>
+        <div class="tech-item"><span class="t-icon">⚡</span>Framer</div>
+        <div class="tech-item"><span class="t-icon">🎯</span>Canva Pro</div>
+        <div class="tech-item"><span class="t-icon">📊</span>Coolors</div>
+        <div class="tech-item"><span class="t-icon">🔤</span>Google Fonts</div>
+      </div>
     </div>
+    <div class="about-text">
+      <p>Bu kurs <strong>mutlaqo yangi boshlovchilar</strong> uchun. Dizayn haqida hech narsa bilmasangiz ham bo'ladi.</p>
+      <p><strong>2 hafta ichida</strong> siz professional dizaynerlar ishlatadigan toollarni o'rganasiz, o'zingizning birinchi saytingizni yasaysiz va <strong>portfolio</strong> qilasiz.</p>
+      <div class="highlight-box">
+        ✅ Figma — 0 dan professional<br>
+        ✅ UX/UI asoslari — real loyiha<br>
+        ✅ AI bilan sayt yasash<br>
+        ✅ Webflow / Framer deploy<br>
+        ✅ Portfolio tayyorlash
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<div class="tools-section">
+  <div class="tools-inner">
+    <div class="section-tag">// toollar</div>
+    <h2 class="section-title">Qaysi <em>saytlar</em> ishlatiladi?</h2>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-icon">🎨</div>
+        <div class="tool-name">Figma</div>
+        <div class="tool-desc">Asosiy dizayn tool. Prototip, wireframe, UI design hammasi shu yerda.</div>
+        <div class="tool-tag">figma.com</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🌐</div>
+        <div class="tool-name">Webflow</div>
+        <div class="tool-desc">Kod yozmasdan professional sayt yasash. Figmadan eksport ham qilsa bo'ladi.</div>
+        <div class="tool-tag">webflow.com</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">⚡</div>
+        <div class="tool-name">Framer</div>
+        <div class="tool-desc">AI bilan sayt yasash. Juda tez, animatsiyalar bepul, deploy ham o'zi.</div>
+        <div class="tool-tag">framer.com</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🤖</div>
+        <div class="tool-name">v0 by Vercel</div>
+        <div class="tool-desc">Matn yozsangiz AI sayt yasab beradi. Eng tez usul.</div>
+        <div class="tool-tag">v0.dev</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🎯</div>
+        <div class="tool-name">Canva</div>
+        <div class="tool-desc">Tezkor grafika, prezentatsiya, social media post yasash.</div>
+        <div class="tool-tag">canva.com</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🎨</div>
+        <div class="tool-name">Coolors</div>
+        <div class="tool-desc">Rang palitrasini avtomatik generatsiya qilish. Dizayner siri.</div>
+        <div class="tool-tag">coolors.co</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🔤</div>
+        <div class="tool-name">Google Fonts</div>
+        <div class="tool-desc">1500+ bepul professional shrift. Har sayt uchun kerak.</div>
+        <div class="tool-tag">fonts.google.com</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🖼️</div>
+        <div class="tool-name">Unsplash</div>
+        <div class="tool-desc">Bepul HD rasmlar. Professional saytlar uchun.</div>
+        <div class="tool-tag">unsplash.com</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">📐</div>
+        <div class="tool-name">Mobbin</div>
+        <div class="tool-desc">Figma uchun tayyor UI component kutubxonasi. Vaqtni tejaydi.</div>
+        <div class="tool-tag">mobbin.com</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CURRICULUM -->
+<div class="curriculum-section" id="curriculum">
+  <div class="curriculum-inner">
+    <div class="section-tag">// dastur</div>
+    <h2 class="section-title">14 kunlik <em>to'liq</em> dastur</h2>
+    <p style="color:var(--gray);margin-bottom:1rem">Har kun ustiga bosing — to'liq darsni ko'ring, ovoz tinglang.</p>
+    <div id="progInfo" style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--neon);margin-bottom:2rem"></div>
+    <div class="weeks-grid" id="weeksGrid"></div>
+  </div>
+</div>
+
+<!-- SUPPORT -->
+<div class="support-section">
+  <div class="support-inner">
+    <div class="section-tag">// yordam</div>
+    <h2 class="section-title" style="font-size:2rem">Savol bormi? <em>Bog'laning!</em></h2>
+    <p style="color:var(--gray);margin-top:.5rem">Har qanday savolga tez javob beramiz</p>
+    <div class="support-btns">
+      <a href="https://wa.me/996228882999" target="_blank" class="support-btn whatsapp-btn" style="cursor:pointer">
+        <span>💬</span> WhatsApp +996 228 882 999
+      </a>
+      <a href="https://t.me/Uzgen12345" target="_blank" class="support-btn telegram-btn" style="cursor:pointer">
+        <span>✈️</span> Telegram @Uzgen12345
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>Abdullokh Bakirov</span> tomonidan yasaldi · Web Dizayn Kursi 2025 ⚡<br>
+  UX/UI · Figma · AI · Webflow · Framer
+</footer>
+</div>
+
+<!-- LESSON PAGE -->
+<div id="lessonPage">
+  <div class="lesson-topbar">
+    <button class="close-lesson" onclick="closeLesson()">← Orqaga</button>
+    <div class="lesson-prog-wrap">
+      <div class="lesson-prog-bar"><div class="lesson-prog-fill" id="lProgFill" style="width:0%"></div></div>
+      <div class="lesson-prog-txt" id="lProgTxt"></div>
+    </div>
+    <button class="speak-lesson-btn" id="speakBtn" onclick="toggleSpeak()">🔊 Tinglash</button>
+  </div>
+  <div class="lesson-content" id="lessonContent"></div>
 </div>
 
 <script>
-    function generateCert() {
-        document.getElementById('nameDisplay').innerText = document.getElementById('fio').value;
-        document.getElementById('dobDisplay').innerText = document.getElementById('dob').value;
-        document.getElementById('certificate').style.display = 'block';
-    }
-</script>
+// ============================================================
+// CURSOR
+// ============================================================
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=(mx-6)+'px';cur.style.top=(my-6)+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  ring.style.left=(rx-18)+'px';ring.style.top=(ry-18)+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('button,a,.day-item,.week-card,.tool-card,.letter-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.transform='scale(2.5)';ring.style.transform='scale(1.5)'});
+  el.addEventListener('mouseleave',()=>{cur.style.transform='scale(1)';ring.style.transform='scale(1)'});
+});
 
+// SCROLL PROGRESS
+window.addEventListener('scroll',()=>{
+  const s=document.documentElement.scrollTop;
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('homeProg').style.width=(s/h*100)+'%';
+});
+
+function smoothToCurriculum(){
+  event.preventDefault();
+  document.getElementById('curriculum').scrollIntoView({behavior:'smooth'});
+}
+
+// ============================================================
+// LESSON DATA — 14 KUN
+// ============================================================
+const curriculum = [
+// HAFTA 1
+{
+  week:1, day:1,
+  title:"UX/UI Nima? Dizayn Asoslari",
+  short:"UX, UI farqi. Dizayner nima qiladi?",
+  topics:"UX vs UI · Dizayn jarayoni · Toollar · Portfolio",
+  dur:"40 daq",
+  content: {
+    intro:"Bugun siz web dizayn dunyasiga birinchi qadamni qo'yasiz. UX va UI — bu ikki atama ko'p chalkashtiriladi. Farqni bir marta tushunib olsangiz — hammasi aniq bo'ladi.",
+    blocks:[
+      {
+        type:"info",
+        title:"UX vs UI — Asosiy farq",
+        text:`<strong>UX (User Experience)</strong> — foydalanuvchi sayt yoki ilovani ishlatganda qanday his qiladi? Qulay mi? Topishi osонmi? Bu — psixologiya va mantiq.\n\n<strong>UI (User Interface)</strong> — sayt qanday KO'RINADI? Ranglar, shriftlar, tugmalar, ikonkalar — bu vizual qism.\n\n<strong>Misol:</strong> UX — do'konda yo'nalish belgilari. UI — do'konning dizayni, ranglari, shiforlari.`,
+      },
+      {
+        type:"image",
+        icon:"🎨",
+        caption:"UX = Qulay yo'l · UI = Chiroyli ko'rinish",
+        text:"UX dizayner foydalanuvchi qanday harakat qilishini rejalashtiradi. UI dizayner buni chiroyli qiladi.",
+      },
+      {
+        type:"steps",
+        title:"Dizayn jarayoni — 5 qadam",
+        steps:[
+          {n:"01",t:"Tadqiqot (Research)",d:"Foydalanuvchilarni o'rganish. Ular kim? Nima kerak ularga?"},
+          {n:"02",t:"Wireframe",d:"Qora-oq eskiz. Elementlar qayerda turadi — mazmuni yo'q."},
+          {n:"03",t:"Prototip",d:"Interaktiv model. Bosilsa ishlaydi lekin hali dizayn yo'q."},
+          {n:"04",t:"UI Design",d:"Ranglar, shriftlar, rasmlar — chiroyli qilish bosqichi."},
+          {n:"05",t:"Test va Deploy",d:"Foydalanuvchilar bilan sinash va nashr qilish."},
+        ]
+      },
+      {
+        type:"tools",
+        title:"Eng mashhur toollar",
+        tools:[
+          {icon:"🎨",name:"Figma",desc:"Dunyodagi №1 UI dizayn tool. Bepul va brauzerda ishlaydi.",link:"figma.com"},
+          {icon:"🌐",name:"Webflow",desc:"Kod yozmasdan professional sayt — drag & drop bilan.",link:"webflow.com"},
+          {icon:"🤖",name:"Framer AI",desc:"Matn yozsangiz AI sayt yasab beradi. Eng tez usul!",link:"framer.com"},
+        ]
+      },
+      {
+        type:"practice",
+        title:"Bugungi vazifa",
+        tasks:["figma.com ga kiring — bepul account oching","'New design file' bosing — bo'sh sahifa oching","Rectangle tool (R) bilan bir kvadrat chizing","Rangini o'zgartiring — o'ng paneldagi Fill dan","Ertaga bu faylni davom ettiramiz!"]
+      }
+    ]
+  }
+},
+{
+  week:1, day:2,
+  title:"Figma — 0 dan Boshlash",
+  short:"Figma interfeysi, asosiy toollar",
+  topics:"Frame · Shape · Text · Color · Layers",
+  dur:"40 daq",
+  content:{
+    intro:"Figma — dunyoning eng mashhur dizayn dasturi. Adobe, Google, Apple — hammasi Figma ishlatadi. Bugun siz Figmaning asosiy toollarini o'rganasiz.",
+    blocks:[
+      {type:"info",title:"Figma qanday ochiladi?",text:`<strong>figma.com</strong> ga boring → Sign up → Google account bilan kiring → bepul!\n\nFigma brauzerda ishlaydi — yuklab olish shart emas. Lekin desktop app ham bor figma.com/downloads dan.`},
+      {type:"steps",title:"Figma asosiy toollar",steps:[
+        {n:"F",t:"Frame Tool",d:"Sahifa — telefon, kompyuter, planshet o'lchamini tanlaysiz"},
+        {n:"R",t:"Rectangle",d:"To'rtburchak chizish. Shift bosib chizsa — kvadrat"},
+        {n:"O",t:"Ellipse",d:"Doira chizish. Shift bosib — mukammal doira"},
+        {n:"T",t:"Text Tool",d:"Matn yozish. Shrift, hajm, rang — o'ng panelda"},
+        {n:"V",t:"Move Tool",d:"Elementni siljitish. Eng ko'p ishlatiladigan tool"},
+        {n:"Ctrl+G",t:"Group",d:"Bir necha elementni guruhga birlashtirish"},
+      ]},
+      {type:"image",icon:"🖥️",caption:"Figma interfeysi: Chap — Layers · O'rta — Canvas · O'ng — Properties",text:"Figmada hamma narsa Layers panelida ko'rinadi. Elementni bosing — o'ngda xossalari chiqadi."},
+      {type:"tools",title:"Figma keyboard shortcuts",tools:[
+        {icon:"⌨️",name:"Ctrl + D",desc:"Elementni dublikat qilish (Copy + Paste o'rniga)"},
+        {icon:"⌨️",name:"Ctrl + Z",desc:"Orqaga qaytish (Undo)"},
+        {icon:"⌨️",name:"Ctrl + Shift + G",desc:"Guruhni ocish (Ungroup)"},
+      ]},
+      {type:"practice",title:"Vazifa",tasks:["Figmada yangi Frame oching — Desktop (1440x900)","Fon rangini #050507 qora qiling","3 ta rectangle chizing — har xil rang","Ustiga Text tool bilan ism yozing","Screenshot olib saqlang — bu sizning 1-dizayningiz!"]}
+    ]
+  }
+},
+{
+  week:1, day:3,
+  title:"Ranglar va Tipografiya",
+  short:"Rang nazariyasi, shriftlar tanlash",
+  topics:"Color Theory · Typography · Google Fonts · Coolors",
+  dur:"40 daq",
+  content:{
+    intro:"Yaxshi dizayner ranglarni tasodifiy tanlamaydi. Rang — psixologiya. Shrift — xarakter. Bugun siz professional dizaynerlar sirini o'rganasiz.",
+    blocks:[
+      {type:"info",title:"Rang nazariyasi — asoslar",text:`<strong>Primary colors:</strong> Qizil, Ko'k, Sariq — asosiy ranglar\n\n<strong>60-30-10 qoidasi:</strong> 60% asosiy rang, 30% ikkinchi rang, 10% accent rang. Har qanday professional dizayn shu formulada.\n\n<strong>Brand ranglar:</strong> Instagram — Gradient. Twitter/X — Ko'k. WhatsApp — Yashil. Rang — brend identiteti.`},
+      {type:"steps",title:"Coolors.co bilan rang palitrasini yaratish",steps:[
+        {n:"01",t:"coolors.co ga boring",d:"Bepul, hech narsa yuklab olmasdan ishlaydi"},
+        {n:"02",t:"Space bosing",d:"Avtomatik yangi palitra generatsiya qiladi"},
+        {n:"03",t:"Yoqqanini qulflang",d:"Rang ustidagi qulf belgisini bosing"},
+        {n:"04",t:"Export qiling",d:"CSS, HEX, Figma formatida yuklab oling"},
+      ]},
+      {type:"image",icon:"🎨",caption:"60-30-10 qoidasi — professional rang formula",text:"60% fon rangi · 30% asosiy rang · 10% accent (e'tibor tortuvchi)"},
+      {type:"tools",title:"Google Fonts — Eng yaxshi juftliklar",tools:[
+        {icon:"🔤",name:"Syne + Space Grotesk",desc:"Zamonaviy, hacker-stil. Tech saytlar uchun zo'r.",link:"fonts.google.com"},
+        {icon:"🔤",name:"Playfair Display + Lato",desc:"Luxury, klassik. Portfolio va brand saytlar uchun.",link:"fonts.google.com"},
+        {icon:"🔤",name:"Inter + JetBrains Mono",desc:"Minimal, toza. Dashboard va SaaS uchun.",link:"fonts.google.com"},
+      ]},
+      {type:"practice",title:"Vazifa",tasks:["coolors.co ga boring — 3 ta palitra yarating","fonts.google.com dan 2 ta shrift tanlang","Figmada yangi frame oching — tanlagan ranglaringizni ishlating","Sarlavha, kichik matn, tugma — uch element dizayn qiling"]}
+    ]
+  }
+},
+{
+  week:1, day:4,
+  title:"UX: Wireframe va Prototip",
+  short:"Foydalanuvchi yo'li, wireframe yasash",
+  topics:"User Flow · Wireframe · Lo-fi · Hi-fi",
+  dur:"40 daq",
+  content:{
+    intro:"Hamma professional dizayner avval qora-oq eskiz qiladi — keyin chiroyli qiladi. Bu wireframe. Bugun siz professional workflow o'rganasiz.",
+    blocks:[
+      {type:"info",title:"Lo-fi vs Hi-fi prototip",text:`<strong>Lo-fi (Low fidelity):</strong> Qora-oq eskiz. Tez yasaladi. Mazmun muhim, ko'rinish emas. Qog'ozda ham bo'lishi mumkin.\n\n<strong>Hi-fi (High fidelity):</strong> Yakuniy dizayn. Real ranglar, shriftlar, rasmlar. Buni dasturga berish mumkin.`},
+      {type:"steps",title:"Figmada wireframe yasash",steps:[
+        {n:"01",t:"Frame oching",d:"Desktop yoki Mobile o'lchamini tanlang"},
+        {n:"02",t:"Katta bo'laklar",d:"Header, Hero, About, Footer — to'rtburchaklar bilan belgilang"},
+        {n:"03",t:"Navigatsiya",d:"Logo chap tomonda. Menu elementlari o'ng tomonda"},
+        {n:"04",t:"Hero bo'lim",d:"Katta sarlavha + kichik matn + tugma — standart pattern"},
+        {n:"05",t:"Prototipga o'tish",d:"Prototype panelini oching — elementlarni bog'lang"},
+      ]},
+      {type:"image",icon:"📐",caption:"Wireframe → Prototip → Final Design — 3 bosqich",text:"Avval qora-oq eskiz. Keyin interaktiv. Oxiri — chiroyli. Shu ketma-ketlik professional."},
+      {type:"info",title:"Foydalanuvchi yo'li (User Flow)",text:`Foydalanuvchi saytga keladi → Biror narsa qiladi → Natijaga erishadi.\n\n<strong>Misol:</strong> Saytga kiradi → Mahsulot ko'radi → Savatga soladi → To'laydi.\n\nShu yo'lning har qadamini dizayn qilasiz.`},
+      {type:"practice",title:"Vazifa",tasks:["Figmada portfolio sayt wireframi yasang","Header, Hero, Skills, Projects, Contact — 5 bo'lim","Faqat to'rtburchaklar va matn bilan — rang bo'lmasin","Prototype bog'lang — bir sahifadan ikkinchisiga"]}
+    ]
+  }
+},
+{
+  week:1, day:5,
+  title:"Figma — Components va Auto Layout",
+  short:"Qayta ishlatiladigan elementlar",
+  topics:"Components · Variants · Auto Layout · Styles",
+  dur:"40 daq",
+  content:{
+    intro:"Professional dizaynerlar har narsani qaytadan yasashmaydi. Component yasaydilar — bir marta, keyin minglab joyda ishlatadi. Shu — Figmaning kuchi.",
+    blocks:[
+      {type:"info",title:"Component nima?",text:`Component — bir marta yasalab, qayta-qayta ishlatish mumkin bo'lgan element.\n\n<strong>Misol:</strong> Tugma, Card, Navigation, Input field — bular component.\n\nBir componentni o'zgartirsa — hamma joyda o'zgaradi. Vaqtni juda tejaydi!`},
+      {type:"steps",title:"Component yasash — Figmada",steps:[
+        {n:"01",t:"Element yasang",d:"Masalan — Tugma (Button) chizing"},
+        {n:"02",t:"Ctrl+Alt+K bosing",d:"'Create component' — element componentga aylanadi"},
+        {n:"03",t:"Assets panelini oching",d:"Chap tomonda — barcha componentlar ko'rinadi"},
+        {n:"04",t:"Drag & Drop",d:"Componentni canvas ga torting — instance yasaladi"},
+        {n:"05",t:"Variant qo'shing",d:"Default, Hover, Active — turli holatlari"},
+      ]},
+      {type:"tools",title:"Auto Layout — Super kuch",tools:[
+        {icon:"📦",name:"Shift + A",desc:"Auto Layout yoqish. Elementlar avtomatik joylashadi."},
+        {icon:"↔️",name:"Gap va Padding",desc:"Elementlar orasidagi masofani bir joydan boshqarish."},
+        {icon:"📱",name:"Responsive",desc:"Oyna kattalashsa — auto layout o'zi moslashadi!"},
+      ]},
+      {type:"image",icon:"🧩",caption:"Components = Lego kubiklari. Bir marta yasa — minglab joyda ishlat",text:"Figmada Component yasash — professional dizaynerning asosiy ishi."},
+      {type:"practice",title:"Vazifa",tasks:["Button component yasang: text + background + border-radius","Variants qo'shing: Default, Hover, Disabled","3 ta card component yasang — mahsulot uchun","Auto layout ishlatib — ularni bir qatorga tezing"]}
+    ]
+  }
+},
+{
+  week:1, day:6,
+  title:"Mobil Dizayn — Mobile First",
+  short:"Telefon uchun dizayn qoidalari",
+  topics:"Mobile First · Touch Targets · Responsive · iOS/Android",
+  dur:"40 daq",
+  content:{
+    intro:"Bugungi internet trafigining 60%+ telefondan keladi. Shuning uchun har qanday dizayn avval telefondan boshlanadi — Mobile First.",
+    blocks:[
+      {type:"info",title:"Mobile First nima uchun?",text:`<strong>Statistika:</strong> 2024 yilda internet trafigining 62% telefon.\n\n<strong>Google:</strong> Mobile-friendly bo'lmagan saytlarni pastga tushiradi.\n\n<strong>Mobile First:</strong> Avval telefon (375px) dizayn qil → keyin kattaytir. Bu eng to'g'ri yo'l.`},
+      {type:"steps",title:"Mobil dizayn qoidalari",steps:[
+        {n:"01",t:"Minimum 44x44px tugmalar",d:"Barmoq bilan bosish uchun yetarli maydon"},
+        {n:"02",t:"16px minimum shrift",d:"Kichikroq bo'lsa ko'z qiynaladiy"},
+        {n:"03",t:"Bir qo'l bilan boshqarish",d:"Muhim elementlar quyi qismda bo'lsin"},
+        {n:"04",t:"Tez yuklanish",d:"Katta rasmlar siqilsin — 3G da ham tez ochilsin"},
+        {n:"05",t:"Qidiruv ko'rinsin",d:"Navigatsiya oddiy va aniq bo'lsin"},
+      ]},
+      {type:"image",icon:"📱",caption:"Mobile (375px) → Tablet (768px) → Desktop (1440px)",text:"Figmada 3 ta frame oching — mobil, tablet, desktop. Har birini dizayn qiling."},
+      {type:"tools",title:"Figmada mobil frame o'lchamlari",tools:[
+        {icon:"📱",name:"iPhone 14 Pro",desc:"390 x 844px — Eng mashhur o'lcham"},
+        {icon:"📲",name:"Samsung S22",desc:"360 x 780px — Android standart"},
+        {icon:"💻",name:"iPad Air",desc:"820 x 1180px — Tablet o'lcham"},
+      ]},
+      {type:"practice",title:"Vazifa",tasks:["Figmada iPhone 14 Pro frame oching","Kecha yasagan portfolio saytni mobil uchun qayta dizayn qiling","Barcha tugmalar kamida 44px balandlikda bo'lsin","Shrift 16px dan kichik bo'lmasin — tekshiring!"]}
+    ]
+  }
+},
+{
+  week:1, day:7,
+  title:"1-Hafta Yakuniy Loyiha — Portfolio Landing",
+  short:"Figmada to'liq landing page",
+  topics:"Landing Page · Portfolio · Figma to'liq workflow",
+  dur:"40 daq",
+  content:{
+    intro:"Bugun siz 1-haftada o'rgangan hamma narsani birlashtirasiz. To'liq professional portfolio landing page yasaysiz — Figmada.",
+    blocks:[
+      {type:"info",title:"Portfolio landing page strukturasi",text:`<strong>1. Header:</strong> Logo + Nav menu (Home, About, Works, Contact)\n<strong>2. Hero:</strong> Katta sarlavha + bio + 2 tugma\n<strong>3. Skills:</strong> Iconlar bilan toollar\n<strong>4. Projects:</strong> 3 ta karta — loyiha rasmi + nom + link\n<strong>5. About:</strong> Foto + qisqa bio\n<strong>6. Contact:</strong> Email + social links\n<strong>7. Footer:</strong> Copyright`},
+      {type:"steps",title:"Figmada yasash ketma-ketligi",steps:[
+        {n:"01",t:"Desktop Frame (1440x900)",d:"Asosiy frame — katta ekran uchun"},
+        {n:"02",t:"Color Style yarating",d:"Primary, Secondary, Text, Background — 4 rang"},
+        {n:"03",t:"Text Style yarating",d:"H1, H2, Body, Caption — 4 shrift"},
+        {n:"04",t:"Component yarating",d:"Button, Card, Nav Item — 3 component"},
+        {n:"05",t:"Bo'limlarni joylashtiring",d:"Yuqoridan pastga: Header → Hero → Skills → Projects → Contact → Footer"},
+        {n:"06",t:"Mobil versiyani yasang",d:"iPhone frame oching — responsive versiya"},
+      ]},
+      {type:"image",icon:"🏆",caption:"1-hafta natijasi: Professional Portfolio Landing Page",text:"Siz endi Figmada to'liq landing page yasa olasiz. Bu katta yutuq!"},
+      {type:"practice",title:"Haftalik yakuniy vazifa",tasks:["To'liq portfolio landing page Figmada (Desktop + Mobile)","Kamida 3 loyiha kardi bo'lsin","Rang palitrasini coolors.co dan tanlang","Google Fonts dan juftlik tanlang — 2 shrift","Figma link boshqalar bilan ulashib ko'ring"]}
+    ]
+  }
+},
+// HAFTA 2
+{
+  week:2, day:8,
+  title:"Webflow — Kod Yozmasdan Sayt",
+  short:"Figmadan Webflow ga o'tish",
+  topics:"Webflow Editor · CMS · Hosting · SEO",
+  dur:"40 daq",
+  content:{
+    intro:"Webflow — dunyoning eng kuchli 'no-code' platformasi. Figmada yasagan dizayningizni Webflowda jonlantirasiz. Kod yozmasdan ham professional sayt!",
+    blocks:[
+      {type:"info",title:"Webflow nima?",text:`Webflow — drag & drop bilan professional sayt yasash platformasi.\n\n<strong>Kim ishlatadi?</strong> Netflix, Dell, Dropbox, NASA — katta kompaniyalar ham Webflow ishlatadi.\n\n<strong>Bepulmi?</strong> Bepul tarif bor — webflow.io subdomain bilan nashr qilish mumkin. Asosiy funksiyalar bepul.`},
+      {type:"steps",title:"Webflow'da birinchi sayt",steps:[
+        {n:"01",t:"webflow.com ga kiring",d:"Sign up → Dashboard → New project"},
+        {n:"02",t:"Blank site tanlang",d:"Tayyor template emas — o'zingiz quring"},
+        {n:"03",t:"Navigator paneli",d:"Chap tomonda — HTML strukturasi ko'rinadi"},
+        {n:"04",t:"Section qo'shing",d:"Add Element → Layout → Section → kontent qo'shing"},
+        {n:"05",t:"Style paneli",d:"O'ng tomonda — CSS xossalari, ranglar, shriftlar"},
+        {n:"06",t:"Publish bosing",d:"O'ng yuqori — Publish → bepul link olasiz!"},
+      ]},
+      {type:"image",icon:"🌐",caption:"Webflow = Visual CSS Editor. Nima ko'rsangiz — shu kod bo'ladi",text:"Webflow ichida hamma narsa real CSS. Shuning uchun dasturchi ham Webflow kodni import qila oladi."},
+      {type:"tools",title:"Webflow asosiy bo'limlar",tools:[
+        {icon:"🏗️",name:"Designer",desc:"Vizual redaktor — drag & drop bilan sayt yasash"},
+        {icon:"📊",name:"CMS",desc:"Blog, mahsulotlar, portolfo — dinamik kontent"},
+        {icon:"🚀",name:"Hosting",desc:"Webflow o'zi host qiladi — CDN, SSL bepul"},
+      ]},
+      {type:"practice",title:"Vazifa",tasks:["webflow.com da account oching","Blank project yarating","Hero bo'lim yasang: sarlavha + matn + tugma","Publish qiling — linkni do'stlaringizga yuboring!"]}
+    ]
+  }
+},
+{
+  week:2, day:9,
+  title:"Framer + AI — 10 daqiqada Sayt",
+  short:"AI bilan sayt generatsiya qilish",
+  topics:"Framer AI · Prompting · Animatsiya · Deploy",
+  dur:"40 daq",
+  content:{
+    intro:"Framer — AI bilan sayt yasashning eng tez usuli. Matn yozsangiz — AI to'liq professional sayt yasab beradi. Keyin o'zingiz tahrirlaysiz.",
+    blocks:[
+      {type:"info",title:"Framer AI qanday ishlaydi?",text:`<strong>1-qadam:</strong> framer.com → New project → AI bilan yasa\n<strong>2-qadam:</strong> "Abdullokh Bakirov portfolio saytini yasa — web dizayner" deb yozing\n<strong>3-qadam:</strong> AI bir necha soniyada to'liq sayt yasaydi!\n<strong>4-qadam:</strong> Ranglar, matnlar, rasmlarni o'zgartiring\n<strong>5-qadam:</strong> Publish → bepul framer.app link`},
+      {type:"steps",title:"Yaxshi AI prompt yozish",steps:[
+        {n:"✍️",t:"Aniq bo'ling",d:"'Portfolio sayt' emas → 'UX/UI dizayner portfolio sayt, qora fon, neon ranglar, 5 bo'lim'"},
+        {n:"🎨",t:"Stil ko'rsating",d:"Minimalist, luxury, playful, hacker, corporate — qaysi uslub?"},
+        {n:"📋",t:"Bo'limlarni aiting",d:"Header, Hero, Skills, Projects, Contact — hammasi bo'lsin"},
+        {n:"🌈",t:"Rang palitrasini aiting",d:"'Ko'k va qora rang sxemasi bilan' — aniq bo'lsin"},
+      ]},
+      {type:"image",icon:"🤖",caption:"Framer AI: Matn → Professional Sayt — 30 soniyada",text:"AI yaratgan sayt 80-90% tayyor. Siz faqat tafsilotlarni o'zgartirasiz."},
+      {type:"tools",title:"Boshqa AI sayt yasash toollar",tools:[
+        {icon:"🤖",name:"v0.dev (Vercel)",desc:"Kod bilan sayt yasash. React + Tailwind chiqaradi. Dasturchilar uchun.",link:"v0.dev"},
+        {icon:"🌐",name:"Wix AI",desc:"Eng oddiy. Savollarga javob bering — AI sayt yasaydi.",link:"wix.com"},
+        {icon:"⚡",name:"Durable AI",desc:"Biznes uchun. 30 soniyada to'liq sayt + SEO.",link:"durable.co"},
+      ]},
+      {type:"practice",title:"Vazifa",tasks:["framer.com da account oching","AI ga o'z portfolio saytingiz uchun prompt yozing","Generatsiya qilingan saytni tahrirlang","Publish qiling — linkni saqlang — bu sizning 1-jonli saytingiz!"]}
+    ]
+  }
+},
+{
+  week:2, day:10,
+  title:"HTML & CSS Asoslari — Dizayner Uchun",
+  short:"Kod o'qiy olish — muhim skill",
+  topics:"HTML Structure · CSS Properties · Flexbox · Dev Tools",
+  dur:"40 daq",
+  content:{
+    intro:"Dizayner kod yozmasligi mumkin — lekin o'qiy olishi SHART. Dasturchi bilan gaplasha olish, xatoni tushunish — bu juda muhim. Bugun asoslarni o'rganasiz.",
+    blocks:[
+      {type:"info",title:"HTML nima?",text:`HTML — saytning skeleti. Har narsa tag ichida yoziladi.\n\n<strong>&lt;h1&gt;</strong>Katta sarlavha<strong>&lt;/h1&gt;</strong>\n<strong>&lt;p&gt;</strong>Oddiy matn<strong>&lt;/p&gt;</strong>\n<strong>&lt;button&gt;</strong>Tugma<strong>&lt;/button&gt;</strong>\n<strong>&lt;div&gt;</strong>Bo'lim — konteyner<strong>&lt;/div&gt;</strong>`},
+      {type:"steps",title:"CSS — Dizayn tili",steps:[
+        {n:"🎨",t:"color: #00ff88",d:"Matn rangi — hex kod"},
+        {n:"📦",t:"background: #050507",d:"Fon rangi"},
+        {n:"📐",t:"padding: 20px 40px",d:"Ichki bo'sh joy"},
+        {n:"↔️",t:"display: flex",d:"Elementlarni yonma-yon joylashtirish"},
+        {n:"🔤",t:"font-size: 24px",d:"Shrift hajmi"},
+        {n:"⚡",t:"border-radius: 8px",d:"Burchakni yumaloqlash"},
+      ]},
+      {type:"image",icon:"💻",caption:"Chrome DevTools — F12 bosing. Har saytning kodi ochiladi!",text:"Yoqqan saytni oching → F12 → Elements. Hamma HTML va CSS ko'rinadi. O'rganing!"},
+      {type:"tools",title:"Amaliy mashq saytlari",tools:[
+        {icon:"🎮",name:"CSS Diner",desc:"CSS selector o'ynab o'rganish. Juda qiziq!",link:"flukeout.github.io"},
+        {icon:"📚",name:"W3Schools",desc:"HTML/CSS reference. Har narsani izlash mumkin.",link:"w3schools.com"},
+        {icon:"🎯",name:"Flexbox Froggy",desc:"Flexbox o'ynab o'rganish. Beginner uchun zo'r.",link:"flexboxfroggy.com"},
+      ]},
+      {type:"practice",title:"Vazifa",tasks:["Sevimli saytingizni oching → F12 bosing","Inspect tool bilan elementlarga bosing — CSS ko'ring","Rangni DevTools da o'zgartiring (vaqtinchalik)","w3schools.com da HTML asoslarini o'qing — 30 daqiqa"]}
+    ]
+  }
+},
+{
+  week:2, day:11,
+  title:"UX Tadqiqot — Foydalanuvchini Tushunish",
+  short:"User research, persona, empathy map",
+  topics:"User Persona · Empathy Map · Usability Testing · Heuristics",
+  dur:"40 daq",
+  content:{
+    intro:"Yaxshi dizayn faqat chiroyli bo'lmaydi — QULAY bo'ladi. Buning uchun foydalanuvchilarni tushunish kerak. Bu UX tadqiqot.",
+    blocks:[
+      {type:"info",title:"User Persona nima?",text:`Persona — xayoliy foydalanuvchi. Uning:
+\n• <strong>Ismi, yoshi, kasbi</strong> — Kim u?\n• <strong>Maqsadi</strong> — Saytdan nima xohlaydi?\n• <strong>Muammosi</strong> — Nima qiynaydi?\n• <strong>Texnologiya</strong> — Qaysi qurilmada?\n\n<strong>Misol:</strong> Aziz, 28, Toshkent. Freelancer web developer. Portfolio sayt qidiryapti. Vaqti kam.`},
+      {type:"steps",title:"UX Tadqiqot usullari",steps:[
+        {n:"01",t:"Suhbat (Interview)",d:"5-10 foydalanuvchi bilan gaplashing. Savollar bering."},
+        {n:"02",t:"Kuzatish (Observation)",d:"Saytni ishlatayotganini koring — nima qiynaydi?"},
+        {n:"03",t:"So'rovnoma (Survey)",d:"Google Forms — ko'pchilikdan ma'lumot"},
+        {n:"04",t:"A/B Test",d:"Ikki variant ko'rsating — qaysi yaxshiroq ishlaydi?"},
+      ]},
+      {type:"image",icon:"🗺️",caption:"Empathy Map: Nima O'ylaydi? Nima His Qiladi? Nima Ko'radi? Nima Eshitadi?",text:"Empathy Map — foydalanuvchi dunyosini tushunish uchun. Figmada template bor!"},
+      {type:"info",title:"10 usability heuristic (Nielsen)",text:`<strong>1.</strong> Tizim holati ko'rinib tursin\n<strong>2.</strong> Foydalanuvchi tili — texnik til emas\n<strong>3.</strong> Orqaga qaytish mumkin bo'lsin\n<strong>4.</strong> Standartlar saqlnsin\n<strong>5.</strong> Xatolarni oldini ol\n<strong>6.</strong> Eslab qolishdan ko'ra ko'rsatish yaxshi\n<strong>7.</strong> Egiluvchanlik\n<strong>8.</strong> Minimal dizayn\n<strong>9.</strong> Xatolarni tushuntir\n<strong>10.</strong> Yordam dokumenti`},
+      {type:"practice",title:"Vazifa",tasks:["3 ta persona yarating — portfolio saytingiz uchun","Empathy Map chizing — Figmada (template qidiring)","Do'stingizdan portfolio saytingizni sinovdan o'tkazishini so'rang","U nimalarda qiynalayotganini kuzating va yozing"]}
+    ]
+  }
+},
+{
+  week:2, day:12,
+  title:"Design System — Professional Workflow",
+  short:"Katta loyihalar uchun dizayn tizimi",
+  topics:"Design System · Tokens · Style Guide · Storybook",
+  dur:"40 daq",
+  content:{
+    intro:"Airbnb, Google, Uber — har birining Design System i bor. Bu — kompaniyaning dizayn qoidalari to'plami. Professional dizaynerlar shu bilan ishlaydi.",
+    blocks:[
+      {type:"info",title:"Design System nima?",text:`Design System — dizayn va kod qoidalarining yig'indisi:\n\n• <strong>Colors</strong> — barcha ranglar bir joyda\n• <strong>Typography</strong> — barcha shrift stillari\n• <strong>Components</strong> — Button, Input, Card, Modal...\n• <strong>Icons</strong> — bir uslubdagi ikonkalar\n• <strong>Spacing</strong> — 4, 8, 16, 24, 32px qoidasi\n• <strong>Motion</strong> — animatsiya qoidalari`},
+      {type:"steps",title:"Figmada Design System yasash",steps:[
+        {n:"01",t:"Yangi Figma fayl oching",d:"Nom: 'Design System — [Loyiha]'"},
+        {n:"02",t:"Color Styles",d:"Primary, Secondary, Neutral, Error, Success — ranglari"},
+        {n:"03",t:"Text Styles",d:"Display, H1, H2, H3, Body, Caption, Code"},
+        {n:"04",t:"Spacing Scale",d:"4, 8, 12, 16, 20, 24, 32, 40, 48, 64px"},
+        {n:"05",t:"Component Library",d:"Button, Input, Card, Badge, Avatar..."},
+        {n:"06",t:"Documentation",d:"Har componentning qoidalarini yozing"},
+      ]},
+      {type:"image",icon:"📚",caption:"Google Material Design — Dunyoning eng mashhur Design System i",text:"material.io — bepul, o'rganing. Har bir component uchun qoidalar bor."},
+      {type:"tools",title:"Mashhur Design Systems",tools:[
+        {icon:"🎨",name:"Material Design (Google)",desc:"material.io — to'liq, bepul, o'rganish uchun zo'r"},
+        {icon:"🍎",name:"Apple HIG",desc:"developer.apple.com — iOS/Mac dizayn qoidalari"},
+        {icon:"⚡",name:"Ant Design",desc:"ant.design — Enterprise darajadagi component library"},
+      ]},
+      {type:"practice",title:"Vazifa",tasks:["Portfolio loyihangiz uchun mini Design System yasang","Kamida: 5 rang, 4 shrift stili, Button + Card components","Spacing scale: 8px asosida qoidalar yarating","material.io ni oching — 30 daqiqa ko'ring"]}
+    ]
+  }
+},
+{
+  week:2, day:13,
+  title:"Portfolio Tayyorlash — Ish Topish",
+  short:"Behance, Dribbble, LinkedIn",
+  topics:"Portfolio · Behance · Dribbble · LinkedIn · Case Study",
+  dur:"40 daq",
+  content:{
+    intro:"Yaxshi loyiha ishlanishi — 50%. Qolgan 50% — uni to'g'ri ko'rsatish. Portfolio — sizning vitrinaniz. Bugun professional portfolio yasashni o'rganasiz.",
+    blocks:[
+      {type:"info",title:"Portfolio qayerda?",text:`<strong>Behance</strong> — Adobe ning platformasi. Ko'p dizayner uchun #1.\n<strong>Dribbble</strong> — Qisqa, chiroyli shotlar uchun. Invite kerak.\n<strong>LinkedIn</strong> — Professional tarmoq. HR lar qaraydi.\n<strong>O'z saytingiz</strong> — Eng professional. Framer yoki Webflow da yasang.`},
+      {type:"steps",title:"Case Study — Loyiha hujjati",steps:[
+        {n:"01",t:"Muammo",d:"Qanday muammoni hal qildingiz?"},
+        {n:"02",t:"Tadqiqot",d:"Kim uchun? Nima o'rgandingiz?"},
+        {n:"03",t:"Jarayon",d:"Wireframe → Prototip → Yakuniy dizayn"},
+        {n:"04",t:"Yechim",d:"Nima yasadingiz? Qanday ishlaydi?"},
+        {n:"05",t:"Natija",d:"Foydalanuvchilar yoqtirdimi? Metrikalar?"},
+      ]},
+      {type:"image",icon:"🏆",caption:"Behance case study: Problem → Process → Solution — 3 blok",text:"Yaxshi case study — sizning fikrlashingizni ko'rsatadi. Bu daromaddan muhimroq."},
+      {type:"tools",title:"Portfolio toollar",tools:[
+        {icon:"🎨",name:"Behance",desc:"behance.net — bepul, Adobe bilan integratsiya"},
+        {icon:"🏀",name:"Dribbble",desc:"dribbble.com — vizual portfolio, community"},
+        {icon:"💼",name:"LinkedIn",desc:"linkedin.com — professional, HR lar shu yerda"},
+      ]},
+      {type:"practice",title:"Vazifa",tasks:["Behance.net da account oching","Bitta loyihangizni Case Study sifatida yuklang","LinkedIn profilni yangilang — Figma, UX/UI skills qo'shing","Dribbble da 10 ta top dizayner follow qiling — ilhom oling"]}
+    ]
+  }
+},
+{
+  week:2, day:14,
+  title:"🏆 Yakuniy Dars — Senior Dizayner yo'li",
+  short:"Freelance, Remote ish, Keyingi qadamlar",
+  topics:"Freelance · Remote · Salary · Roadmap · Community",
+  dur:"40 daq",
+  content:{
+    intro:"Tabriklaymiz! Siz 2 hafta davomida UX/UI dizaynning asoslarini, Figmani, Webflowni, Framer AIni o'rgandingiz. Bu ajoyib yutuq! Endi — keyingi qadamlar.",
+    blocks:[
+      {type:"info",title:"Dizayner maoshi — 2025",text:`<strong>Junior UX/UI (0-1 yil):</strong> $500-1500/oy\n<strong>Middle (1-3 yil):</strong> $1500-4000/oy\n<strong>Senior (3+ yil):</strong> $4000-10000/oy\n<strong>Freelance:</strong> Loyiha boshiga $200-5000+\n\n<strong>O'zbekiston bozori:</strong> Toshkent da talabli kasb. Remote ish uchun dunyoga chiqing!`},
+      {type:"steps",title:"Keyingi 3 oy uchun roadmap",steps:[
+        {n:"1-oy",t:"Portfolio mustahkamlash",d:"3-5 ta sifatli loyiha. Har biri uchun Case Study."},
+        {n:"2-oy",t:"Haqiqiy loyiha",d:"Tanish biznesi uchun bepul dizayn qiling — tajriba uchun."},
+        {n:"3-oy",t:"Ish izlash",d:"Behance, LinkedIn, Telegram guruhlar — faol bo'ling."},
+      ]},
+      {type:"tools",title:"O'sish uchun resurslar",tools:[
+        {icon:"📺",name:"Figma YouTube",desc:"youtube.com/figma — rasmiy kanal, bepul darslar"},
+        {icon:"📱",name:"Dribbble",desc:"Kuniga 30 daqiqa top dizaynlarni ko'ring"},
+        {icon:"📚",name:"Laws of UX",desc:"lawsofux.com — UX qonunlari. O'qing!"},
+      ]},
+      {type:"image",icon:"🚀",caption:"2 hafta → Portfolio → Birinchi Ish → Senior Dizayner",text:"Siz shu yo'lni boshlagan har bir professional ham shunday boshlagan. Davom eting!"},
+      {type:"practice",title:"Yakuniy vazifa — Portfolio to'liq",tasks:["To'liq portfolio saytini jonlashtiring (Framer/Webflow)","Kamida 3 ta case study Behance da","LinkedIn profilni dizayner sifatida to'ldiring","Birinchi freelance loyihani toping — Telegram, Upwork","Abdullokh Bakirov bilan bog'laning — yordam uchun!"]}
+    ]
+  }
+},
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let completed = JSON.parse(localStorage.getItem('uxui14') || '[]');
+let currentDay = null;
+let speaking = false;
+let speechUtt = null;
+
+// ============================================================
+// RENDER CALENDAR
+// ============================================================
+function renderCalendar() {
+  const grid = document.getElementById('weeksGrid');
+  grid.innerHTML = '';
+  const done = completed.length;
+
+  // Group by week
+  const w1 = curriculum.filter(c=>c.week===1);
+  const w2 = curriculum.filter(c=>c.week===2);
+
+  [w1,w2].forEach((days,wi) => {
+    const card = document.createElement('div');
+    card.className = 'week-card';
+    let html = `<div class="week-num">// HAFTA ${wi+1}</div>
+    <div class="week-title">${wi===0?'UX/UI Asoslari + Figma':'Webflow · AI · Real Loyiha'}</div>
+    <div class="days-list">`;
+    days.forEach(d => {
+      const isDone = completed.includes(d.day);
+      const unlocked = d.day===1 || completed.includes(d.day-1);
+      const isNext = d.day === done+1;
+      html += `<div class="day-item" style="${!unlocked&&!isDone?'opacity:.35;cursor:not-allowed':''};${isNext?'border-color:rgba(0,255,136,0.3);background:rgba(0,255,136,0.04)':''}"
+        onclick="${unlocked||isDone?`openLesson(${d.day})`:''}">
+        <div class="day-num">D${String(d.day).padStart(2,'0')}</div>
+        <div class="day-info">
+          <div class="day-title">${isDone?'✅ ':isNext?'⚡ ':!unlocked?'🔒 ':''} ${d.title}</div>
+          <div class="day-topics">${d.topics}</div>
+        </div>
+        <div class="day-duration">${d.dur}</div>
+      </div>`;
+    });
+    html += '</div>';
+    card.innerHTML = html;
+    grid.appendChild(card);
+  });
+
+  // Progress info
+  const pi = document.getElementById('progInfo');
+  pi.textContent = `[ ${completed.length} / 14 kun yakunlandi · ${Math.round(completed.length/14*100)}% progress ]`;
+}
+
+// ============================================================
+// OPEN LESSON
+// ============================================================
+function openLesson(day) {
+  currentDay = day;
+  const d = curriculum.find(c=>c.day===day);
+  const lp = document.getElementById('lessonPage');
+  lp.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+
+  // Progress
+  document.getElementById('lProgFill').style.width = ((day/14)*100)+'%';
+  document.getElementById('lProgTxt').textContent = `Kun ${day} / 14 · ${d.title}`;
+
+  // Build content
+  buildLesson(d);
+  lp.scrollTo(0,0);
+}
+
+function closeLesson() {
+  stopSpeak();
+  document.getElementById('lessonPage').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// ============================================================
+// BUILD LESSON
+// ============================================================
+function buildLesson(d) {
+  const c = d.content;
+  let h = `
+    <div class="lesson-tag">// KUN ${d.day} — HAFTA ${d.week}</div>
+    <div class="lesson-title">${d.title}</div>
+    <div class="lesson-desc">${c.intro}</div>
+    <button class="speak-lesson-btn" onclick="toggleSpeak()">🔊 Ovoz bilan tinglash</button>
+  `;
+
+  c.blocks.forEach(b => {
+    if(b.type==='info') {
+      h += `<div class="lesson-block">
+        <div class="block-title">${b.title}</div>
+        <div class="info-card"><p>${b.text.replace(/\n/g,'<br>')}</p></div>
+      </div>`;
+    }
+    else if(b.type==='steps') {
+      h += `<div class="lesson-block">
+        <div class="block-title">${b.title}</div>
+        <div class="steps-list">`;
+      b.steps.forEach(s => {
+        h += `<div class="step-item">
+          <div class="step-num">${s.n}</div>
+          <div class="step-text"><strong>${s.t}</strong><br>${s.d}</div>
+        </div>`;
+      });
+      h += '</div></div>';
+    }
+    else if(b.type==='tools') {
+      h += `<div class="lesson-block"><div class="block-title">${b.title}</div>`;
+      b.tools.forEach(t => {
+        h += `<div class="tool-learn-card">
+          <div class="tlc-icon">${t.icon}</div>
+          <div class="tlc-info">
+            <div class="tlc-name">${t.name}</div>
+            <div class="tlc-desc">${t.desc}</div>
+            ${t.link?`<a href="https://${t.link}" target="_blank" class="tlc-link" style="cursor:pointer">→ ${t.link}</a>`:''}
+          </div>
+        </div>`;
+      });
+      h += '</div>';
+    }
+    else if(b.type==='image') {
+      h += `<div class="lesson-block">
+        <div class="image-placeholder">
+          <span class="img-icon">${b.icon}</span>
+          <strong style="position:relative;z-index:1;color:#fff;display:block;margin-bottom:.3rem">${b.caption}</strong>
+          <p style="position:relative;z-index:1;font-family:'Space Grotesk',sans-serif;color:var(--gray);font-size:.82rem">${b.text}</p>
+        </div>
+      </div>`;
+    }
+    else if(b.type==='practice') {
+      h += `<div class="practice-box">
+        <div class="practice-label">⚡ VAZIFA</div>
+        <ul class="practice-task">`;
+      b.tasks.forEach(t => {h += `<li>${t}</li>`;});
+      h += `</ul></div>`;
+    }
+  });
+
+  h += `<button class="complete-btn" onclick="completeDay()">
+    <span>✅ Kunni Yakunladim!</span> <span>→</span>
+  </button>`;
+
+  document.getElementById('lessonContent').innerHTML = h;
+
+  // Build speak text
+  let txt = `${d.title}. ${c.intro}. `;
+  c.blocks.forEach(b=>{
+    if(b.title) txt += b.title + '. ';
+    if(b.text) txt += b.text.replace(/<[^>]+>/g,'').replace(/\n/g,' ') + '. ';
+    if(b.steps) b.steps.forEach(s=>txt+=s.t+'. '+s.d+'. ');
+    if(b.tasks) b.tasks.forEach(t=>txt+=t+'. ');
+  });
+  window._lessonText = txt;
+}
+
+// ============================================================
+// SPEECH
+// ============================================================
+function toggleSpeak() {
+  if(speaking) { stopSpeak(); return; }
+  speaking = true;
+  document.getElementById('speakBtn').textContent = '⏹ To\'xtatish';
+  try {
+    if(!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    setTimeout(()=>{
+      try {
+        speechUtt = new SpeechSynthesisUtterance(window._lessonText || '');
+        speechUtt.lang = 'uz-UZ';
+        speechUtt.rate = 0.9;
+        speechUtt.pitch = 1;
+        speechUtt.onend = ()=>{speaking=false;document.getElementById('speakBtn').textContent='🔊 Tinglash';};
+        speechUtt.onerror = ()=>{speaking=false;document.getElementById('speakBtn').textContent='🔊 Tinglash';};
+        const voices = window.speechSynthesis.getVoices() || [];
+        const v = voices.find(v=>v.lang.startsWith('uz')) || voices.find(v=>v.lang.startsWith('ru')) || voices[0];
+        if(v) speechUtt.voice = v;
+        window.speechSynthesis.speak(speechUtt);
+      } catch(e){speaking=false;}
+    },80);
+  } catch(e){speaking=false;}
+}
+
+function stopSpeak() {
+  speaking = false;
+  try {
+    if(window.speechSynthesis) window.speechSynthesis.cancel();
+  } catch(e){}
+  const btn = document.getElementById('speakBtn');
+  if(btn) btn.textContent = '🔊 Tinglash';
+}
+
+// ============================================================
+// COMPLETE DAY
+// ============================================================
+function completeDay() {
+  if(!completed.includes(currentDay)) {
+    completed.push(currentDay);
+    localStorage.setItem('uxui14', JSON.stringify(completed));
+  }
+  stopSpeak();
+  showConfetti();
+  renderCalendar();
+  const st = document.getElementById('sText');
+  if(currentDay===14) {
+    st.textContent = 'Siz 14 kunlik UX/UI kursini tugatdingiz! Portfolio yasang va ish toping! 🚀';
+  } else {
+    st.textContent = `Kun ${currentDay} yakunlandi! Ertaga Kun ${currentDay+1} ochiladi.`;
+  }
+  document.getElementById('successOverlay').classList.add('show');
+}
+
+function closeSuccess() {
+  document.getElementById('successOverlay').classList.remove('show');
+  closeLesson();
+}
+
+// ============================================================
+// CONFETTI
+// ============================================================
+function showConfetti() {
+  const c = document.getElementById('confetti');
+  c.innerHTML = '';
+  const colors = ['#00ff88','#00ccff','#ff00aa','#ffcc00','#7000ff','#ffffff'];
+  for(let i=0;i<80;i++){
+    const p=document.createElement('div');
+    p.className='cp';
+    p.style.cssText=`left:${Math.random()*100}%;width:${Math.random()*10+4}px;height:${Math.random()*10+4}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${Math.random()*2+1.5}s;animation-delay:${Math.random()*.8}s`;
+    c.appendChild(p);
+  }
+  setTimeout(()=>c.innerHTML='',4000);
+}
+
+// ============================================================
+// INTERSECTION OBSERVER — animate on scroll
+// ============================================================
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.opacity='1';
+      e.target.style.transform='translateY(0)';
+    }
+  });
+},{threshold:.1});
+
+document.querySelectorAll('.week-card,.tool-card,.about-grid').forEach(el=>{
+  el.style.opacity='0';
+  el.style.transform='translateY(30px)';
+  el.style.transition='opacity .6s ease, transform .6s ease';
+  obs.observe(el);
+});
+
+// INIT
+try {
+  if(window.speechSynthesis) {
+    window.speechSynthesis.onvoiceschanged = ()=>{ try{window.speechSynthesis.getVoices();}catch(e){} };
+    try{window.speechSynthesis.getVoices();}catch(e){}
+  }
+} catch(e){}
+
+renderCalendar();
+</script>
 </body>
 </html>
