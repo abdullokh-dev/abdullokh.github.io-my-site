@@ -2,1329 +2,1491 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IELTS 8.0 — 3 Oylik To'liq Kurs</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Abi-Chats</title>
 <style>
   :root {
-    --cream: #FAFAF7;
-    --paper: #F4F3EE;
-    --warm: #EDE8DF;
-    --ink: #1A1A18;
-    --ink-soft: #3D3D38;
-    --ink-muted: #7A7A72;
-    --accent: #2D5016;
-    --accent2: #8B4513;
-    --gold: #C9A84C;
-    --gold-light: #F0D98A;
-    --red: #B84C3B;
-    --blue: #2B4C7E;
-    --border: #D8D4C8;
-    --shadow: rgba(26,26,24,0.08);
+    --bg: #000000;
+    --bg2: #0a0a0f;
+    --bg3: #111118;
+    --card: rgba(255,255,255,0.05);
+    --card2: rgba(255,255,255,0.08);
+    --blue: #007AFF;
+    --blue2: #0A84FF;
+    --blue3: #2196F3;
+    --teal: #32D4C8;
+    --purple: #BF5AF2;
+    --green: #30D158;
+    --red: #FF453A;
+    --orange: #FF9F0A;
+    --text: #FFFFFF;
+    --text2: rgba(255,255,255,0.7);
+    --text3: rgba(255,255,255,0.4);
+    --border: rgba(255,255,255,0.1);
+    --btn-bg: rgba(255,255,255,0.13);
+    --btn-border: rgba(255,255,255,0.18);
+    --tab-height: 83px;
+    --header-height: 56px;
+    --radius: 18px;
+    --radius-sm: 12px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body { width:100%; height:100%; overflow:hidden; background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,sans-serif; }
+
+  /* ── SPLASH ── */
+  #splash {
+    position:fixed; inset:0; z-index:9999;
+    background:linear-gradient(145deg,#000410 0%,#001a3a 40%,#00306a 70%,#004fa0 100%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
+  }
+  .splash-logo {
+    width:100px; height:100px; border-radius:28px;
+    background:linear-gradient(135deg,#007AFF,#32D4C8);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 60px rgba(0,122,255,0.6), 0 0 120px rgba(50,212,200,0.3);
+    animation: splashPulse 1.5s ease-in-out infinite alternate;
+  }
+  .splash-logo svg { width:56px; height:56px; }
+  @keyframes splashPulse {
+    from { transform:scale(1); box-shadow:0 0 60px rgba(0,122,255,0.6); }
+    to { transform:scale(1.06); box-shadow:0 0 90px rgba(0,122,255,0.9),0 0 160px rgba(50,212,200,0.4); }
+  }
+  .splash-title {
+    font-size:36px; font-weight:800; letter-spacing:-1px;
+    background:linear-gradient(90deg,#fff 0%,#32D4C8 60%,#007AFF 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+  .splash-sub { font-size:14px; color:rgba(255,255,255,0.5); letter-spacing:2px; text-transform:uppercase; animation:fadeUp 0.8s ease 0.5s both; }
+  .splash-powered { position:absolute; bottom:28px; font-size:12px; color:rgba(255,255,255,0.3); animation:fadeUp 0.8s ease 0.8s both; }
+  .splash-powered span { color:var(--blue2); }
+  .splash-bars { display:flex; gap:5px; margin-top:10px; animation:fadeUp 0.8s ease 0.6s both; }
+  .splash-bar { width:4px; border-radius:2px; background:rgba(0,122,255,0.6); animation:barBounce 1s ease-in-out infinite; }
+  .splash-bar:nth-child(1){height:20px;animation-delay:0s;}
+  .splash-bar:nth-child(2){height:30px;animation-delay:0.15s;}
+  .splash-bar:nth-child(3){height:25px;animation-delay:0.3s;}
+  .splash-bar:nth-child(4){height:35px;animation-delay:0.45s;}
+  .splash-bar:nth-child(5){height:20px;animation-delay:0.6s;}
+  @keyframes barBounce { 0%,100%{transform:scaleY(0.5);opacity:0.4;} 50%{transform:scaleY(1);opacity:1;} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+
+  /* ── AUTH ── */
+  #auth {
+    position:fixed; inset:0; z-index:1000; display:none;
+    background:linear-gradient(145deg,#000410 0%,#001030 50%,#000820 100%);
+    overflow-y:auto;
+  }
+  .auth-wrap { min-height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 24px; gap:28px; }
+  .auth-logo { width:72px; height:72px; border-radius:20px; background:linear-gradient(135deg,#007AFF,#32D4C8); display:flex; align-items:center; justify-content:center; box-shadow:0 0 40px rgba(0,122,255,0.4); }
+  .auth-logo svg { width:40px; height:40px; }
+  .auth-title { font-size:28px; font-weight:800; text-align:center; background:linear-gradient(90deg,#fff,#32D4C8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .auth-sub { font-size:14px; color:var(--text3); text-align:center; }
+  .auth-tabs { display:flex; gap:0; background:rgba(255,255,255,0.06); border-radius:14px; padding:3px; width:100%; max-width:360px; }
+  .auth-tab { flex:1; padding:10px; text-align:center; border-radius:11px; font-size:14px; font-weight:600; color:var(--text3); cursor:pointer; transition:all 0.3s; }
+  .auth-tab.active { background:rgba(0,122,255,0.25); color:#fff; box-shadow:0 0 20px rgba(0,122,255,0.3); }
+  .auth-form { display:flex; flex-direction:column; gap:14px; width:100%; max-width:360px; }
+  .auth-input {
+    background:rgba(255,255,255,0.06); border:1px solid var(--border);
+    border-radius:14px; padding:15px 18px; color:#fff; font-size:15px; outline:none;
+    transition:border 0.3s, box-shadow 0.3s;
+  }
+  .auth-input:focus { border-color:var(--blue); box-shadow:0 0 20px rgba(0,122,255,0.2); }
+  .auth-input::placeholder { color:var(--text3); }
+  .auth-btn {
+    background:linear-gradient(135deg,#007AFF,#32D4C8); border:none; border-radius:14px;
+    padding:16px; color:#fff; font-size:16px; font-weight:700; cursor:pointer;
+    box-shadow:0 8px 30px rgba(0,122,255,0.4); transition:transform 0.2s, box-shadow 0.2s;
+    position:relative; overflow:hidden;
+  }
+  .auth-btn:active { transform:scale(0.97); }
+  .auth-btn::after { content:''; position:absolute; inset:0; background:linear-gradient(rgba(255,255,255,0.15),transparent); }
+  .auth-btn-admin { background:rgba(191,90,242,0.2); border:1px solid rgba(191,90,242,0.4); color:var(--purple); box-shadow:none; font-weight:600; font-size:14px; }
+  .auth-divider { text-align:center; color:var(--text3); font-size:12px; }
+  .auth-err { color:var(--red); font-size:13px; text-align:center; display:none; }
+
+  /* ── ADMIN PANEL ── */
+  #admin {
+    position:fixed; inset:0; z-index:900; display:none;
+    background:linear-gradient(145deg,#0a001a,#1a0030);
+    overflow-y:auto;
+  }
+  .admin-header { padding:20px 20px 16px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(10,0,26,0.95); backdrop-filter:blur(20px); z-index:10; }
+  .admin-title { font-size:22px; font-weight:800; background:linear-gradient(90deg,#BF5AF2,#FF375F); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .admin-exit { background:rgba(255,255,255,0.08); border:1px solid var(--border); border-radius:10px; padding:8px 14px; color:#fff; font-size:13px; cursor:pointer; }
+  .admin-body { padding:20px; display:flex; flex-direction:column; gap:16px; }
+  .admin-card { background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:18px; padding:18px; }
+  .admin-card h3 { font-size:14px; font-weight:700; color:var(--purple); margin-bottom:12px; text-transform:uppercase; letter-spacing:1px; }
+  .admin-stat { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border); }
+  .admin-stat:last-child { border:none; }
+  .admin-stat-label { font-size:14px; color:var(--text2); }
+  .admin-stat-val { font-size:18px; font-weight:700; color:#fff; }
+  .admin-user-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .admin-user-row:last-child { border:none; }
+  .admin-ava { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--blue),var(--teal)); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0; }
+  .admin-user-info { flex:1; }
+  .admin-user-name { font-size:14px; font-weight:600; }
+  .admin-user-sub { font-size:12px; color:var(--text3); }
+  .admin-del { background:rgba(255,69,58,0.15); border:1px solid rgba(255,69,58,0.3); color:var(--red); border-radius:8px; padding:5px 10px; font-size:12px; cursor:pointer; }
+
+  /* ── MAIN APP ── */
+  #app { position:fixed; inset:0; display:none; flex-direction:column; background:var(--bg); }
+
+  /* Header */
+  .header {
+    height:var(--header-height); display:flex; align-items:flex-end; padding:0 16px 10px;
+    background:rgba(0,0,0,0.85); backdrop-filter:blur(20px) saturate(180%);
+    border-bottom:1px solid var(--border); position:relative; z-index:100; flex-shrink:0;
+  }
+  .header-cam { width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:var(--btn-bg); border:1px solid var(--btn-border); cursor:pointer; transition:all 0.2s; flex-shrink:0; }
+  .header-cam:active { transform:scale(0.92); background:rgba(255,255,255,0.18); }
+  .header-title { flex:1; text-align:center; font-size:17px; font-weight:700; letter-spacing:-0.3px; }
+  .header-title span { background:linear-gradient(90deg,#007AFF,#32D4C8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .header-more { width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:var(--btn-bg); border:1px solid var(--btn-border); cursor:pointer; transition:all 0.2s; flex-shrink:0; position:relative; }
+  .header-more:active { transform:scale(0.92); }
+  .header-edit { width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:var(--btn-bg); border:1px solid var(--btn-border); cursor:pointer; transition:all 0.2s; flex-shrink:0; color:var(--blue2); font-size:22px; font-weight:300; }
+  .header-search-btn { display:flex; align-items:center; gap:6px; padding:7px 14px; background:var(--btn-bg); border:1px solid var(--btn-border); border-radius:12px; cursor:pointer; font-size:14px; color:var(--text3); }
+
+  /* Context menu */
+  .ctx-menu {
+    position:absolute; top:50px; right:8px; min-width:200px;
+    background:rgba(28,28,40,0.98); backdrop-filter:blur(40px); border:1px solid rgba(255,255,255,0.12);
+    border-radius:16px; overflow:hidden; z-index:500; box-shadow:0 20px 60px rgba(0,0,0,0.8);
+    display:none; animation:menuPop 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .ctx-menu.open { display:block; }
+  @keyframes menuPop { from{opacity:0;transform:scale(0.85) translateY(-10px);} to{opacity:1;transform:scale(1);} }
+  .ctx-item { padding:13px 18px; font-size:15px; color:#fff; cursor:pointer; display:flex; align-items:center; gap:12px; border-bottom:1px solid rgba(255,255,255,0.07); transition:background 0.2s; }
+  .ctx-item:last-child { border:none; }
+  .ctx-item:active { background:rgba(255,255,255,0.1); }
+  .ctx-icon { font-size:18px; width:24px; text-align:center; }
+
+  /* Tabs */
+  .tabs {
+    height:var(--tab-height); display:flex; align-items:flex-start; padding-top:10px;
+    background:rgba(0,0,0,0.85); backdrop-filter:blur(20px) saturate(180%);
+    border-top:1px solid var(--border); flex-shrink:0;
+  }
+  .tab { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; padding:4px 0; position:relative; }
+  .tab-icon { width:28px; height:28px; display:flex; align-items:center; justify-content:center; border-radius:8px; transition:all 0.3s; }
+  .tab-icon svg { width:22px; height:22px; }
+  .tab-label { font-size:10px; font-weight:500; color:var(--text3); transition:color 0.3s; letter-spacing:0.2px; }
+  .tab.active .tab-icon { background:rgba(0,122,255,0.2); }
+  .tab.active .tab-icon svg path, .tab.active .tab-icon svg circle, .tab.active .tab-icon svg rect { fill:var(--blue2); }
+  .tab.active .tab-label { color:var(--blue2); font-weight:700; }
+  .tab-badge { position:absolute; top:0; right:calc(50% - 18px); background:var(--red); color:#fff; font-size:10px; font-weight:700; border-radius:10px; padding:1px 5px; min-width:16px; text-align:center; }
+
+  /* Pages */
+  .page { flex:1; overflow-y:auto; overflow-x:hidden; display:none; flex-direction:column; }
+  .page.active { display:flex; }
+  #pages { flex:1; overflow:hidden; display:flex; flex-direction:column; }
+
+  /* Chat list */
+  .chat-search { padding:10px 16px 6px; }
+  .search-box { display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.07); border:1px solid var(--border); border-radius:13px; padding:10px 14px; }
+  .search-box input { flex:1; background:none; border:none; outline:none; color:#fff; font-size:15px; }
+  .search-box input::placeholder { color:var(--text3); }
+  .chat-item { display:flex; align-items:center; gap:13px; padding:13px 16px; cursor:pointer; transition:background 0.2s; border-bottom:1px solid rgba(255,255,255,0.04); position:relative; }
+  .chat-item:active { background:rgba(255,255,255,0.05); }
+  .chat-item.unread .chat-name { font-weight:700; }
+  .chat-ava { width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,var(--blue),var(--teal)); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:700; flex-shrink:0; position:relative; }
+  .ava-online { position:absolute; bottom:2px; right:2px; width:12px; height:12px; border-radius:50%; background:var(--green); border:2px solid var(--bg); }
+  .chat-info { flex:1; min-width:0; }
+  .chat-name { font-size:16px; font-weight:600; margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .chat-msg { font-size:14px; color:var(--text3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .chat-meta { display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0; }
+  .chat-time { font-size:12px; color:var(--text3); }
+  .chat-unread { background:var(--blue); color:#fff; font-size:11px; font-weight:700; border-radius:10px; padding:2px 6px; min-width:18px; text-align:center; }
+
+  /* Messages view */
+  #chat-view {
+    position:fixed; inset:0; z-index:200; display:none; flex-direction:column;
+    background:linear-gradient(180deg,#000820 0%,#000510 100%);
+    transform:translateX(100%); transition:transform 0.35s cubic-bezier(0.25,1,0.5,1);
+  }
+  #chat-view.open { display:flex; transform:translateX(0); }
+  .cv-header {
+    padding:env(safe-area-inset-top,0) 12px 10px; padding-top:max(env(safe-area-inset-top),48px);
+    background:rgba(0,8,32,0.9); backdrop-filter:blur(20px); border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:10px; flex-shrink:0;
+  }
+  .cv-back { width:36px; height:36px; border-radius:50%; background:var(--btn-bg); border:1px solid var(--btn-border); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+  .cv-info { flex:1; display:flex; align-items:center; gap:10px; cursor:pointer; }
+  .cv-ava { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--blue),var(--teal)); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; flex-shrink:0; }
+  .cv-name { font-size:16px; font-weight:700; }
+  .cv-status { font-size:12px; color:var(--green); }
+  .cv-actions { display:flex; gap:8px; }
+  .cv-action { width:36px; height:36px; border-radius:50%; background:var(--btn-bg); border:1px solid var(--btn-border); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s; }
+  .cv-action:active { transform:scale(0.9); background:rgba(255,255,255,0.18); }
+  .cv-msgs { flex:1; overflow-y:auto; padding:16px 14px; display:flex; flex-direction:column; gap:8px; }
+  .msg { display:flex; flex-direction:column; max-width:78%; animation:msgIn 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes msgIn { from{opacity:0;transform:scale(0.8) translateY(10px);} to{opacity:1;transform:scale(1);} }
+  .msg.out { align-self:flex-end; align-items:flex-end; }
+  .msg.in { align-self:flex-start; }
+  .msg-bubble { padding:10px 14px; border-radius:18px; font-size:15px; line-height:1.45; word-break:break-word; }
+  .msg.out .msg-bubble { background:linear-gradient(135deg,#007AFF,#0A60CC); border-bottom-right-radius:5px; }
+  .msg.in .msg-bubble { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.08); border-bottom-left-radius:5px; }
+  .msg-time { font-size:11px; color:var(--text3); margin-top:3px; padding:0 4px; }
+  .msg-img { max-width:220px; border-radius:14px; overflow:hidden; cursor:pointer; }
+  .msg-img img { width:100%; display:block; }
+  .msg-file { display:flex; align-items:center; gap:10px; padding:10px 14px; background:rgba(255,255,255,0.08); border-radius:14px; }
+  .msg-file-icon { font-size:28px; }
+  .msg-file-info { flex:1; }
+  .msg-file-name { font-size:13px; font-weight:600; }
+  .msg-file-size { font-size:11px; color:var(--text3); }
+  .msg-location { display:flex; align-items:center; gap:8px; padding:10px 14px; background:rgba(0,122,255,0.15); border:1px solid rgba(0,122,255,0.3); border-radius:14px; }
+
+  /* Input bar */
+  .cv-input-wrap { padding:10px 12px; padding-bottom:max(env(safe-area-inset-bottom),12px); background:rgba(0,8,32,0.9); backdrop-filter:blur(20px); border-top:1px solid var(--border); flex-shrink:0; }
+  .cv-attach-row { display:flex; gap:10px; padding:8px 0; overflow-x:auto; scrollbar-width:none; }
+  .cv-attach-row::-webkit-scrollbar { display:none; }
+  .cv-attach-row.hidden { display:none; }
+  .attach-btn { display:flex; flex-direction:column; align-items:center; gap:5px; min-width:60px; cursor:pointer; }
+  .attach-btn-icon { width:48px; height:48px; border-radius:14px; background:var(--btn-bg); border:1px solid var(--btn-border); display:flex; align-items:center; justify-content:center; font-size:22px; transition:all 0.2s; }
+  .attach-btn-icon:active { transform:scale(0.92); background:rgba(255,255,255,0.18); }
+  .attach-btn-label { font-size:10px; color:var(--text3); white-space:nowrap; }
+  .cv-input-row { display:flex; align-items:center; gap:10px; }
+  .cv-attach-toggle { width:36px; height:36px; border-radius:50%; background:var(--btn-bg); border:1px solid var(--btn-border); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:20px; flex-shrink:0; transition:all 0.2s; }
+  .cv-attach-toggle:active { transform:scale(0.9); }
+  .cv-input-box { flex:1; background:rgba(255,255,255,0.07); border:1px solid var(--border); border-radius:22px; padding:10px 16px; color:#fff; font-size:15px; outline:none; max-height:120px; overflow-y:auto; transition:border 0.3s; }
+  .cv-input-box:focus { border-color:rgba(0,122,255,0.5); }
+  .cv-input-box[contenteditable]:empty::before { content:attr(data-placeholder); color:var(--text3); }
+  .cv-send { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,#007AFF,#32D4C8); display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 20px rgba(0,122,255,0.4); flex-shrink:0; transition:all 0.2s; }
+  .cv-send:active { transform:scale(0.9); }
+  .cv-mic { width:38px; height:38px; border-radius:50%; background:var(--btn-bg); border:1px solid var(--btn-border); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; }
+
+  /* Calls page */
+  .calls-empty { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:40px; }
+  .calls-empty-icon { width:80px; height:80px; border-radius:50%; background:rgba(0,122,255,0.1); border:2px solid rgba(0,122,255,0.2); display:flex; align-items:center; justify-content:center; font-size:36px; }
+  .calls-empty-text { font-size:17px; font-weight:600; text-align:center; }
+  .calls-empty-sub { font-size:14px; color:var(--text3); text-align:center; }
+  .call-item { display:flex; align-items:center; gap:13px; padding:13px 16px; border-bottom:1px solid rgba(255,255,255,0.04); }
+  .call-ava { width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,var(--blue),var(--purple)); display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; flex-shrink:0; }
+  .call-info { flex:1; }
+  .call-name { font-size:16px; font-weight:600; margin-bottom:3px; }
+  .call-sub { font-size:13px; display:flex; align-items:center; gap:5px; }
+  .call-in { color:var(--green); }
+  .call-out { color:var(--blue2); }
+  .call-miss { color:var(--red); }
+  .call-actions { display:flex; gap:8px; }
+  .call-btn { width:36px; height:36px; border-radius:50%; background:rgba(0,122,255,0.15); border:1px solid rgba(0,122,255,0.3); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s; }
+  .call-btn:active { transform:scale(0.9); }
+  .call-new-btn { margin:16px; padding:15px; background:linear-gradient(135deg,rgba(0,122,255,0.15),rgba(50,212,200,0.1)); border:1px solid rgba(0,122,255,0.3); border-radius:16px; display:flex; align-items:center; gap:12px; cursor:pointer; transition:all 0.2s; }
+  .call-new-btn:active { transform:scale(0.98); }
+  .call-new-icon { width:44px; height:44px; border-radius:14px; background:linear-gradient(135deg,#007AFF,#32D4C8); display:flex; align-items:center; justify-content:center; font-size:20px; }
+
+  /* Communities */
+  .community-item { margin:12px 16px; background:var(--card2); border:1px solid var(--border); border-radius:18px; overflow:hidden; cursor:pointer; transition:all 0.2s; }
+  .community-item:active { transform:scale(0.98); }
+  .community-banner { height:90px; background:linear-gradient(135deg,#007AFF,#32D4C8,#BF5AF2); position:relative; overflow:hidden; }
+  .community-banner::after { content:''; position:absolute; inset:0; background:linear-gradient(transparent,rgba(0,0,0,0.4)); }
+  .community-info { padding:14px; }
+  .community-name { font-size:16px; font-weight:700; margin-bottom:4px; }
+  .community-desc { font-size:13px; color:var(--text3); margin-bottom:10px; }
+  .community-join { padding:9px 18px; background:linear-gradient(135deg,rgba(0,122,255,0.2),rgba(50,212,200,0.1)); border:1px solid rgba(0,122,255,0.4); border-radius:10px; color:var(--blue2); font-size:14px; font-weight:600; display:inline-flex; align-items:center; gap:6px; }
+
+  /* Settings */
+  .settings-profile { margin:16px; background:var(--card2); border:1px solid var(--border); border-radius:18px; padding:18px; display:flex; align-items:center; gap:14px; cursor:pointer; transition:all 0.2s; }
+  .settings-profile:active { transform:scale(0.98); }
+  .profile-ava-wrap { position:relative; }
+  .profile-ava { width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,#007AFF,#32D4C8); display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:700; }
+  .profile-ava-edit { position:absolute; bottom:0; right:0; width:22px; height:22px; border-radius:50%; background:var(--blue); border:2px solid var(--bg3); display:flex; align-items:center; justify-content:center; font-size:11px; }
+  .profile-name { font-size:18px; font-weight:700; margin-bottom:3px; }
+  .profile-info { font-size:13px; color:var(--text3); }
+  .settings-section { margin:8px 16px 0; }
+  .settings-section-title { font-size:12px; font-weight:600; color:var(--text3); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; padding:0 4px; }
+  .settings-group { background:var(--card2); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
+  .settings-row { display:flex; align-items:center; gap:13px; padding:14px 16px; border-bottom:1px solid rgba(255,255,255,0.05); cursor:pointer; transition:background 0.2s; }
+  .settings-row:last-child { border:none; }
+  .settings-row:active { background:rgba(255,255,255,0.05); }
+  .settings-row-icon { width:32px; height:32px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+  .settings-row-label { flex:1; font-size:15px; font-weight:500; }
+  .settings-row-sub { font-size:13px; color:var(--text3); }
+  .settings-row-arrow { color:var(--text3); font-size:14px; }
+  .settings-support { margin:16px; padding:16px; background:rgba(0,122,255,0.08); border:1px solid rgba(0,122,255,0.2); border-radius:16px; }
+  .settings-support-title { font-size:14px; font-weight:700; color:var(--blue2); margin-bottom:8px; }
+  .settings-support-item { display:flex; align-items:center; gap:10px; padding:8px 0; }
+  .settings-support-item a { color:var(--text2); font-size:14px; text-decoration:none; }
+  .settings-ver { text-align:center; padding:20px; font-size:12px; color:var(--text3); }
+
+  /* Edit profile sheet */
+  .sheet {
+    position:fixed; inset:0; z-index:300; display:none;
+    background:rgba(0,0,0,0.7); backdrop-filter:blur(10px);
+  }
+  .sheet.open { display:flex; align-items:flex-end; }
+  .sheet-inner {
+    width:100%; max-height:90vh; overflow-y:auto;
+    background:rgba(18,18,30,0.98); border-radius:24px 24px 0 0;
+    padding:16px 20px 40px;
+    animation:sheetUp 0.35s cubic-bezier(0.25,1,0.5,1);
+  }
+  @keyframes sheetUp { from{transform:translateY(100%);} to{transform:translateY(0);} }
+  .sheet-handle { width:40px; height:4px; background:rgba(255,255,255,0.2); border-radius:2px; margin:0 auto 18px; }
+  .sheet-title { font-size:18px; font-weight:700; margin-bottom:20px; }
+  .sheet-field { margin-bottom:14px; }
+  .sheet-label { font-size:12px; color:var(--text3); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px; }
+  .sheet-input { width:100%; background:rgba(255,255,255,0.06); border:1px solid var(--border); border-radius:12px; padding:12px 14px; color:#fff; font-size:15px; outline:none; transition:border 0.3s; }
+  .sheet-input:focus { border-color:var(--blue); }
+  .sheet-save { width:100%; padding:15px; background:linear-gradient(135deg,#007AFF,#32D4C8); border:none; border-radius:14px; color:#fff; font-size:16px; font-weight:700; cursor:pointer; margin-top:8px; }
+  .sheet-cancel { width:100%; padding:13px; background:rgba(255,255,255,0.06); border:1px solid var(--border); border-radius:14px; color:#fff; font-size:15px; cursor:pointer; margin-top:8px; }
+
+  /* Language sheet */
+  .lang-opt { display:flex; align-items:center; gap:12px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.06); cursor:pointer; transition:background 0.2s; }
+  .lang-opt:last-child { border:none; }
+  .lang-flag { font-size:24px; }
+  .lang-name { flex:1; font-size:16px; font-weight:500; }
+  .lang-check { font-size:16px; color:var(--blue2); display:none; }
+  .lang-opt.active .lang-check { display:block; }
+
+  /* Video call overlay */
+  #call-overlay {
+    position:fixed; inset:0; z-index:1000; display:none; flex-direction:column;
+    background:linear-gradient(145deg,#000820,#001a40);
+  }
+  #call-overlay.open { display:flex; }
+  .call-overlay-bg { position:absolute; inset:0; background:radial-gradient(ellipse at 30% 40%,rgba(0,122,255,0.3) 0%,transparent 60%),radial-gradient(ellipse at 70% 60%,rgba(50,212,200,0.2) 0%,transparent 50%); animation:callBg 4s ease-in-out infinite alternate; }
+  @keyframes callBg { from{opacity:0.6;} to{opacity:1;} }
+  .call-overlay-content { position:relative; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; }
+  .call-ava-big { width:110px; height:110px; border-radius:50%; background:linear-gradient(135deg,#007AFF,#32D4C8); display:flex; align-items:center; justify-content:center; font-size:44px; font-weight:700; box-shadow:0 0 60px rgba(0,122,255,0.5); animation:callPulse 1.5s ease infinite; }
+  @keyframes callPulse { 0%,100%{box-shadow:0 0 60px rgba(0,122,255,0.5);} 50%{box-shadow:0 0 100px rgba(0,122,255,0.8),0 0 160px rgba(50,212,200,0.4);} }
+  .call-overlay-name { font-size:26px; font-weight:800; }
+  .call-overlay-status { font-size:15px; color:rgba(255,255,255,0.6); }
+  .call-overlay-timer { font-size:22px; font-weight:300; color:var(--teal); font-variant-numeric:tabular-nums; display:none; }
+  .call-btns { display:flex; gap:20px; justify-content:center; padding:40px 20px; }
+  .call-btn-big { width:70px; height:70px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:26px; cursor:pointer; transition:all 0.2s; }
+  .call-btn-big:active { transform:scale(0.92); }
+  .call-end { background:#FF453A; box-shadow:0 8px 30px rgba(255,69,58,0.5); }
+  .call-mute { background:rgba(255,255,255,0.2); }
+  .call-video { background:rgba(0,122,255,0.3); border:1px solid rgba(0,122,255,0.5); }
+  .call-spk { background:rgba(255,255,255,0.1); }
+
+  /* Add contact */
+  #add-contact {
+    position:fixed; inset:0; z-index:250; display:none; flex-direction:column;
+    background:linear-gradient(180deg,#000820,#000510);
+    transform:translateX(100%); transition:transform 0.35s cubic-bezier(0.25,1,0.5,1);
+  }
+  #add-contact.open { display:flex; transform:translateX(0); }
+  .ac-header { padding:max(env(safe-area-inset-top),48px) 16px 12px; display:flex; align-items:center; gap:12px; border-bottom:1px solid var(--border); background:rgba(0,8,32,0.9); backdrop-filter:blur(20px); flex-shrink:0; }
+  .ac-body { flex:1; padding:20px 16px; overflow-y:auto; }
+  .ac-result { background:var(--card2); border:1px solid var(--border); border-radius:16px; padding:16px; margin-top:16px; display:flex; align-items:center; gap:14px; display:none; }
+  .ac-result.show { display:flex; }
+
+  /* New group */
+  #new-group { position:fixed; inset:0; z-index:250; display:none; flex-direction:column; background:var(--bg2); transform:translateX(100%); transition:transform 0.35s; }
+  #new-group.open { display:flex; transform:translateX(0); }
+
+  /* Particles */
+  .particles { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+  .particle { position:absolute; border-radius:50%; animation:particleFloat linear infinite; }
+  @keyframes particleFloat { 0%{transform:translateY(100vh) scale(0); opacity:0;} 10%{opacity:1;} 90%{opacity:1;} 100%{transform:translateY(-100px) scale(1); opacity:0;} }
+
+  /* Ripple */
+  .ripple { position:absolute; border-radius:50%; background:rgba(255,255,255,0.2); transform:scale(0); animation:rippleAnim 0.6s ease; pointer-events:none; }
+  @keyframes rippleAnim { to{transform:scale(4); opacity:0;} }
+
+  /* Page section title */
+  .page-section-title { padding:20px 16px 8px; font-size:22px; font-weight:800; letter-spacing:-0.5px; }
+
+  /* Float btn */
+  .fab { position:fixed; right:20px; bottom:calc(var(--tab-height) + 20px); width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,#007AFF,#32D4C8); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 30px rgba(0,122,255,0.5); cursor:pointer; z-index:50; transition:all 0.2s; }
+  .fab:active { transform:scale(0.92); }
+  .fab svg { width:24px; height:24px; }
+
+  /* Toast */
+  #toast { position:fixed; bottom:calc(var(--tab-height) + 80px); left:50%; transform:translateX(-50%) translateY(20px); background:rgba(30,30,50,0.95); border:1px solid var(--border); border-radius:14px; padding:12px 20px; font-size:14px; color:#fff; z-index:2000; opacity:0; transition:all 0.3s; pointer-events:none; white-space:nowrap; }
+  #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+  @media (min-width:600px) {
+    #app { max-width:480px; margin:0 auto; border-left:1px solid var(--border); border-right:1px solid var(--border); }
+    #chat-view, #add-contact, #new-group, #call-overlay { max-width:480px; left:50%; transform:translateX(-50%) translateX(100%); right:auto; width:480px; }
+    #chat-view.open, #add-contact.open, #new-group.open { transform:translateX(-50%); }
+    #call-overlay.open { transform:translateX(-50%); left:50%; }
+    #auth { max-width:480px; left:50%; transform:translateX(-50%); right:auto; width:480px; }
+    #splash { background:linear-gradient(145deg,#000410,#001a3a,#00306a,#004fa0); }
+  }
+  @media (min-width:900px) {
+    body { background:var(--bg2); }
+    #app { max-width:420px; border-radius:40px; top:20px; bottom:20px; height:auto; border:1px solid rgba(255,255,255,0.1); overflow:hidden; box-shadow:0 40px 120px rgba(0,0,0,0.8); }
+    #chat-view, #add-contact, #new-group { max-width:420px; width:420px; border-radius:40px; top:20px; bottom:20px; height:auto; }
+    #call-overlay { max-width:420px; width:420px; border-radius:40px; top:20px; bottom:20px; height:auto; }
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  .pt-safe { padding-top:max(env(safe-area-inset-top),44px); }
+  .scrollbar-hide::-webkit-scrollbar { display:none; }
+  .scrollbar-hide { scrollbar-width:none; }
+  select { appearance:none; -webkit-appearance:none; }
 
-  html { scroll-behavior: smooth; }
+  /* Animated gradient bg */
+  .animated-bg { background:linear-gradient(-45deg,#000410,#001030,#000820,#00143a); background-size:400% 400%; animation:gradientShift 15s ease infinite; }
+  @keyframes gradientShift { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
 
-  body {
-    background: var(--cream);
-    color: var(--ink);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 400;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* ── NAVIGATION ── */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(250,250,247,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 40px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .nav-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.15rem; font-weight: 700;
-    color: var(--accent); letter-spacing: 0.5px;
-  }
-  .nav-links { display: flex; gap: 28px; list-style: none; }
-  .nav-links a {
-    font-size: 0.82rem; font-weight: 500; color: var(--ink-soft);
-    text-decoration: none; letter-spacing: 0.3px;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--accent); }
-  .nav-progress {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem; color: var(--ink-muted);
-    background: var(--warm); padding: 4px 12px; border-radius: 20px;
-    border: 1px solid var(--border);
-  }
-
-  /* ── HERO ── */
-  .hero {
-    min-height: 88vh;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center;
-    padding: 80px 40px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 700px 500px at 20% 80%, rgba(45,80,22,0.06) 0%, transparent 60%),
-      radial-gradient(ellipse 600px 400px at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 60%);
-  }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--warm); border: 1px solid var(--border);
-    padding: 6px 18px; border-radius: 30px;
-    font-size: 0.78rem; font-weight: 500; color: var(--ink-soft);
-    margin-bottom: 36px; letter-spacing: 0.5px;
-  }
-  .hero-badge span { color: var(--gold); font-size: 1rem; }
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.8rem, 6vw, 5rem);
-    font-weight: 900; line-height: 1.08;
-    color: var(--ink); margin-bottom: 20px;
-    letter-spacing: -1px;
-  }
-  .hero h1 em {
-    font-style: italic; color: var(--accent);
-    position: relative;
-  }
-  .hero h1 em::after {
-    content: '';
-    position: absolute; bottom: 2px; left: 0; right: 0;
-    height: 3px; background: var(--gold);
-    border-radius: 2px;
-  }
-  .hero-sub {
-    font-size: 1.15rem; color: var(--ink-soft);
-    max-width: 560px; margin: 0 auto 48px;
-    font-weight: 300;
-  }
-  .hero-stats {
-    display: flex; gap: 48px; justify-content: center;
-    padding: 28px 48px;
-    background: var(--paper); border: 1px solid var(--border);
-    border-radius: 16px;
-    margin-bottom: 40px;
-  }
-  .stat { text-align: center; }
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem; font-weight: 700; color: var(--accent);
-    display: block;
-  }
-  .stat-label { font-size: 0.78rem; color: var(--ink-muted); font-weight: 500; }
-  .hero-cta {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: var(--accent); color: white;
-    padding: 16px 36px; border-radius: 50px;
-    font-size: 0.92rem; font-weight: 600; letter-spacing: 0.3px;
-    text-decoration: none; transition: all 0.25s;
-    box-shadow: 0 4px 20px rgba(45,80,22,0.25);
-  }
-  .hero-cta:hover { background: #1e3a0d; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(45,80,22,0.3); }
-
-  /* ── SECTION WRAPPER ── */
-  .section { padding: 80px 40px; max-width: 1100px; margin: 0 auto; }
-  .section-tag {
-    display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--gold); border-bottom: 2px solid var(--gold);
-    padding-bottom: 2px; margin-bottom: 16px;
-  }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-    font-weight: 700; color: var(--ink);
-    line-height: 1.2; margin-bottom: 16px;
-  }
-  .section-desc { color: var(--ink-soft); font-size: 1rem; max-width: 560px; font-weight: 300; }
-
-  /* ── OVERVIEW CARDS ── */
-  .overview-grid {
-    display: grid; grid-template-columns: repeat(4,1fr); gap: 16px;
-    margin-top: 48px;
-  }
-  .ov-card {
-    background: var(--paper); border: 1px solid var(--border);
-    border-radius: 14px; padding: 28px 22px;
-    transition: all 0.25s;
-  }
-  .ov-card:hover { background: white; box-shadow: 0 8px 30px var(--shadow); transform: translateY(-3px); }
-  .ov-icon { font-size: 1.8rem; margin-bottom: 14px; }
-  .ov-title { font-weight: 600; font-size: 0.9rem; color: var(--ink); margin-bottom: 6px; }
-  .ov-desc { font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; }
-
-  /* ── DIVIDER ── */
-  .divider {
-    height: 1px; background: var(--border);
-    margin: 0 40px;
-  }
-
-  /* ── MONTH TABS ── */
-  .month-tabs {
-    display: flex; gap: 8px; margin-bottom: 40px; flex-wrap: wrap;
-  }
-  .tab-btn {
-    padding: 10px 24px; border-radius: 30px;
-    border: 1.5px solid var(--border);
-    background: var(--paper); color: var(--ink-soft);
-    font-size: 0.85rem; font-weight: 500;
-    cursor: pointer; transition: all 0.2s;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .tab-btn.active {
-    background: var(--accent); border-color: var(--accent);
-    color: white;
-  }
-
-  /* ── WEEK CARD ── */
-  .month-plan { display: none; }
-  .month-plan.active { display: block; }
-  .month-header {
-    background: linear-gradient(135deg, var(--accent), #1e3a0d);
-    color: white; border-radius: 16px;
-    padding: 32px 36px; margin-bottom: 28px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .month-header-left h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem; font-weight: 700; margin-bottom: 8px;
-  }
-  .month-header-left p { font-size: 0.88rem; opacity: 0.8; }
-  .month-score {
-    text-align: center;
-    background: rgba(255,255,255,0.12); border-radius: 12px; padding: 16px 24px;
-  }
-  .month-score span { font-size: 0.75rem; opacity: 0.7; display: block; margin-bottom: 4px; }
-  .month-score strong { font-family: 'Playfair Display', serif; font-size: 1.6rem; }
-
-  .week-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .week-card {
-    background: var(--paper); border: 1px solid var(--border);
-    border-radius: 14px; overflow: hidden;
-    transition: box-shadow 0.2s;
-  }
-  .week-card:hover { box-shadow: 0 6px 24px var(--shadow); }
-  .week-head {
-    background: var(--warm); padding: 16px 22px;
-    display: flex; align-items: center; gap: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-  .week-num {
-    width: 32px; height: 32px; border-radius: 50%;
-    background: var(--accent); color: white;
-    font-size: 0.78rem; font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'DM Mono', monospace; flex-shrink: 0;
-  }
-  .week-head-title { font-weight: 600; font-size: 0.9rem; }
-  .week-head-sub { font-size: 0.75rem; color: var(--ink-muted); }
-  .week-body { padding: 20px 22px; }
-
-  .day-list { list-style: none; }
-  .day-item {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 8px 0; border-bottom: 1px dashed var(--border);
-    font-size: 0.83rem;
-  }
-  .day-item:last-child { border-bottom: none; }
-  .day-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem; color: var(--gold);
-    background: rgba(201,168,76,0.12);
-    padding: 2px 8px; border-radius: 10px;
-    white-space: nowrap; flex-shrink: 0;
-    font-weight: 500; margin-top: 2px;
-  }
-  .day-text { color: var(--ink-soft); line-height: 1.45; }
-  .day-text strong { color: var(--ink); font-weight: 600; }
-
-  .time-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 0.72rem; color: var(--ink-muted);
-    margin-top: 14px;
-    font-family: 'DM Mono', monospace;
-  }
-
-  /* ── SPEAKING SECTION ── */
-  .speaking-wrap {
-    background: var(--paper); border: 1px solid var(--border);
-    border-radius: 20px; padding: 48px;
-    margin-top: 16px;
-  }
-  .speaking-parts { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 40px; }
-  .sp-part {
-    border: 1.5px solid var(--border); border-radius: 14px;
-    padding: 24px; background: white;
-    position: relative; overflow: hidden;
-  }
-  .sp-part::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 4px;
-  }
-  .sp-part.p1::before { background: var(--accent); }
-  .sp-part.p2::before { background: var(--gold); }
-  .sp-part.p3::before { background: var(--blue); }
-  .sp-part h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem; margin-bottom: 8px;
-  }
-  .sp-part .sp-time { font-size: 0.75rem; color: var(--ink-muted); margin-bottom: 16px; font-family: 'DM Mono', monospace; }
-  .sp-list { list-style: none; }
-  .sp-list li { font-size: 0.82rem; color: var(--ink-soft); padding: 5px 0; padding-left: 14px; position: relative; }
-  .sp-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
-
-  .sp-tips {
-    margin-top: 36px; padding: 24px;
-    background: linear-gradient(135deg, rgba(45,80,22,0.06), rgba(201,168,76,0.08));
-    border: 1px solid rgba(45,80,22,0.15); border-radius: 14px;
-  }
-  .sp-tips h4 { font-weight: 600; margin-bottom: 12px; font-size: 0.9rem; }
-  .tip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .tip-item { display: flex; gap: 8px; align-items: flex-start; font-size: 0.82rem; color: var(--ink-soft); }
-  .tip-item::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-
-  /* ── DAILY SCHEDULE ── */
-  .schedule-card {
-    background: var(--paper); border: 1px solid var(--border);
-    border-radius: 16px; overflow: hidden;
-  }
-  .schedule-row {
-    display: grid; grid-template-columns: 100px 60px 1fr;
-    align-items: center; gap: 0;
-    padding: 0; border-bottom: 1px solid var(--border);
-  }
-  .schedule-row:last-child { border-bottom: none; }
-  .schedule-time {
-    padding: 16px 20px;
-    font-family: 'DM Mono', monospace; font-size: 0.8rem;
-    color: var(--ink-muted); background: var(--warm);
-    border-right: 1px solid var(--border);
-    height: 100%; display: flex; align-items: center;
-  }
-  .schedule-icon {
-    padding: 16px 12px; text-align: center; font-size: 1.1rem;
-    background: var(--paper); border-right: 1px solid var(--border);
-    height: 100%; display: flex; align-items: center; justify-content: center;
-  }
-  .schedule-content { padding: 14px 20px; }
-  .schedule-content strong { display: block; font-size: 0.88rem; margin-bottom: 3px; }
-  .schedule-content span { font-size: 0.78rem; color: var(--ink-muted); }
-
-  /* ── VOCAB SECTION ── */
-  .vocab-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 40px; }
-  .vocab-card {
-    background: var(--paper); border: 1px solid var(--border);
-    border-radius: 14px; padding: 24px;
-  }
-  .vocab-card h3 { font-weight: 600; font-size: 0.9rem; margin-bottom: 12px; color: var(--accent); }
-  .vocab-card ul { list-style: none; }
-  .vocab-card li {
-    display: flex; justify-content: space-between;
-    font-size: 0.82rem; padding: 6px 0; border-bottom: 1px dashed var(--border);
-    color: var(--ink-soft);
-  }
-  .vocab-card li:last-child { border-bottom: none; }
-  .vocab-card li strong { color: var(--ink); font-weight: 500; }
-
-  /* ── PROGRESS TRACKER ── */
-  .tracker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
-  .tracker-card {
-    background: var(--paper); border: 1px solid var(--border);
-    border-radius: 14px; padding: 24px;
-  }
-  .tracker-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 18px; }
-  .band-list { list-style: none; }
-  .band-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-  .band-num {
-    width: 36px; height: 36px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'DM Mono', monospace; font-weight: 700; font-size: 0.9rem;
-    flex-shrink: 0;
-  }
-  .band-5 { background: rgba(184,76,59,0.12); color: var(--red); }
-  .band-6 { background: rgba(201,168,76,0.15); color: var(--accent2); }
-  .band-7 { background: rgba(43,76,126,0.12); color: var(--blue); }
-  .band-8 { background: rgba(45,80,22,0.12); color: var(--accent); }
-  .band-bar-wrap { flex: 1; height: 6px; background: var(--warm); border-radius: 3px; overflow: hidden; }
-  .band-bar { height: 100%; border-radius: 3px; }
-  .band-5 .band-bar { background: var(--red); width: 30%; }
-  .band-6 .band-bar { background: var(--gold); width: 55%; }
-  .band-7 .band-bar { background: var(--blue); width: 75%; }
-  .band-8 .band-bar { background: var(--accent); width: 100%; }
-  .band-desc { font-size: 0.78rem; color: var(--ink-muted); }
-
-  /* ── TIPS BOX ── */
-  .tip-box {
-    background: linear-gradient(135deg, rgba(45,80,22,0.05), rgba(201,168,76,0.06));
-    border: 1px solid rgba(45,80,22,0.18); border-radius: 14px;
-    padding: 28px 32px; margin-top: 32px;
-    display: flex; gap: 20px; align-items: flex-start;
-  }
-  .tip-box-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
-  .tip-box-text h4 { font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
-  .tip-box-text p { font-size: 0.83rem; color: var(--ink-soft); line-height: 1.6; }
-
-  /* ── CERTIFICATE SECTION ── */
-  #certificate { padding: 80px 40px; background: var(--warm); }
-  .cert-intro { max-width: 1100px; margin: 0 auto 60px; text-align: center; }
-  .cert-form-wrap {
-    max-width: 600px; margin: 0 auto;
-    background: var(--paper); border: 1px solid var(--border);
-    border-radius: 20px; padding: 40px;
-    box-shadow: 0 8px 40px var(--shadow);
-  }
-  .cert-form-wrap h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem; text-align: center; margin-bottom: 6px;
-  }
-  .cert-form-wrap p { text-align: center; font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 28px; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .form-group { margin-bottom: 16px; }
-  .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); margin-bottom: 6px; letter-spacing: 0.3px; }
-  .form-group input {
-    width: 100%; padding: 11px 16px;
-    border: 1.5px solid var(--border); border-radius: 10px;
-    background: white; color: var(--ink);
-    font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
-    transition: border-color 0.2s; outline: none;
-  }
-  .form-group input:focus { border-color: var(--accent); }
-  .generate-btn {
-    width: 100%; padding: 15px;
-    background: var(--accent); color: white;
-    border: none; border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.92rem; font-weight: 600;
-    cursor: pointer; transition: all 0.25s;
-    margin-top: 8px; letter-spacing: 0.3px;
-  }
-  .generate-btn:hover { background: #1e3a0d; transform: translateY(-1px); }
-
-  /* ── CERTIFICATE ── */
-  #cert-output { display: none; margin-top: 48px; }
-  .certificate {
-    max-width: 900px; margin: 0 auto;
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    box-shadow: 0 20px 80px rgba(26,26,24,0.15);
-    overflow: hidden;
-    position: relative;
-  }
-  .cert-top-bar { height: 6px; background: linear-gradient(90deg, var(--accent), var(--gold), var(--blue)); }
-  .cert-inner {
-    padding: 60px 70px;
-    border: 12px solid transparent;
-    background: 
-      linear-gradient(white, white) padding-box,
-      linear-gradient(135deg, var(--accent), var(--gold), var(--blue), var(--accent)) border-box;
-    margin: 16px;
-    border-radius: 2px;
-    position: relative;
-  }
-  .cert-corner {
-    position: absolute; width: 40px; height: 40px;
-    border-color: var(--gold); border-style: solid;
-  }
-  .cert-corner.tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
-  .cert-corner.tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
-  .cert-corner.bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; }
-  .cert-corner.br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
-  .cert-logo {
-    text-align: center; margin-bottom: 8px;
-    font-family: 'DM Mono', monospace; font-size: 0.7rem;
-    letter-spacing: 4px; text-transform: uppercase; color: var(--ink-muted);
-  }
-  .cert-org {
-    text-align: center; margin-bottom: 36px;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem; font-weight: 700; color: var(--accent);
-    letter-spacing: 1px;
-  }
-  .cert-presents {
-    text-align: center; font-size: 0.8rem; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--ink-muted);
-    margin-bottom: 28px; font-weight: 500;
-  }
-  .cert-title-line {
-    text-align: center; margin-bottom: 40px;
-    padding: 20px;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .cert-title-line h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem; font-weight: 900; color: var(--ink);
-    margin-bottom: 6px;
-  }
-  .cert-title-line p { font-size: 0.82rem; color: var(--ink-muted); letter-spacing: 0.5px; }
-  .cert-to { text-align: center; margin-bottom: 12px; font-size: 0.78rem; color: var(--ink-muted); letter-spacing: 1px; text-transform: uppercase; }
-  .cert-name {
-    text-align: center; margin-bottom: 36px;
-    font-family: 'Playfair Display', serif;
-    font-size: 2.4rem; font-weight: 700; font-style: italic; color: var(--ink);
-    padding-bottom: 12px;
-    border-bottom: 2px solid var(--gold);
-  }
-  .cert-body {
-    text-align: center; color: var(--ink-soft); font-size: 0.9rem;
-    line-height: 1.8; margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto;
-  }
-  .cert-details {
-    display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
-    margin-bottom: 48px;
-  }
-  .cert-detail {
-    text-align: center; padding: 16px;
-    background: var(--cream); border: 1px solid var(--border); border-radius: 8px;
-  }
-  .cert-detail .label { font-size: 0.7rem; color: var(--ink-muted); letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 6px; }
-  .cert-detail .value { font-weight: 700; color: var(--accent); font-size: 1rem; font-family: 'Playfair Display', serif; }
-  .cert-footer {
-    display: grid; grid-template-columns: 1fr 120px 1fr; gap: 20px;
-    align-items: end; margin-top: 20px;
-  }
-  .cert-sig { text-align: center; }
-  .cert-sig .sig-line { height: 1px; background: var(--ink); margin-bottom: 6px; }
-  .cert-sig .sig-name { font-size: 0.75rem; color: var(--ink-soft); font-weight: 500; }
-  .cert-sig .sig-title { font-size: 0.7rem; color: var(--ink-muted); }
-  .cert-seal {
-    width: 90px; height: 90px; border-radius: 50%;
-    background: var(--accent); color: white;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; margin: 0 auto;
-    font-size: 0.55rem; letter-spacing: 1px; text-transform: uppercase;
-    border: 3px solid var(--gold);
-    box-shadow: 0 0 0 2px var(--accent), 0 0 0 5px rgba(201,168,76,0.3);
-    font-weight: 600; padding: 8px;
-    line-height: 1.4;
-  }
-  .cert-seal .seal-star { font-size: 1rem; margin-bottom: 2px; }
-  .cert-id {
-    margin-top: 32px; text-align: center;
-    font-family: 'DM Mono', monospace; font-size: 0.68rem;
-    color: var(--ink-muted); letter-spacing: 1px;
-    padding-top: 16px; border-top: 1px dashed var(--border);
-  }
-  .print-btn {
-    display: block; margin: 32px auto 0;
-    padding: 13px 36px; background: white;
-    border: 1.5px solid var(--border); border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem; font-weight: 500; cursor: pointer;
-    transition: all 0.2s; color: var(--ink);
-  }
-  .print-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: 40px; text-align: center;
-    border-top: 1px solid var(--border);
-    color: var(--ink-muted); font-size: 0.82rem;
-  }
-  footer a { color: var(--accent); text-decoration: none; font-weight: 500; }
-  .powered {
-    margin-top: 12px; font-family: 'DM Mono', monospace;
-    font-size: 0.72rem; letter-spacing: 1px;
-    color: var(--border);
-  }
-  .powered span { color: var(--gold); }
-
-  @media (max-width: 768px) {
-    nav { padding: 12px 20px; }
-    .nav-links { display: none; }
-    .hero { padding: 60px 20px; }
-    .hero-stats { flex-direction: column; gap: 20px; padding: 24px; }
-    .section { padding: 60px 20px; }
-    .overview-grid { grid-template-columns: 1fr 1fr; }
-    .week-grid { grid-template-columns: 1fr; }
-    .speaking-parts { grid-template-columns: 1fr; }
-    .vocab-grid { grid-template-columns: 1fr; }
-    .tracker-grid { grid-template-columns: 1fr; }
-    .form-row { grid-template-columns: 1fr; }
-    .cert-inner { padding: 30px 24px; }
-    .cert-details { grid-template-columns: 1fr; }
-    .cert-footer { grid-template-columns: 1fr; gap: 24px; }
-    .tip-grid { grid-template-columns: 1fr; }
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .section, .hero > * { animation: fadeUp 0.6s ease both; }
+  /* Typing indicator */
+  .typing-dots { display:flex; gap:4px; align-items:center; padding:12px 16px; background:rgba(255,255,255,0.08); border-radius:18px; border-bottom-left-radius:5px; width:fit-content; }
+  .typing-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.5); animation:typingBounce 1.2s ease infinite; }
+  .typing-dot:nth-child(2){animation-delay:0.2s;}
+  .typing-dot:nth-child(3){animation-delay:0.4s;}
+  @keyframes typingBounce { 0%,60%,100%{transform:translateY(0);} 30%{transform:translateY(-6px);} }
 </style>
 </head>
 <body>
 
-<!-- NAVIGATION -->
-<nav>
-  <div class="nav-brand">IELTS 8.0 Academy</div>
-  <ul class="nav-links">
-    <li><a href="#overview">Umumiy</a></li>
-    <li><a href="#plan">Darslik</a></li>
-    <li><a href="#speaking">Speaking</a></li>
-    <li><a href="#vocab">Lug'at</a></li>
-    <li><a href="#certificate">Sertifikat</a></li>
-  </ul>
-  <div class="nav-progress">3 oy → Band 8.0</div>
-</nav>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-badge"><span>★</span> Noldan — IELTS 8.0 gacha — 3 oyda</div>
-  <h1>Ingliz tilini<br><em>professional</em> darajada<br>o'rganing</h1>
-  <p class="hero-sub">Kuniga 2 soat. 3 oy. Tizimli yondashuv. Hech qanday tajriba talab etilmaydi.</p>
-  <div class="hero-stats">
-    <div class="stat"><span class="stat-num">3</span><span class="stat-label">Oy</span></div>
-    <div class="stat"><span class="stat-num">2</span><span class="stat-label">Soat/kun</span></div>
-    <div class="stat"><span class="stat-num">8.0</span><span class="stat-label">Maqsad band</span></div>
-    <div class="stat"><span class="stat-num">4</span><span class="stat-label">Ko'nikma</span></div>
+<!-- SPLASH -->
+<div id="splash">
+  <div class="particles" id="splash-particles"></div>
+  <div class="splash-logo">
+    <svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="26" fill="rgba(255,255,255,0.15)"/><path d="M14 20h28a2 2 0 012 2v14a2 2 0 01-2 2H18l-6 4v-18a2 2 0 012-2z" fill="white"/><circle cx="22" cy="28" r="2.5" fill="#007AFF"/><circle cx="28" cy="28" r="2.5" fill="#007AFF"/><circle cx="34" cy="28" r="2.5" fill="#007AFF"/></svg>
   </div>
-  <a href="#plan" class="hero-cta">📚 Darslikni boshlash</a>
+  <div class="splash-title">Abi-Chats</div>
+  <div class="splash-sub">Toshkent · 2025</div>
+  <div class="splash-bars">
+    <div class="splash-bar"></div><div class="splash-bar"></div><div class="splash-bar"></div><div class="splash-bar"></div><div class="splash-bar"></div>
+  </div>
+  <div class="splash-powered">powered by <span>Abdullokh Bakirov</span></div>
 </div>
 
-<!-- OVERVIEW -->
-<div id="overview">
-<div class="divider"></div>
-<div class="section">
-  <span class="section-tag">01 — Umumiy ma'lumot</span>
-  <h2 class="section-title">IELTS nima va nima kerak?</h2>
-  <p class="section-desc">IELTS 4 ta ko'nikmani tekshiradi. Har birini alohida o'rganamiz.</p>
-  <div class="overview-grid">
-    <div class="ov-card">
-      <div class="ov-icon">👂</div>
-      <div class="ov-title">Listening</div>
-      <div class="ov-desc">Audio eshitib savollarga javob berish. Accent va tezlikka moslashish kerak.</div>
+<!-- AUTH -->
+<div id="auth" class="animated-bg">
+  <div class="auth-wrap">
+    <div class="auth-logo">
+      <svg viewBox="0 0 56 56" fill="none"><path d="M10 18h36a2 2 0 012 2v18a2 2 0 01-2 2H14l-8 5V20a2 2 0 012-2z" fill="white"/><circle cx="20" cy="28" r="3" fill="#007AFF"/><circle cx="28" cy="28" r="3" fill="#007AFF"/><circle cx="36" cy="28" r="3" fill="#007AFF"/></svg>
     </div>
-    <div class="ov-card">
-      <div class="ov-icon">📖</div>
-      <div class="ov-title">Reading</div>
-      <div class="ov-desc">Uzun akademik matnlardan ma'lumot topish. Tezlik va aniqlik muhim.</div>
+    <div class="auth-title">Abi-Chats</div>
+    <div class="auth-sub">Toshkent uslubida zamonaviy chat</div>
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Kirish</div>
+      <div class="auth-tab" id="tab-reg" onclick="switchAuthTab('reg')">Ro'yxat</div>
+      <div class="auth-tab" id="tab-admin" onclick="switchAuthTab('admin')">Admin</div>
     </div>
-    <div class="ov-card">
-      <div class="ov-icon">✍️</div>
-      <div class="ov-title">Writing</div>
-      <div class="ov-desc">Task 1 (grafik/jadval) va Task 2 (esse). Akademik uslub talab qilinadi.</div>
+    <div id="form-login" class="auth-form">
+      <input class="auth-input" id="login-id" placeholder="Tel, pochta yoki psevdonim" type="text">
+      <input class="auth-input" id="login-pass" placeholder="Parol" type="password">
+      <div class="auth-err" id="login-err">Noto'g'ri ma'lumot!</div>
+      <button class="auth-btn" onclick="doLogin()">Kirish →</button>
     </div>
-    <div class="ov-card">
-      <div class="ov-icon">🗣️</div>
-      <div class="ov-title">Speaking</div>
-      <div class="ov-desc">3 qismdan iborat suhbat. Ravonlik, grammatika va talaffuz baholanadi.</div>
+    <div id="form-reg" class="auth-form" style="display:none">
+      <input class="auth-input" id="reg-name" placeholder="Ism (ixtiyoriy)" type="text">
+      <input class="auth-input" id="reg-id" placeholder="Tel raqam yoki psevdonim" type="text">
+      <input class="auth-input" id="reg-email" placeholder="Email (ixtiyoriy)" type="email">
+      <input class="auth-input" id="reg-pass" placeholder="Parol yarating" type="password">
+      <div class="auth-err" id="reg-err">Bu foydalanuvchi mavjud!</div>
+      <button class="auth-btn" onclick="doRegister()">Ro'yxatdan o'tish →</button>
     </div>
-  </div>
-
-  <div class="tip-box" style="margin-top:40px">
-    <div class="tip-box-icon">💡</div>
-    <div class="tip-box-text">
-      <h4>Band 8.0 uchun nimaga erishish kerak?</h4>
-      <p>Listening: 89%+ to'g'ri (39/40) · Reading: 85%+ · Writing: Task 1 — 8.0, Task 2 — 8.0 · Speaking: Natural, ravon, kamdan-kam xato. Har kuni 2 soat ishlasangiz, 3 oyda bu realdir.</p>
+    <div id="form-admin" class="auth-form" style="display:none">
+      <input class="auth-input" id="admin-pass" placeholder="Admin parol" type="password">
+      <div class="auth-err" id="admin-err">Noto'g'ri parol!</div>
+      <button class="auth-btn" onclick="doAdmin()">Admin kirish →</button>
     </div>
-  </div>
-</div>
-</div>
-
-<!-- PLAN -->
-<div id="plan">
-<div class="divider"></div>
-<div class="section">
-  <span class="section-tag">02 — 3 Oylik reja</span>
-  <h2 class="section-title">Haftalik o'quv rejasi</h2>
-  <p class="section-desc">Har oy alohida focus. Oxiriga borib barcha ko'nikmalar birlashadi.</p>
-
-  <div class="month-tabs" style="margin-top:36px">
-    <button class="tab-btn active" onclick="showMonth(1)">📘 1-OY: Asos</button>
-    <button class="tab-btn" onclick="showMonth(2)">📗 2-OY: Rivojlantirish</button>
-    <button class="tab-btn" onclick="showMonth(3)">📕 3-OY: Tayyorlanish</button>
-  </div>
-
-  <!-- MONTH 1 -->
-  <div class="month-plan active" id="m1">
-    <div class="month-header">
-      <div class="month-header-left">
-        <h2>1-Oy: Poydevor</h2>
-        <p>Asosiy grammatika · Kunlik lug'at · Listening boshlash · Oddiy gapirishni mashq qilish</p>
-      </div>
-      <div class="month-score"><span>Maqsad</span><strong>5.5–6.0</strong></div>
-    </div>
-    <div class="week-grid">
-      <!-- W1 -->
-      <div class="week-card">
-        <div class="week-head">
-          <div class="week-num">W1</div>
-          <div><div class="week-head-title">Grammatika asoslari</div><div class="week-head-sub">Tenses + Basic vocabulary</div></div>
-        </div>
-        <div class="week-body">
-          <ul class="day-list">
-            <li class="day-item"><span class="day-label">DU</span><div class="day-text"><strong>Present Simple & Continuous.</strong> 30 ta yangi so'z o'rganish. Quizlet flashcard yasash.</div></li>
-            <li class="day-item"><span class="day-label">SE</span><div class="day-text"><strong>Past Simple & Past Continuous.</strong> BBC Sounds dan 10 daqiqa eshitish.</div></li>
-            <li class="day-item"><span class="day-label">CH</span><div class="day-text"><strong>Future tenses.</strong> Mirror oldida 5 daqiqa o'zingiz haqida gapiring (yozing).</div></li>
-            <li class="day-item"><span class="day-label">PA</span><div class="day-text"><strong>Perfect tenses.</strong> Cambridge IELTS Reading — Section 1 boshlanadi.</div></li>
-            <li class="day-item"><span class="day-label">JU</span><div class="day-text"><strong>Passive voice.</strong> 1 ta IELTS Listening test (Section 1-2).</div></li>
-            <li class="day-item"><span class="day-label">SHA</span><div class="day-text"><strong>Takrorlash + test.</strong> Hafta lug'atini tekshirish (60 ta so'z).</div></li>
-          </ul>
-          <div class="time-badge">⏱ 2 soat/kun · 14 soat jami</div>
-        </div>
-      </div>
-      <!-- W2 -->
-      <div class="week-card">
-        <div class="week-head">
-          <div class="week-num">W2</div>
-          <div><div class="week-head-title">Grammatika II + Listening</div><div class="week-head-sub">Modal verbs + Conditionals</div></div>
-        </div>
-        <div class="week-body">
-          <ul class="day-list">
-            <li class="day-item"><span class="day-label">DU</span><div class="day-text"><strong>Modal verbs.</strong> Can, could, should, must — 20 ta mashq gaplar.</div></li>
-            <li class="day-item"><span class="day-label">SE</span><div class="day-text"><strong>If clauses (Type 1-2).</strong> Listening Section 1-2 — Cambridge 15.</div></li>
-            <li class="day-item"><span class="day-label">CH</span><div class="day-text"><strong>Articles (a/an/the).</strong> Ko'p xato sohasi — 30 ta mashq.</div></li>
-            <li class="day-item"><span class="day-label">PA</span><div class="day-text"><strong>Prepositions.</strong> in/on/at/by — kontekstda o'rganish. Reading Section 2.</div></li>
-            <li class="day-item"><span class="day-label">JU</span><div class="day-text"><strong>Conjunctions.</strong> however, therefore, although — esse uchun zarur.</div></li>
-            <li class="day-item"><span class="day-label">SHA</span><div class="day-text"><strong>Mock test:</strong> Listening + Reading. Xatolarni tahlil qilish.</div></li>
-          </ul>
-          <div class="time-badge">⏱ 2 soat/kun · 14 soat jami</div>
-        </div>
-      </div>
-      <!-- W3 -->
-      <div class="week-card">
-        <div class="week-head">
-          <div class="week-num">W3</div>
-          <div><div class="week-head-title">Writing & Speaking kirish</div><div class="week-head-sub">Task 1 grafik · Part 1 suhbat</div></div>
-        </div>
-        <div class="week-body">
-          <ul class="day-list">
-            <li class="day-item"><span class="day-label">DU</span><div class="day-text"><strong>Writing Task 1 tuzilishi.</strong> Introduction + Overview qanday yoziladi.</div></li>
-            <li class="day-item"><span class="day-label">SE</span><div class="day-text"><strong>Bar chart tavsifi.</strong> "The chart shows..." iboralar seti.</div></li>
-            <li class="day-item"><span class="day-label">CH</span><div class="day-text"><strong>Speaking Part 1.</strong> Ism, manzil, ish — oddiy savollarga javob.</div></li>
-            <li class="day-item"><span class="day-label">PA</span><div class="day-text"><strong>Line graph.</strong> Trend so'zlari: rise, fall, plateau, fluctuate.</div></li>
-            <li class="day-item"><span class="day-label">JU</span><div class="day-text"><strong>Speaking Part 1 Amaliyot.</strong> Recorder bilan o'zingizni yozing, tinglang.</div></li>
-            <li class="day-item"><span class="day-label">SHA</span><div class="day-text"><strong>Task 1 yozing + Speaking yozuvingizni tinglang.</strong> Kamchilikni toping.</div></li>
-          </ul>
-          <div class="time-badge">⏱ 2 soat/kun · 14 soat jami</div>
-        </div>
-      </div>
-      <!-- W4 -->
-      <div class="week-card">
-        <div class="week-head">
-          <div class="week-num">W4</div>
-          <div><div class="week-head-title">1-Oy Mock + Takror</div><div class="week-head-sub">To'liq test + Tahlil</div></div>
-        </div>
-        <div class="week-body">
-          <ul class="day-list">
-            <li class="day-item"><span class="day-label">DU</span><div class="day-text"><strong>Lug'at takrorlash.</strong> 240 ta so'zdan test. Zaif joylarni topish.</div></li>
-            <li class="day-item"><span class="day-label">SE</span><div class="day-text"><strong>Grammatika takrorlash.</strong> Tenses, modals, conditionals — 50 ta mashq.</div></li>
-            <li class="day-item"><span class="day-label">CH</span><div class="day-text"><strong>To'liq Mock Test 1.</strong> L+R+W (Speaking keyinroq).</div></li>
-            <li class="day-item"><span class="day-label">PA</span><div class="day-text"><strong>Mock test tahlili.</strong> Har bir xatoni tushunish — qayta o'rganish.</div></li>
-            <li class="day-item"><span class="day-label">JU</span><div class="day-text"><strong>2-oy uchun reja.</strong> Zaif tomonlaringizni belgilang. Maqsad: 6.5-7.0.</div></li>
-            <li class="day-item"><span class="day-label">SHA</span><div class="day-text"><strong>Dam olish + ingliz serial ko'rish.</strong> (Subtitles bilan — passive input).</div></li>
-          </ul>
-          <div class="time-badge">⏱ 2 soat/kun · 14 soat jami</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MONTH 2 -->
-  <div class="month-plan" id="m2">
-    <div class="month-header">
-      <div class="month-header-left">
-        <h2>2-Oy: Rivojlantirish</h2>
-        <p>Advanced grammatika · Academic vocabulary · Writing Task 2 · Speaking fluency</p>
-      </div>
-      <div class="month-score"><span>Maqsad</span><strong>6.5–7.5</strong></div>
-    </div>
-    <div class="week-grid">
-      <div class="week-card">
-        <div class="week-head">
-          <div class="week-num">W5</div>
-          <div><div class="week-head-title">Advanced Grammar</div><div class="week-head-sub">Complex sentences · Relative clauses</div></div>
-        </div>
-        <div class="week-body">
-          <ul class="day-list">
-            <li class="day-item"><span class="day-label">DU</span><div class="day-text"><strong>Relative clauses.</strong> which, who, that — bu IELTS Writing uchun zarur.</div></li>
-            <li class="day-item"><span class="day-label">SE</span><div class="day-text"><strong>Participle clauses.</strong> "Having studied..." — Band 7+ grammatikasi.</div></li>
-            <li class="day-item"><span class="day-label">CH</span><div class="day-text"><strong>Cleft sentences.</strong> "What I believe is..." — Academic uslub.</div></li>
-            <li class="day-item"><span class="day-label">PA</span><div class="day-text"><strong>Inversion.</strong> "Not only did he..." — Examiner'ni taassurlantiradi.</div></li>
-            <li class="day-item"><span class="day-label">JU</span><div class="day-text"><strong>Reported speech.</strong> Listening + Academic reading combo.</div></li>
-            <li class="day-item"><span class="day-label">SHA</span><div class="day-text"><strong>Grammar amaliyoti:</strong> 5 ta murakkab gap tuzing — har bir grammatik tuzilma bilan.</div></li>
-          </ul>
-          <div class="time-badge">⏱ 2 soat/kun · 14 soat jami</div>
-        </div>
-      </div>
-      <div class="week-card">
-        <div class="week-head">
-          <div class="week-num">W6</div>
-          <div><div class="week-head-title">Writing Task 2 — Esse</div><div class="week-head-sub">Opinion · Discussion · Problem-Solution</div></div>
-        </div>
-        <div class="week-body">
-          <ul class="day-list">
-            <li class="day-item"><span class="day-label">DU</span><div class="day-text"><strong>Esse tuzilishi.</strong> Intro + 2 body para + Conclusion — formulani ezod qiling.</div></li>
-            <li class="day-item"><span class="day-label">SE</span><div class="day-text"><strong>Opinion Essay yozing.</strong> "Some people think technology... To what extent do you agree?"</div></li>
-            <li class="day-item"><span class="day-label">CH</span><div class="day-text"><strong>Discussion Essay.</strong> Both sides balanced. Band 8 model essay o'qing.</div></li>
-            <li class="day-item"><span class="day-item-label">PA</span><div class="day-text"><strong>Problem-Solution Essay.</strong> Urban traffic, climate, education — mavzular.</div></li>
-            <li class="day-item"><span class="day-label">JU</span><div class="day-text"><strong>Cohesion & Coherence.</strong> Linking words strategiyasi — 40 ta ibora.</div></li>
-            <li class="day-item"><span class="day-label">SHA</span><div class="day-text"><strong>2 ta esse yozing, 250 va 300 so'z.</strong> Vaqt bilan: 40 daqiqa.</div></li>
-          </ul>
-          <div class="time-badge">⏱ 2 soat/kun · 14 soat jami</div>
-        </div>
-      </div>
-      <div class="week-card">
-        <div class="week-head">
-          <div class="week-num">W7</div>
-          <div><div class="week-head-title">Speaking Part 2 & 3</div><div class="week-head-sub">Cue card · Discussion</div></div>
-        </div>
-        <div class="week-body">
-          <ul class="day-list">
-            <li class="day-item"><span class="day-label">DU</span><div class="day-text"><strong>Part 2 tuzilishi.</strong> 1 daqiqa tayyorlash, 2 daqiqa gapirish — strategiya.</div></li>
-            <li class="day-item"><span class="day-label">SE</span><div class="day-text"><strong>Cue card mashqi.</strong> "Describe a person who inspired you" — SPSE usuli bilan.</div></li>
-            <li class="day-item"><span class="day-label">CH</span><div class="day-text"><strong>Part 3 — Abstract savollar.</strong> "Do you think society values...?" — fikr bildirish.</div></li>
-            <li class="day-item"><span class="day-label">PA</span><div class="day-text"><strong>Hesitation fillers.</strong> "That's an interesting question..." — pauzani to'ldirish.</div></li>
-            <li class="day-item"><span class="day-label">JU</span><div class="day-text"><strong>Recorder bilan to'liq mock speaking.</strong> Part 1+2+3 ketma-ket.</div></li>
-            <li class="day-item"><span class="day-label">SHA</span><div class="day-text"><strong>Yozuvingizni tinglang.</strong> Qaerda to'xtadingiz? Grammatika xatolar? Takrorlang.</div></li>
-          </ul>
-          <div class="time-badge">⏱ 2 soat/kun · 14 soat jami</div>
-        </div>
-      </div>
-      <div class="week-card">
-        <div class="week-head">
-          <div class="week-num">W8</div>
-          <div><div class="week-head-title">Reading & Listening Advanced</div><div class="week-head-sub">True/False/NG · Matching · Summary</div></div>
-        </div>
-        <div class="week-body">
-          <ul class="day-list">
-            <li class="day-item"><span class="day-label">DU</span><div class="day-text"><strong>True/False/Not Given.</strong> Eng ko'p xato qilinadigan tur — maxsus strategiya.</div></li>
-            <li class="day-item"><span class="day-label">SE</span><div class="day-text"><strong>Matching Headings.</strong> Paragraf asosiy g'oyasini topish usuli.</div></li>
-            <li class="day-item"><span class="day-label">CH</span><div class="day-text"><strong>Listening Multiple Choice.</strong> Trap so'zlarni aniqlash — distractor usuli.</div></li>
-            <li class="day-item"><span class="day-label">PA</span><div class="day-text"><strong>Summary Completion.</strong> Paraphrase ko'nikmasini rivojlantirish.</div></li>
-            <li class="day-item"><span class="day-label">JU</span><div class="day-text"><strong>To'liq Mock Test 2.</strong> Cambridge 16 dan — barcha 4 ko'nikma.</div></li>
-            <li class="day-item"><span class="day-label">SHA</span><div class="day-text"><strong>Mock tahlili.</strong> Band score hisoblash. 3-oy rejasini tuzatish.</div></li>
-          </ul>
-          <div class="time-badge">⏱ 2 soat/kun · 14 soat jami</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MONTH 3 -->
-  <div class="month-plan" id="m3">
-    <div class="month-header">
-      <div class="month-header-left">
-        <h2>3-Oy: Tayyorlanish</h2>
-        <p>Mock testlar · Xatolarni bartaraf etish · Exam strategiya · Oxirgi silliqlanish</p>
-      </div>
-      <div class="month-score"><span>Maqsad</span><strong>7.5–8.0+</strong></div>
-    </div>
-    <div class="week-grid">
-      <div class="week-card">
-        <div class="week-head">
-          <div class="week-num">W9</div>
-          <div><div class="week-head-title">Writing Band 8 darajasi</div><div class="week-head-sub">Lexical resource · Examiner comments</div></div>
-        </div>
-        <div class="week-body">
-          <ul class="day-list">
-            <li class="day-item"><span class="day-label">DU</span><div class="day-text"><strong>Band 8 model essays tahlil.</strong> Examiners nima izlaydi — rubric bilan.</div></li>
-            <li class="day-item"><span class="day-label">SE</span><div class="day-text"><strong>Lexical resource.</strong> Collocations, idioms, nuanced vocabulary — 50 ta ibora.</div></li>
-            <li class="day-item"><span class="day-label">CH</span><div class="day-text"><strong>Task 1 — Process & Map.</strong> Ko'p uchraydigan, kam tayyorlaniladigan tur.</div></li>
-            <li class="day-item"><span class="day-label">PA</span><div class="day-text"><strong>Timed writing.</strong> Task 1 (20 daqiqa) + Task 2 (40 daqiqa) — raqobat.</div></li>
-            <li class="day-item"><span class="day-label">JU</span><div class="day-text"><strong>Self-assessment.</strong> O'z essengizni rubric bo'yicha baholang.</div></li>
-            <li class="day-item"><span class="day-label">SHA</span><div class="day-text"><strong>Peer review.</strong> Yozgan esseni kimgadir o'qiting. Feedback oling.</div></li>
-          </ul>
-          <div class="time-badge">⏱ 2 soat/kun · 14 soat jami</div>
-        </div>
-      </div>
-      <div class="week-card">
-        <div class="week-head">
-          <div class="week-num">W10</div>
-          <div><div class="week-head-title">Speaking Fluency Sprint</div><div class="week-head-sub">Pronunciation · Intonation · Speed</div></div>
-        </div>
-        <div class="week-body">
-          <ul class="day-list">
-            <li class="day-item"><span class="day-label">DU</span><div class="day-text"><strong>Pronunciation — linked speech.</strong> "want to" → "wanna" — natural inglizcha.</div></li>
-            <li class="day-item"><span class="day-label">SE</span><div class="day-text"><strong>Intonation patterns.</strong> Rising va falling — savol va bayonot farqi.</div></li>
-            <li class="day-item"><span class="day-label">CH</span><div class="day-text"><strong>Shadowing.</strong> TED Talk'dan 2 daqiqa — har bir so'zni takrorlang.</div></li>
-            <li class="day-item"><span class="day-label">PA</span><div class="day-text"><strong>Mock Speaking — full simulation.</strong> Stopwatch bilan, telefon yozuv.</div></li>
-            <li class="day-item"><span class="day-label">JU</span><div class="day-text"><strong>Advanced vocabulary for speaking.</strong> Synonyms, complex phrases, hedging.</div></li>
-            <li class="day-item"><span class="day-label">SHA</span><div class="day-text"><strong>50 ta cue card mavzusida javob yozing</strong> (har biri 2 daqiqa gapiring).</div></li>
-          </ul>
-          <div class="time-badge">⏱ 2 soat/kun · 14 soat jami</div>
-        </div>
-      </div>
-      <div class="week-card">
-        <div class="week-head">
-          <div class="week-num">W11</div>
-          <div><div class="week-head-title">Intensive Mock Testlar</div><div class="week-head-sub">Exam conditions · Band hisoblash</div></div>
-        </div>
-        <div class="week-body">
-          <ul class="day-list">
-            <li class="day-item"><span class="day-label">DU</span><div class="day-text"><strong>Mock Test 3.</strong> Cambridge 17 — real exam sharoitida.</div></li>
-            <li class="day-item"><span class="day-label">SE</span><div class="day-text"><strong>Xatolarni deep dive tahlil.</strong> Har bir xato — nima sababdan?</div></li>
-            <li class="day-item"><span class="day-label">CH</span><div class="day-text"><strong>Mock Test 4.</strong> Cambridge 18 — vaqtni boshqarish ustida ishlash.</div></li>
-            <li class="day-item"><span class="day-label">PA</span><div class="day-text"><strong>Zaif band ishlash.</strong> Eng past ko'rsatkichli ko'nikmaga 2x e'tibor.</div></li>
-            <li class="day-item"><span class="day-label">JU</span><div class="day-text"><strong>Mock Test 5.</strong> British Council namunasi — oxirgi to'liq tekshiruv.</div></li>
-            <li class="day-item"><span class="day-label">SHA</span><div class="day-text"><strong>Natijalar tahlili.</strong> O'rtacha band score hisoblang. Maqsadga erishdingizmi?</div></li>
-          </ul>
-          <div class="time-badge">⏱ 2 soat/kun · 14 soat jami</div>
-        </div>
-      </div>
-      <div class="week-card">
-        <div class="week-head">
-          <div class="week-num">W12</div>
-          <div><div class="week-head-title">Imtihon Oldi Hafta</div><div class="week-head-sub">Silliqlanish · Ruhiy tayyorlik</div></div>
-        </div>
-        <div class="week-body">
-          <ul class="day-list">
-            <li class="day-item"><span class="day-label">DU</span><div class="day-text"><strong>Listening — oxirgi Section 4 sprint.</strong> Akademik mavzular: ekologiya, texnologiya.</div></li>
-            <li class="day-item"><span class="day-label">SE</span><div class="day-text"><strong>Reading — tezlik mashqi.</strong> 3 ta passage × 20 daqiqa.</div></li>
-            <li class="day-item"><span class="day-label">CH</span><div class="day-text"><strong>Writing — timed essе.</strong> 2 ta task, 60 daqiqa, yozuvlar tahlili.</div></li>
-            <li class="day-item"><span class="day-label">PA</span><div class="day-text"><strong>Speaking — final mock.</strong> Part 1+2+3, yozib oling va tinglang.</div></li>
-            <li class="day-item"><span class="day-label">JU</span><div class="day-text"><strong>Hamma material takrorlash.</strong> Lug'at, grammar, essay iboralar.</div></li>
-            <li class="day-item"><span class="day-label">SHA</span><div class="day-text"><strong>Dam oling.</strong> O'zingizga ishoning. 3 oy ish qilingan — siz tayyorsiz! 🎯</div></li>
-          </ul>
-          <div class="time-badge">⏱ 2 soat/kun · 14 soat jami</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- DAILY SCHEDULE -->
-<div class="divider"></div>
-<div class="section">
-  <span class="section-tag">03 — Kunlik jadval</span>
-  <h2 class="section-title">2 soatni qanday taqsimlash kerak?</h2>
-  <p class="section-desc">Har kun shu tartibda ishlasangiz, miya eng yaxshi o'rganadi.</p>
-  <div class="schedule-card" style="margin-top:36px; max-width: 700px">
-    <div class="schedule-row">
-      <div class="schedule-time">20:00–20:30</div>
-      <div class="schedule-icon">👂</div>
-      <div class="schedule-content">
-        <strong>Listening / Reading (30 daqiqa)</strong>
-        <span>1 ta section tinglang yoki o'qing. Javoblarni tekshiring. Xatolarni yozing.</span>
-      </div>
-    </div>
-    <div class="schedule-row">
-      <div class="schedule-time">20:30–21:00</div>
-      <div class="schedule-icon">📚</div>
-      <div class="schedule-content">
-        <strong>Grammatika / Lug'at (30 daqiqa)</strong>
-        <span>Kun mavzusi bo'yicha 20 ta yangi so'z + grammatika mashqi.</span>
-      </div>
-    </div>
-    <div class="schedule-row">
-      <div class="schedule-time">21:00–21:30</div>
-      <div class="schedule-icon">✍️</div>
-      <div class="schedule-content">
-        <strong>Writing (30 daqiqa)</strong>
-        <span>Task 1 yoki Task 2 — galma-galma. Yozgandan keyin o'zingiz tahrirlang.</span>
-      </div>
-    </div>
-    <div class="schedule-row">
-      <div class="schedule-time">21:30–22:00</div>
-      <div class="schedule-icon">🗣️</div>
-      <div class="schedule-content">
-        <strong>Speaking (30 daqiqa)</strong>
-        <span>Mirror yoki recorder bilan 2-3 cue card mashqi. Yozuvingizni tinglang.</span>
-      </div>
-    </div>
-  </div>
-  <div class="tip-box" style="max-width:700px">
-    <div class="tip-box-icon">⚡</div>
-    <div class="tip-box-text">
-      <h4>Bonus: Passive input (qo'shimcha)</h4>
-      <p>Kuniga 20-30 daqiqa inglizcha podcast (BBC 6 Minute English, TED), serial (subtitle bilan) yoki YouTube (kurilsiz) ko'ring. Bu miya uchun "dam olish" bo'lgani holda o'rganish davom etadi.</p>
-    </div>
+    <div style="font-size:11px;color:var(--text3);text-align:center;">🔒 Ma'lumotlaringiz himoyalangan · E2E shifrlash</div>
   </div>
 </div>
 
-<!-- SPEAKING -->
-<div id="speaking">
-<div class="divider"></div>
-<div class="section">
-  <span class="section-tag">04 — Speaking</span>
-  <h2 class="section-title">Speaking — Band 8 strategiyasi</h2>
-  <p class="section-desc">3 qism bor. Har biri alohida yondashuv talab qiladi.</p>
-  <div class="speaking-wrap">
-    <div class="speaking-parts">
-      <div class="sp-part p1">
-        <h3>Part 1</h3>
-        <div class="sp-time">4–5 daqiqa · Oddiy savollar</div>
-        <ul class="sp-list">
-          <li>Ism, yashash joyi, ish/o'qish</li>
-          <li>Sevimli narsalar, rutina, kundalik hayot</li>
-          <li>Qisqa, to'liq javoblar (2-3 gap)</li>
-          <li>Example bering: "I love cooking, especially..."</li>
-          <li>Filler ishlatmang: "umm, like, you know"</li>
-        </ul>
-      </div>
-      <div class="sp-part p2">
-        <h3>Part 2</h3>
-        <div class="sp-time">3–4 daqiqa · Cue Card</div>
-        <ul class="sp-list">
-          <li>1 daqiqa tayyorlaning — 4 bullet yozing</li>
-          <li>2 daqiqa uzluksiz gapiring</li>
-          <li>SPSE: Situation → Problem → Solution → Evaluation</li>
-          <li>Past tense ishlatish ko'p bo'ladi</li>
-          <li>Vaqtni to'ldiring — 2 daqiqa to'liq</li>
-        </ul>
-      </div>
-      <div class="sp-part p3">
-        <h3>Part 3</h3>
-        <div class="sp-time">4–5 daqiqa · Chuqur suhbat</div>
-        <ul class="sp-list">
-          <li>Abstract, jamiyat darajasidagi savollar</li>
-          <li>Fikringizni argue qiling, bir tomonlama emas</li>
-          <li>"It depends on..." — nuanced javob</li>
-          <li>Compare past vs present, local vs global</li>
-          <li>Hedging: "I would argue that..."</li>
-        </ul>
-      </div>
+<!-- ADMIN PANEL -->
+<div id="admin">
+  <div class="admin-header">
+    <div class="admin-title">⚡ Admin Panel</div>
+    <button class="admin-exit" onclick="exitAdmin()">← Chiqish</button>
+  </div>
+  <div class="admin-body">
+    <div class="admin-card">
+      <h3>📊 Statistika</h3>
+      <div class="admin-stat"><span class="admin-stat-label">Jami foydalanuvchilar</span><span class="admin-stat-val" id="stat-users">0</span></div>
+      <div class="admin-stat"><span class="admin-stat-label">Jami xabarlar</span><span class="admin-stat-val" id="stat-msgs">0</span></div>
+      <div class="admin-stat"><span class="admin-stat-label">Faol guruhlar</span><span class="admin-stat-val">2</span></div>
+      <div class="admin-stat"><span class="admin-stat-label">Server holati</span><span class="admin-stat-val" style="color:var(--green)">✓ Ishlaydi</span></div>
     </div>
-    <div class="sp-tips">
-      <h4>🏆 Band 8 Speaking sirrlari</h4>
-      <div class="tip-grid">
-        <div class="tip-item">Uzun, complex gaplar tuzing — relative clauses bilan</div>
-        <div class="tip-item">Advanced leksika: nuanced, elaborate, considerable</div>
-        <div class="tip-item">Pronunciation aniq bo'lsin — aksentingiz muhim emas</div>
-        <div class="tip-item">To'xtab qolsangiz: "That's a thought-provoking question..."</div>
-        <div class="tip-item">Xatolaringizni o'zingiz to'g'irlang — self-correction + mark</div>
-        <div class="tip-item">Natural bo'ling — yodlangan nutq kamayadi</div>
+    <div class="admin-card">
+      <h3>👥 Foydalanuvchilar</h3>
+      <div id="admin-user-list"></div>
+    </div>
+    <div class="admin-card">
+      <h3>⚙️ Tizim</h3>
+      <div class="admin-stat"><span class="admin-stat-label">Versiya</span><span class="admin-stat-val">1.0.0</span></div>
+      <div class="admin-stat"><span class="admin-stat-label">DB</span><span class="admin-stat-val">LocalStorage</span></div>
+      <div class="admin-stat"><span class="admin-stat-label">Encryption</span><span class="admin-stat-val" style="color:var(--teal)">SHA-256</span></div>
+    </div>
+    <div style="padding:16px;text-align:center;font-size:12px;color:var(--text3);">Abi-Chats Admin · powered by Abdullokh Bakirov</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <!-- Header -->
+  <div class="header" id="main-header">
+    <div class="header-cam" onclick="openCamera()" title="Kamera">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><circle cx="12" cy="12" r="3.5"/><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/></svg>
+    </div>
+    <div class="header-title"><span id="header-title-text">Abi-Chats</span></div>
+    <div class="header-more" id="header-more-btn" onclick="toggleCtxMenu()">
+      <svg viewBox="0 0 24 24" fill="white" width="20" height="20"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+      <div class="ctx-menu" id="ctx-menu">
+        <div class="ctx-item" onclick="openNewGroup()"><span class="ctx-icon">👥</span> Yangi guruh</div>
+        <div class="ctx-item" onclick="openAddContact()"><span class="ctx-icon">➕</span> Kontakt qo'shish</div>
+        <div class="ctx-item" onclick="showToast('Yaqinda qo\'shiladi!')"><span class="ctx-icon">📢</span> E'lon</div>
+        <div class="ctx-item" onclick="switchTab('settings')"><span class="ctx-icon">⚙️</span> Sozlamalar</div>
       </div>
     </div>
   </div>
-</div>
-</div>
 
-<!-- VOCABULARY -->
-<div id="vocab">
-<div class="divider"></div>
-<div class="section">
-  <span class="section-tag">05 — Lug'at</span>
-  <h2 class="section-title">IELTS uchun asosiy so'z guruhlari</h2>
-  <p class="section-desc">Kuniga 20 ta so'z o'rganing. 3 oyda 1,800 ta yangi so'z!</p>
-  <div class="vocab-grid">
-    <div class="vocab-card">
-      <h3>📊 Environment</h3>
-      <ul>
-        <li><strong>sustainability</strong> <span>barqarorlik</span></li>
-        <li><strong>deterioration</strong> <span>yomonlashuv</span></li>
-        <li><strong>biodiversity</strong> <span>biologik xilma-xillik</span></li>
-        <li><strong>emissions</strong> <span>chiqindilar</span></li>
-        <li><strong>conservation</strong> <span>muhofaza qilish</span></li>
-        <li><strong>renewable</strong> <span>qayta tiklanadigan</span></li>
-      </ul>
+  <!-- Pages -->
+  <div id="pages">
+    <!-- CHATS PAGE -->
+    <div class="page active scrollbar-hide" id="page-chats">
+      <div class="chat-search">
+        <div class="search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input placeholder="Qidirish..." id="search-input" oninput="filterChats()">
+        </div>
+      </div>
+      <div id="chat-list"></div>
     </div>
-    <div class="vocab-card">
-      <h3>🏙️ Society & Culture</h3>
-      <ul>
-        <li><strong>urbanisation</strong> <span>shaharlashuv</span></li>
-        <li><strong>demographic</strong> <span>demografik</span></li>
-        <li><strong>inequality</strong> <span>tengsizlik</span></li>
-        <li><strong>integration</strong> <span>integratsiya</span></li>
-        <li><strong>indigenous</strong> <span>mahalliy</span></li>
-        <li><strong>cohesion</strong> <span>birlik, hamjihatlik</span></li>
-      </ul>
-    </div>
-    <div class="vocab-card">
-      <h3>💻 Technology</h3>
-      <ul>
-        <li><strong>innovation</strong> <span>yangilik</span></li>
-        <li><strong>automation</strong> <span>avtomatlashtirish</span></li>
-        <li><strong>artificial intelligence</strong> <span>sun'iy intellekt</span></li>
-        <li><strong>infrastructure</strong> <span>infratuzilma</span></li>
-        <li><strong>obsolete</strong> <span>eskirgan</span></li>
-        <li><strong>surveillance</strong> <span>kuzatuv</span></li>
-      </ul>
-    </div>
-    <div class="vocab-card">
-      <h3>🎓 Education</h3>
-      <ul>
-        <li><strong>curriculum</strong> <span>o'quv dasturi</span></li>
-        <li><strong>compulsory</strong> <span>majburiy</span></li>
-        <li><strong>attainment</strong> <span>yutuq, ko'rsatkich</span></li>
-        <li><strong>facilitate</strong> <span>osonlashtirish</span></li>
-        <li><strong>allocate</strong> <span>ajratmoq (resurs)</span></li>
-        <li><strong>comprehensive</strong> <span>keng qamrovli</span></li>
-      </ul>
-    </div>
-    <div class="vocab-card">
-      <h3>💰 Economy</h3>
-      <ul>
-        <li><strong>fluctuation</strong> <span>o'zgarib turish</span></li>
-        <li><strong>inflation</strong> <span>inflyatsiya</span></li>
-        <li><strong>expenditure</strong> <span>xarajat</span></li>
-        <li><strong>prosperity</strong> <span>farovonlik</span></li>
-        <li><strong>deficit</strong> <span>taqchillik</span></li>
-        <li><strong>subsidy</strong> <span>subsidiya</span></li>
-      </ul>
-    </div>
-    <div class="vocab-card">
-      <h3>🔗 Linking Words</h3>
-      <ul>
-        <li><strong>furthermore</strong> <span>bundan tashqari</span></li>
-        <li><strong>nevertheless</strong> <span>shunga qaramay</span></li>
-        <li><strong>consequently</strong> <span>natijada</span></li>
-        <li><strong>whereas</strong> <span>holbuki</span></li>
-        <li><strong>albeit</strong> <span>garchi... bo'lsa ham</span></li>
-        <li><strong>henceforth</strong> <span>bundan buyon</span></li>
-      </ul>
-    </div>
-  </div>
-</div>
-</div>
 
-<!-- PROGRESS -->
-<div class="divider"></div>
-<div class="section">
-  <span class="section-tag">06 — Band darajalar</span>
-  <h2 class="section-title">Band jadvalini tushuning</h2>
-  <div class="tracker-grid">
-    <div class="tracker-card">
-      <div class="tracker-title">📈 Sizning yo'lingiz</div>
-      <ul class="band-list">
-        <li class="band-item">
-          <div class="band-num band-5">5.0</div>
-          <div>
-            <div style="font-size:0.82rem;font-weight:600;margin-bottom:4px">Nol boshlang'ich</div>
-            <div class="band-bar-wrap"><div class="band-bar"></div></div>
+    <!-- COMMUNITIES PAGE -->
+    <div class="page scrollbar-hide" id="page-community">
+      <div class="page-section-title">Hamjamiyatlar</div>
+      <div class="community-item" onclick="showToast('Toshkent Dev ga xush kelibsiz!')">
+        <div class="community-banner" style="background:linear-gradient(135deg,#007AFF,#32D4C8)">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:40px;z-index:1">💻</div>
+        </div>
+        <div class="community-info">
+          <div class="community-name">Toshkent Dev Community</div>
+          <div class="community-desc">O'zbekiston dasturchilarining rasmiy guruhi</div>
+          <div class="community-join">✓ Qo'shilgan · 1.2k a'zo</div>
+        </div>
+      </div>
+      <div class="community-item" onclick="showToast('Xush kelibsiz!')">
+        <div class="community-banner" style="background:linear-gradient(135deg,#FF9F0A,#FF453A)">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:40px;z-index:1">🏙️</div>
+        </div>
+        <div class="community-info">
+          <div class="community-name">Toshkent Shahar</div>
+          <div class="community-desc">Shahar yangiliklari va e'lonlar</div>
+          <div class="community-join">+ Qo'shilish · 8.4k a'zo</div>
+        </div>
+      </div>
+      <div class="community-item" onclick="showToast('Qo\'shildiniz!')">
+        <div class="community-banner" style="background:linear-gradient(135deg,#BF5AF2,#007AFF)">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:40px;z-index:1">🎵</div>
+        </div>
+        <div class="community-info">
+          <div class="community-name">Musiqa & San'at</div>
+          <div class="community-desc">O'zbek musiqasi va madaniyati</div>
+          <div class="community-join">+ Qo'shilish · 3.1k a'zo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALLS PAGE -->
+    <div class="page scrollbar-hide" id="page-calls">
+      <div class="page-section-title">Qo'ng'iroqlar</div>
+      <div class="call-new-btn" onclick="openAddContact()">
+        <div class="call-new-icon">📞</div>
+        <div>
+          <div style="font-size:16px;font-weight:700">Yangi qo'ng'iroq</div>
+          <div style="font-size:13px;color:var(--text3)">Kontakt tanlang</div>
+        </div>
+      </div>
+      <div id="calls-list"></div>
+    </div>
+
+    <!-- SETTINGS PAGE -->
+    <div class="page scrollbar-hide" id="page-settings">
+      <div class="settings-profile" onclick="openEditProfile()">
+        <div class="profile-ava-wrap">
+          <div class="profile-ava" id="profile-ava-main">👤</div>
+          <div class="profile-ava-edit">✏️</div>
+        </div>
+        <div>
+          <div class="profile-name" id="profile-name-display">Foydalanuvchi</div>
+          <div class="profile-info" id="profile-info-display">Ma'lumot yo'q</div>
+        </div>
+        <div style="margin-left:auto;color:var(--text3)">›</div>
+      </div>
+
+      <div class="settings-section" style="margin-top:16px">
+        <div class="settings-section-title">Hisob</div>
+        <div class="settings-group">
+          <div class="settings-row" onclick="openEditProfile()">
+            <div class="settings-row-icon" style="background:rgba(0,122,255,0.2)">📱</div>
+            <div class="settings-row-label">Telefon raqam</div>
+            <div class="settings-row-sub" id="settings-phone">-</div>
+            <div class="settings-row-arrow">›</div>
           </div>
-          <div class="band-desc">1-oy boshi</div>
-        </li>
-        <li class="band-item">
-          <div class="band-num band-6">6.5</div>
-          <div>
-            <div style="font-size:0.82rem;font-weight:600;margin-bottom:4px">Asosiy bilim</div>
-            <div class="band-bar-wrap"><div class="band-bar"></div></div>
+          <div class="settings-row" onclick="openEditProfile()">
+            <div class="settings-row-icon" style="background:rgba(50,212,200,0.2)">📧</div>
+            <div class="settings-row-label">Email</div>
+            <div class="settings-row-sub" id="settings-email">-</div>
+            <div class="settings-row-arrow">›</div>
           </div>
-          <div class="band-desc">1-oy oxiri</div>
-        </li>
-        <li class="band-item">
-          <div class="band-num band-7">7.5</div>
-          <div>
-            <div style="font-size:0.82rem;font-weight:600;margin-bottom:4px">Rivojlangan</div>
-            <div class="band-bar-wrap"><div class="band-bar"></div></div>
+          <div class="settings-row" onclick="openEditProfile()">
+            <div class="settings-row-icon" style="background:rgba(191,90,242,0.2)">ℹ️</div>
+            <div class="settings-row-label">Ma'lumot</div>
+            <div class="settings-row-arrow">›</div>
           </div>
-          <div class="band-desc">2-oy oxiri</div>
-        </li>
-        <li class="band-item">
-          <div class="band-num band-8">8.0+</div>
-          <div>
-            <div style="font-size:0.82rem;font-weight:600;margin-bottom:4px">Maqsad ✓</div>
-            <div class="band-bar-wrap"><div class="band-bar"></div></div>
-          </div>
-          <div class="band-desc">3-oy oxiri</div>
-        </li>
-      </ul>
-    </div>
-    <div class="tracker-card">
-      <div class="tracker-title">✅ Haftalik tekshiruv</div>
-      <ul style="list-style:none">
-        <li style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border);font-size:0.83rem">
-          <span style="color:var(--accent);font-size:1rem">□</span>
-          <span>Haftada 2 ta to'liq Listening test</span>
-        </li>
-        <li style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border);font-size:0.83rem">
-          <span style="color:var(--accent);font-size:1rem">□</span>
-          <span>Haftada 2 ta Reading passage (vaqt bilan)</span>
-        </li>
-        <li style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border);font-size:0.83rem">
-          <span style="color:var(--accent);font-size:1rem">□</span>
-          <span>Haftada 3 ta Writing task (1+2)</span>
-        </li>
-        <li style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border);font-size:0.83rem">
-          <span style="color:var(--accent);font-size:1rem">□</span>
-          <span>Kuniga Speaking yozuv (recorder)</span>
-        </li>
-        <li style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border);font-size:0.83rem">
-          <span style="color:var(--accent);font-size:1rem">□</span>
-          <span>140 ta yangi so'z — Quizlet test</span>
-        </li>
-        <li style="display:flex;gap:10px;align-items:center;padding:8px 0;font-size:0.83rem">
-          <span style="color:var(--accent);font-size:1rem">□</span>
-          <span>Haftalik mock test tahlili</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- CERTIFICATE SECTION -->
-<div id="certificate">
-  <div class="cert-intro">
-    <span class="section-tag" style="color:var(--gold);border-color:var(--gold)">07 — Sertifikat</span>
-    <h2 class="section-title">Kursni tugatganingizni tasdiqlang</h2>
-    <p class="section-desc" style="margin:0 auto">3 oylik kursni muvaffaqiyatli yakunlaganingiz uchun sertifikat oling. Ma'lumotlaringizni kiriting.</p>
-  </div>
-
-  <div class="cert-form-wrap">
-    <h3>Sertifikat Ma'lumotlari</h3>
-    <p>Quyidagi ma'lumotlarni to'ldiring</p>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Familiya</label>
-        <input type="text" id="cert-last" placeholder="Karimov">
-      </div>
-      <div class="form-group">
-        <label>Ism</label>
-        <input type="text" id="cert-first" placeholder="Jasur">
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Otasining ismi (Otechestvo)</label>
-      <input type="text" id="cert-middle" placeholder="Alievich">
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Tug'ilgan sana</label>
-        <input type="date" id="cert-dob">
-      </div>
-      <div class="form-group">
-        <label>Kurs tugagan sana</label>
-        <input type="date" id="cert-end">
-      </div>
-    </div>
-    <button class="generate-btn" onclick="generateCert()">🎓 Sertifikat Yaratish</button>
-  </div>
-
-  <!-- CERTIFICATE OUTPUT -->
-  <div id="cert-output">
-    <div class="certificate" id="cert-doc">
-      <div class="cert-top-bar"></div>
-      <div class="cert-inner">
-        <div class="cert-corner tl"></div>
-        <div class="cert-corner tr"></div>
-        <div class="cert-corner bl"></div>
-        <div class="cert-corner br"></div>
-        <div class="cert-logo">IELTS.GG · OFFICIAL CERTIFICATION BODY</div>
-        <div class="cert-org">IELTS Academy</div>
-        <div class="cert-presents">PRESENTS THIS CERTIFICATE OF COMPLETION TO</div>
-        <div class="cert-to">Abituriyent</div>
-        <div class="cert-name" id="cert-fullname">—</div>
-        <div class="cert-title-line">
-          <h2>IELTS 8.0 Intensive Programme</h2>
-          <p>3-Month Zero to Advanced English Language Course</p>
-        </div>
-        <div class="cert-body">
-          Ushbu sertifikat <strong id="cert-name-inline">—</strong> ielts.gg tomonidan taqdim etilgan 
-          <strong>3 oylik IELTS 8.0 tayyorlov kursini</strong> muvaffaqiyatli yakunlaganligini tasdiqlaydi. 
-          Mazkur kurs davomida Listening, Reading, Writing va Speaking 
-          ko'nikmalari to'liq o'zlashtirildi va kuniga 2 soat muntazam mashg'ulot olib borildi.
-        </div>
-        <div class="cert-details">
-          <div class="cert-detail">
-            <span class="label">Tug'ilgan sana</span>
-            <div class="value" id="cert-dob-disp">—</div>
-          </div>
-          <div class="cert-detail">
-            <span class="label">Kurs tugadi</span>
-            <div class="value" id="cert-end-disp">—</div>
-          </div>
-          <div class="cert-detail">
-            <span class="label">Maqsad Band</span>
-            <div class="value">8.0</div>
+          <div class="settings-row" onclick="openEditProfile()">
+            <div class="settings-row-icon" style="background:rgba(255,159,10,0.2)">🔗</div>
+            <div class="settings-row-label">Havolalar qo'shish</div>
+            <div class="settings-row-arrow">›</div>
           </div>
         </div>
-        <div class="cert-footer">
-          <div class="cert-sig">
-            <div class="cert-sig-name" style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.2rem;margin-bottom:6px;color:var(--ink)">Dr. E. Harrison</div>
-            <div class="sig-line"></div>
-            <div class="sig-name">Dr. Emily Harrison</div>
-            <div class="sig-title">Academic Director, IELTS.GG</div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">Sozlamalar</div>
+        <div class="settings-group">
+          <div class="settings-row" onclick="openLangSheet()">
+            <div class="settings-row-icon" style="background:rgba(48,209,88,0.2)">🌐</div>
+            <div class="settings-row-label">Til</div>
+            <div class="settings-row-sub" id="lang-display">O'zbekcha</div>
+            <div class="settings-row-arrow">›</div>
           </div>
-          <div class="cert-seal">
-            <div class="seal-star">⭐</div>
-            IELTS.GG<br>CERTIFIED<br>PROGRAMME
+          <div class="settings-row" onclick="showToast('Bildirishnomalar sozlandi!')">
+            <div class="settings-row-icon" style="background:rgba(255,69,58,0.2)">🔔</div>
+            <div class="settings-row-label">Bildirishnomalar</div>
+            <div class="settings-row-arrow">›</div>
           </div>
-          <div class="cert-sig">
-            <div class="cert-sig-name" style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.2rem;margin-bottom:6px;color:var(--ink)">Prof. J. Mitchell</div>
-            <div class="sig-line"></div>
-            <div class="sig-name">Prof. James Mitchell</div>
-            <div class="sig-title">Chief Examiner, IELTS.GG</div>
+          <div class="settings-row" onclick="showToast('Maxfiylik sozlamalari!')">
+            <div class="settings-row-icon" style="background:rgba(0,122,255,0.2)">🔒</div>
+            <div class="settings-row-label">Maxfiylik</div>
+            <div class="settings-row-arrow">›</div>
           </div>
         </div>
-        <div class="cert-id" id="cert-id-disp">CERT ID: —</div>
       </div>
+
+      <div class="settings-support">
+        <div class="settings-support-title">💬 Qo'llab-quvvatlash</div>
+        <div class="settings-support-item">
+          <span>📱</span>
+          <a href="https://wa.me/996228882999">WhatsApp: +996 228 882 999</a>
+        </div>
+        <div class="settings-support-item">
+          <span>✈️</span>
+          <a href="https://t.me/Uzgen12345">Telegram: @Uzgen12345</a>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-group">
+          <div class="settings-row" onclick="doLogout()" style="color:var(--red)">
+            <div class="settings-row-icon" style="background:rgba(255,69,58,0.15)">🚪</div>
+            <div class="settings-row-label" style="color:var(--red)">Chiqish</div>
+          </div>
+        </div>
+      </div>
+      <div class="settings-ver">Abi-Chats v1.0.0<br>powered by Abdullokh Bakirov</div>
     </div>
-    <button class="print-btn" onclick="window.print()">🖨️ Chop etish / PDF saqlash</button>
+  </div>
+
+  <!-- Tab bar -->
+  <div class="tabs">
+    <div class="tab active" id="tab-chats" onclick="switchTab('chats')">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" fill="rgba(255,255,255,0.3)"/></svg>
+      </div>
+      <div class="tab-label">Chatlar</div>
+      <div class="tab-badge" id="chat-badge" style="display:none">3</div>
+    </div>
+    <div class="tab" id="tab-community" onclick="switchTab('community')">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="rgba(255,255,255,0.3)"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none"/><circle cx="20" cy="8" r="3" fill="rgba(255,255,255,0.2)"/><circle cx="4" cy="8" r="3" fill="rgba(255,255,255,0.2)"/></svg>
+      </div>
+      <div class="tab-label">Hamjamiyat</div>
+    </div>
+    <div class="tab" id="tab-calls" onclick="switchTab('calls')">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.3)"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.97 6.97l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <div class="tab-label">Qo'ng'iroq</div>
+    </div>
+    <div class="tab" id="tab-settings" onclick="switchTab('settings')">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.3)"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </div>
+      <div class="tab-label">Sozlamalar</div>
+    </div>
   </div>
 </div>
 
-<!-- FOOTER -->
-<footer>
-  <p>Barcha materiallar IELTS Academic format asosida tayyorlangan · Cambridge, British Council, IDP standartlari</p>
-  <p style="margin-top:6px">Manbalar: Cambridge IELTS 15-18 · BBC Learning English · British Council IELTS</p>
-  <div class="powered">Powered by <span>Abdullokh-developer</span></div>
-</footer>
+<!-- CHAT VIEW -->
+<div id="chat-view">
+  <div class="cv-header">
+    <div class="cv-back" onclick="closeChatView()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" width="18" height="18"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </div>
+    <div class="cv-info" id="cv-info-btn">
+      <div class="cv-ava" id="cv-ava">A</div>
+      <div>
+        <div class="cv-name" id="cv-name">Ism</div>
+        <div class="cv-status" id="cv-status">online</div>
+      </div>
+    </div>
+    <div class="cv-actions">
+      <div class="cv-action" onclick="startVoiceCall()" title="Qo'ng'iroq">
+        <svg viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.97 6.97l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <div class="cv-action" onclick="startVideoCall()" title="Video">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="18" height="18"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      </div>
+    </div>
+  </div>
+  <div class="cv-msgs scrollbar-hide" id="cv-msgs"></div>
+  <div class="cv-input-wrap">
+    <div class="cv-attach-row hidden" id="attach-row">
+      <div class="attach-btn" onclick="attachImg()"><div class="attach-btn-icon">🖼️</div><div class="attach-btn-label">Rasm</div></div>
+      <div class="attach-btn" onclick="attachVideo()"><div class="attach-btn-icon">🎥</div><div class="attach-btn-label">Video</div></div>
+      <div class="attach-btn" onclick="attachFile()"><div class="attach-btn-icon">📄</div><div class="attach-btn-label">Fayl</div></div>
+      <div class="attach-btn" onclick="attachLocation()"><div class="attach-btn-icon">📍</div><div class="attach-btn-label">Joylashuv</div></div>
+      <div class="attach-btn" onclick="attachAudio()"><div class="attach-btn-icon">🎵</div><div class="attach-btn-label">Audio</div></div>
+    </div>
+    <div class="cv-input-row">
+      <div class="cv-attach-toggle" onclick="toggleAttach()">+</div>
+      <div class="cv-input-box" id="cv-input" contenteditable="true" data-placeholder="Xabar..." onkeydown="onMsgKey(event)" oninput="onMsgInput()"></div>
+      <div class="cv-mic" id="cv-mic" onclick="startRecording()" style="display:flex">🎤</div>
+      <div class="cv-send" id="cv-send-btn" onclick="sendMsg()" style="display:none">
+        <svg viewBox="0 0 24 24" fill="white" width="20" height="20"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4z"/></svg>
+      </div>
+    </div>
+    <input type="file" id="file-img" accept="image/*" style="display:none" onchange="handleImgUpload(event)">
+    <input type="file" id="file-video" accept="video/*" style="display:none" onchange="handleVideoUpload(event)">
+    <input type="file" id="file-any" style="display:none" onchange="handleFileUpload(event)">
+  </div>
+</div>
+
+<!-- ADD CONTACT -->
+<div id="add-contact">
+  <div class="ac-header">
+    <div class="cv-back" onclick="closeAddContact()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" width="18" height="18"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </div>
+    <div style="font-size:17px;font-weight:700;flex:1;text-align:center">Kontakt qo'shish</div>
+    <div style="width:36px"></div>
+  </div>
+  <div class="ac-body">
+    <div style="margin-bottom:10px;font-size:14px;color:var(--text3)">Tel raqam, psevdonim yoki email kiriting:</div>
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input placeholder="Qidirish..." id="contact-search" oninput="searchContact()" style="background:none;border:none;outline:none;color:#fff;font-size:15px;flex:1">
+    </div>
+    <div class="ac-result" id="ac-result">
+      <div class="cv-ava" id="ac-ava" style="width:48px;height:48px;font-size:20px">A</div>
+      <div style="flex:1">
+        <div style="font-size:16px;font-weight:700" id="ac-name">Ism</div>
+        <div style="font-size:13px;color:var(--text3)" id="ac-id">@id</div>
+      </div>
+      <button onclick="addContact()" style="background:linear-gradient(135deg,#007AFF,#32D4C8);border:none;border-radius:12px;padding:10px 16px;color:#fff;font-size:14px;font-weight:700;cursor:pointer">Qo'shish</button>
+    </div>
+    <div style="margin-top:20px;font-size:14px;font-weight:700;color:var(--text2);margin-bottom:10px">Barcha foydalanuvchilar</div>
+    <div id="all-users-list"></div>
+  </div>
+</div>
+
+<!-- NEW GROUP -->
+<div id="new-group">
+  <div class="ac-header">
+    <div class="cv-back" onclick="document.getElementById('new-group').classList.remove('open');document.getElementById('new-group').style.display='none'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" width="18" height="18"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </div>
+    <div style="font-size:17px;font-weight:700;flex:1;text-align:center">Yangi guruh</div>
+    <div style="width:36px"></div>
+  </div>
+  <div style="padding:20px">
+    <div class="sheet-field"><div class="sheet-label">Guruh nomi</div><input class="sheet-input" id="group-name" placeholder="Guruh nomini kiriting..."></div>
+    <div class="sheet-field"><div class="sheet-label">Tavsif</div><input class="sheet-input" id="group-desc" placeholder="Guruh haqida..."></div>
+    <div style="margin-top:6px;font-size:14px;color:var(--text3);margin-bottom:10px">A'zolar qo'shing:</div>
+    <div id="group-members-list"></div>
+    <button onclick="createGroup()" style="width:100%;margin-top:16px;padding:15px;background:linear-gradient(135deg,#007AFF,#32D4C8);border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:700;cursor:pointer">Guruh yaratish</button>
+  </div>
+</div>
+
+<!-- EDIT PROFILE SHEET -->
+<div class="sheet" id="edit-profile-sheet" onclick="closeSheetIfBg(event,'edit-profile-sheet')">
+  <div class="sheet-inner">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">✏️ Profil o'zgartirish</div>
+    <div class="sheet-field"><div class="sheet-label">Ism</div><input class="sheet-input" id="ep-name" placeholder="Ismingiz"></div>
+    <div class="sheet-field"><div class="sheet-label">Tel raqam</div><input class="sheet-input" id="ep-phone" placeholder="+998..."></div>
+    <div class="sheet-field"><div class="sheet-label">Email</div><input class="sheet-input" id="ep-email" type="email" placeholder="email@..."></div>
+    <div class="sheet-field"><div class="sheet-label">Ma'lumot (bio)</div><input class="sheet-input" id="ep-bio" placeholder="O'zingiz haqida..."></div>
+    <div class="sheet-field"><div class="sheet-label">Havolalar</div><input class="sheet-input" id="ep-links" placeholder="https://..."></div>
+    <button class="sheet-save" onclick="saveProfile()">Saqlash ✓</button>
+    <button class="sheet-cancel" onclick="closeSheet('edit-profile-sheet')">Bekor qilish</button>
+  </div>
+</div>
+
+<!-- LANG SHEET -->
+<div class="sheet" id="lang-sheet" onclick="closeSheetIfBg(event,'lang-sheet')">
+  <div class="sheet-inner">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">🌐 Til tanlash</div>
+    <div class="lang-opt active" id="lang-uz" onclick="setLang('uz','O\'zbekcha')"><span class="lang-flag">🇺🇿</span><span class="lang-name">O'zbekcha</span><span class="lang-check">✓</span></div>
+    <div class="lang-opt" id="lang-tashkent" onclick="setLang('tashkent','Toshkentcha')"><span class="lang-flag">🏙️</span><span class="lang-name">Toshkentcha</span><span class="lang-check">✓</span></div>
+    <div class="lang-opt" id="lang-ru" onclick="setLang('ru','Русский')"><span class="lang-flag">🇷🇺</span><span class="lang-name">Русский</span><span class="lang-check">✓</span></div>
+    <div class="lang-opt" id="lang-en" onclick="setLang('en','English')"><span class="lang-flag">🇺🇸</span><span class="lang-name">English</span><span class="lang-check">✓</span></div>
+    <button class="sheet-cancel" onclick="closeSheet('lang-sheet')">Yopish</button>
+  </div>
+</div>
+
+<!-- CALL OVERLAY -->
+<div id="call-overlay">
+  <div class="call-overlay-bg"></div>
+  <div class="call-overlay-content">
+    <div class="call-ava-big" id="co-ava">A</div>
+    <div class="call-overlay-name" id="co-name">Ism</div>
+    <div class="call-overlay-status" id="co-status">Qo'ng'iroq qilinmoqda...</div>
+    <div class="call-overlay-timer" id="co-timer">0:00</div>
+  </div>
+  <div class="call-btns">
+    <div class="call-btn-big call-spk" onclick="showToast('🔈 Dinamik')">🔈</div>
+    <div class="call-btn-big call-mute" onclick="toggleMute()">🎤</div>
+    <div class="call-btn-big call-video" id="video-toggle-btn" onclick="toggleVideo()">🎥</div>
+    <div class="call-btn-big call-end" onclick="endCall()">📵</div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
 
 <script>
-  function showMonth(n) {
-    document.querySelectorAll('.month-plan').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-    document.getElementById('m'+n).classList.add('active');
-    document.querySelectorAll('.tab-btn')[n-1].classList.add('active');
-  }
+// ── DB (LocalStorage) ──
+const DB = {
+  get(k){try{return JSON.parse(localStorage.getItem('abi_'+k))||null;}catch{return null;}},
+  set(k,v){localStorage.setItem('abi_'+k,JSON.stringify(v));},
+  del(k){localStorage.removeItem('abi_'+k);}
+};
 
-  function generateCert() {
-    const last   = document.getElementById('cert-last').value.trim();
-    const first  = document.getElementById('cert-first').value.trim();
-    const middle = document.getElementById('cert-middle').value.trim();
-    const dob    = document.getElementById('cert-dob').value;
-    const endD   = document.getElementById('cert-end').value;
+// ── STATE ──
+let currentUser=null, currentChatId=null, callTimer=null, callSec=0, isMuted=false, isVideoOn=true;
+const ADMIN_PASS='3829';
 
-    if (!last || !first) {
-      alert('Iltimos, kamida ism va familiyani kiriting.');
-      return;
-    }
-
-    const fullName = [last, first, middle].filter(Boolean).join(' ');
-    document.getElementById('cert-fullname').textContent = fullName;
-    document.getElementById('cert-name-inline').textContent = first + ' ' + last;
-
-    function fmtDate(d) {
-      if (!d) return '—';
-      const [y,m,day] = d.split('-');
-      const months = ['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentabr','Oktabr','Noyabr','Dekabr'];
-      return `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;
-    }
-
-    document.getElementById('cert-dob-disp').textContent = fmtDate(dob);
-    document.getElementById('cert-end-disp').textContent = fmtDate(endD);
-
-    // Generate cert ID
-    const id = 'IELTS-GG-' + Math.random().toString(36).substring(2,8).toUpperCase() + '-2026';
-    document.getElementById('cert-id-disp').textContent = 'CERT ID: ' + id;
-
-    const output = document.getElementById('cert-output');
-    output.style.display = 'block';
-    output.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  // Set today as default for end date
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('cert-end').value = today;
-</script>
-
-<style>
-@media print {
-  nav, .hero, #overview, #plan, #speaking, #vocab, .divider,
-  .cert-form-wrap, .cert-intro, .print-btn, footer { display: none !important; }
-  #certificate { padding: 0; background: white; }
-  #cert-output { display: block !important; margin: 0; }
-  .certificate { box-shadow: none; border: none; }
+// ── INIT ──
+function init(){
+  createParticles();
+  setTimeout(()=>{
+    document.getElementById('splash').style.transition='opacity 0.6s';
+    document.getElementById('splash').style.opacity='0';
+    setTimeout(()=>{
+      document.getElementById('splash').style.display='none';
+      const saved=DB.get('current_user');
+      if(saved){currentUser=saved;showApp();}
+      else{document.getElementById('auth').style.display='block';}
+    },600);
+  },2800);
+  document.addEventListener('click',e=>{
+    const menu=document.getElementById('ctx-menu');
+    if(menu.classList.contains('open')&&!e.target.closest('#header-more-btn'))menu.classList.remove('open');
+  });
 }
-</style>
+
+// ── PARTICLES ──
+function createParticles(){
+  const c=document.getElementById('splash-particles');
+  for(let i=0;i<18;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const s=Math.random()*6+3;
+    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:-${s}px;background:rgba(${Math.random()>0.5?'0,122,255':'50,212,200'},${Math.random()*0.5+0.2});animation-duration:${Math.random()*8+6}s;animation-delay:${Math.random()*5}s;`;
+    c.appendChild(p);
+  }
+}
+
+// ── HASH ──
+async function sha256(str){
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+// ── AUTH TABS ──
+function switchAuthTab(t){
+  ['login','reg','admin'].forEach(x=>{
+    document.getElementById('tab-'+x).classList.toggle('active',x===t);
+    document.getElementById('form-'+x).style.display=x===t?'flex':'none';
+  });
+}
+
+// ── REGISTER ──
+async function doRegister(){
+  const name=document.getElementById('reg-name').value.trim();
+  const id=document.getElementById('reg-id').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const pass=document.getElementById('reg-pass').value;
+  if(!id||!pass){showErr('reg-err','ID va parol kerak!');return;}
+  const users=DB.get('users')||{};
+  if(users[id]){showErr('reg-err','Bu foydalanuvchi allaqachon mavjud!');return;}
+  const hash=await sha256(pass);
+  const u={id,name:name||id,email,hash,contacts:[],bio:'',phone:'',links:'',created:Date.now()};
+  users[id]=u;
+  DB.set('users',users);
+  document.getElementById('reg-err').style.display='none';
+  currentUser=u;
+  DB.set('current_user',u);
+  showToastOnLoad();
+  showApp();
+}
+
+// ── LOGIN ──
+async function doLogin(){
+  const id=document.getElementById('login-id').value.trim();
+  const pass=document.getElementById('login-pass').value;
+  const users=DB.get('users')||{};
+  let u=users[id];
+  if(!u){
+    // try email
+    u=Object.values(users).find(x=>x.email===id||x.phone===id);
+  }
+  if(!u){showErr('login-err',"Foydalanuvchi topilmadi!");return;}
+  const hash=await sha256(pass);
+  if(hash!==u.hash){showErr('login-err',"Noto'g'ri parol!");return;}
+  document.getElementById('login-err').style.display='none';
+  currentUser=u;
+  DB.set('current_user',u);
+  showApp();
+}
+
+// ── ADMIN ──
+function doAdmin(){
+  if(document.getElementById('admin-pass').value===ADMIN_PASS){
+    document.getElementById('auth').style.display='none';
+    showAdminPanel();
+  } else {
+    showErr('admin-err','Noto\'g\'ri parol!');
+  }
+}
+
+function showAdminPanel(){
+  const ap=document.getElementById('admin');
+  ap.style.display='block';
+  const users=DB.get('users')||{};
+  const msgs=DB.get('messages')||{};
+  document.getElementById('stat-users').textContent=Object.keys(users).length;
+  let totalMsgs=0;
+  Object.values(msgs).forEach(arr=>totalMsgs+=arr.length);
+  document.getElementById('stat-msgs').textContent=totalMsgs;
+  const list=document.getElementById('admin-user-list');
+  list.innerHTML='';
+  Object.values(users).forEach(u=>{
+    list.innerHTML+=`<div class="admin-user-row"><div class="admin-ava">${(u.name||u.id).charAt(0).toUpperCase()}</div><div class="admin-user-info"><div class="admin-user-name">${u.name||u.id}</div><div class="admin-user-sub">${u.email||u.id}</div></div><button class="admin-del" onclick="deleteUser('${u.id}')">O'chirish</button></div>`;
+  });
+  if(!Object.keys(users).length)list.innerHTML='<div style="color:var(--text3);font-size:14px;text-align:center;padding:20px">Foydalanuvchilar yo\'q</div>';
+}
+
+function deleteUser(id){
+  const users=DB.get('users')||{};
+  delete users[id];
+  DB.set('users',users);
+  showAdminPanel();
+  showToast('Foydalanuvchi o\'chirildi');
+}
+
+function exitAdmin(){
+  document.getElementById('admin').style.display='none';
+  document.getElementById('auth').style.display='block';
+}
+
+function showErr(id,msg){
+  const el=document.getElementById(id);
+  el.textContent=msg;el.style.display='block';
+  setTimeout(()=>el.style.display='none',3000);
+}
+
+// ── SHOW APP ──
+function showApp(){
+  document.getElementById('auth').style.display='none';
+  document.getElementById('admin').style.display='none';
+  document.getElementById('app').style.display='flex';
+  updateProfileUI();
+  renderChatList();
+  renderCalls();
+  renderGroupMembersList();
+  seedDemoData();
+}
+
+function showToastOnLoad(){showToast('Xush kelibsiz! 🎉');}
+
+// ── DEMO DATA ──
+function seedDemoData(){
+  if(DB.get('demo_seeded'))return;
+  const users=DB.get('users')||{};
+  const demoUsers=[
+    {id:'aziz_toshkent',name:'Aziz',email:'aziz@demo.uz',hash:'demo',bio:'Toshkentdan',phone:'+998901234567',contacts:[],links:'',created:Date.now()},
+    {id:'dilnoza',name:'Dilnoza',email:'dilnoza@demo.uz',hash:'demo',bio:'Dizayner',phone:'+998907654321',contacts:[],links:'',created:Date.now()},
+    {id:'sardor_dev',name:'Sardor',email:'sardor@demo.uz',hash:'demo',bio:'Developer',phone:'+998991234567',contacts:[],links:'',created:Date.now()},
+  ];
+  demoUsers.forEach(u=>{if(!users[u.id])users[u.id]=u;});
+  DB.set('users',users);
+  const msgs=DB.get('messages')||{};
+  const chatId1=chatKey(currentUser.id,'aziz_toshkent');
+  if(!msgs[chatId1]){
+    msgs[chatId1]=[
+      {id:1,from:'aziz_toshkent',text:"Salom, qalaysiz? 👋",time:Date.now()-3600000,type:'text'},
+      {id:2,from:currentUser.id,text:"Yaxshi, rahmat! Siz-chi?",time:Date.now()-3500000,type:'text'},
+      {id:3,from:'aziz_toshkent',text:"Hammasi joyida 😊 Bugun Chorsu bazorida edim!",time:Date.now()-3400000,type:'text'},
+    ];
+  }
+  const chatId2=chatKey(currentUser.id,'dilnoza');
+  if(!msgs[chatId2]){
+    msgs[chatId2]=[
+      {id:1,from:'dilnoza',text:"Loyiha tayyor bo'ldimi?",time:Date.now()-7200000,type:'text'},
+      {id:2,from:currentUser.id,text:"Ha, bugun yuboraman 📤",time:Date.now()-7100000,type:'text'},
+    ];
+  }
+  DB.set('messages',msgs);
+  if(!currentUser.contacts||!currentUser.contacts.includes('aziz_toshkent')){
+    const u=DB.get('users')||{};
+    if(u[currentUser.id]){
+      u[currentUser.id].contacts=u[currentUser.id].contacts||[];
+      ['aziz_toshkent','dilnoza'].forEach(id=>{if(!u[currentUser.id].contacts.includes(id))u[currentUser.id].contacts.push(id);});
+      DB.set('users',u);
+      currentUser.contacts=u[currentUser.id].contacts;
+      DB.set('current_user',currentUser);
+    }
+  }
+  DB.set('demo_seeded',true);
+  renderChatList();
+}
+
+// ── CHAT KEY ──
+function chatKey(a,b){return [a,b].sort().join('__');}
+
+// ── RENDER CHAT LIST ──
+function renderChatList(){
+  const users=DB.get('users')||{};
+  const msgs=DB.get('messages')||{};
+  const contacts=currentUser.contacts||[];
+  const list=document.getElementById('chat-list');
+  if(!contacts.length){
+    list.innerHTML=`<div style="padding:40px 20px;text-align:center;color:var(--text3)"><div style="font-size:48px;margin-bottom:12px">💬</div><div style="font-size:17px;font-weight:600;color:var(--text2);margin-bottom:6px">Chatlar yo'q</div><div style="font-size:14px">Kontakt qo'shib boshlang!</div></div>`;
+    return;
+  }
+  const chatData=contacts.map(cid=>{
+    const u=users[cid]||{name:cid,id:cid};
+    const ck=chatKey(currentUser.id,cid);
+    const m=msgs[ck]||[];
+    const last=m[m.length-1];
+    return{u,last,time:last?last.time:0,cid};
+  }).sort((a,b)=>b.time-a.time);
+  list.innerHTML=chatData.map(({u,last,cid})=>{
+    const init=(u.name||u.id).charAt(0).toUpperCase();
+    const t=last?timeStr(last.time):'';
+    let preview='';
+    if(last){
+      if(last.type==='image')preview='🖼️ Rasm';
+      else if(last.type==='video')preview='🎥 Video';
+      else if(last.type==='file')preview='📄 '+last.name;
+      else if(last.type==='location')preview='📍 Joylashuv';
+      else preview=last.text||'';
+    }
+    const unread=last&&last.from!==currentUser.id&&!(last.read)?1:0;
+    return`<div class="chat-item${unread?' unread':''}" onclick="openChat('${cid}')">
+      <div class="chat-ava">${init}<div class="ava-online"></div></div>
+      <div class="chat-info">
+        <div class="chat-name">${u.name||u.id}</div>
+        <div class="chat-msg">${preview||'Hali xabar yo\'q'}</div>
+      </div>
+      <div class="chat-meta">
+        <div class="chat-time">${t}</div>
+        ${unread?'<div class="chat-unread">1</div>':''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterChats(){
+  const q=document.getElementById('search-input').value.toLowerCase();
+  document.querySelectorAll('.chat-item').forEach(el=>{
+    el.style.display=el.textContent.toLowerCase().includes(q)?'':'none';
+  });
+}
+
+function timeStr(ts){
+  if(!ts)return'';
+  const d=new Date(ts),n=new Date();
+  if(d.toDateString()===n.toDateString()){
+    return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+  }
+  return d.getDate()+'/'+(d.getMonth()+1);
+}
+
+// ── OPEN CHAT ──
+function openChat(cid){
+  const users=DB.get('users')||{};
+  const u=users[cid]||{name:cid,id:cid};
+  currentChatId=cid;
+  document.getElementById('cv-ava').textContent=(u.name||u.id).charAt(0).toUpperCase();
+  document.getElementById('cv-name').textContent=u.name||u.id;
+  document.getElementById('cv-status').textContent='online';
+  const cv=document.getElementById('chat-view');
+  cv.style.display='flex';
+  setTimeout(()=>cv.classList.add('open'),10);
+  renderMsgs();
+  simulateTyping();
+}
+
+function closeChatView(){
+  const cv=document.getElementById('chat-view');
+  cv.classList.remove('open');
+  setTimeout(()=>{cv.style.display='none';currentChatId=null;renderChatList();},350);
+}
+
+// ── RENDER MSGS ──
+function renderMsgs(){
+  const ck=chatKey(currentUser.id,currentChatId);
+  const msgs=(DB.get('messages')||{})[ck]||[];
+  const cont=document.getElementById('cv-msgs');
+  cont.innerHTML=msgs.map(m=>{
+    const out=m.from===currentUser.id;
+    const t=timeStr(m.time)||'';
+    let inner='';
+    if(m.type==='image')inner=`<div class="msg-img"><img src="${m.src}" alt="rasm" loading="lazy"></div>`;
+    else if(m.type==='video')inner=`<div class="msg-file"><div class="msg-file-icon">🎥</div><div class="msg-file-info"><div class="msg-file-name">${m.name}</div><div class="msg-file-size">Video</div></div></div>`;
+    else if(m.type==='file')inner=`<div class="msg-file"><div class="msg-file-icon">📄</div><div class="msg-file-info"><div class="msg-file-name">${m.name}</div><div class="msg-file-size">${m.size||''}</div></div></div>`;
+    else if(m.type==='location')inner=`<div class="msg-location">📍 <div><div style="font-size:13px;font-weight:600">Joylashuv</div><div style="font-size:12px;color:var(--text3)">${m.coords||''}</div></div></div>`;
+    else inner=`<div class="msg-bubble">${escHtml(m.text||'')}</div>`;
+    return`<div class="msg ${out?'out':'in'}">${inner}<div class="msg-time">${t}${out?' ✓✓':''}</div></div>`;
+  }).join('');
+  cont.scrollTop=cont.scrollHeight;
+}
+
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ── SEND MSG ──
+function sendMsg(){
+  const inp=document.getElementById('cv-input');
+  const text=inp.textContent.trim();
+  if(!text||!currentChatId)return;
+  addMsg({type:'text',text});
+  inp.textContent='';
+  document.getElementById('cv-mic').style.display='flex';
+  document.getElementById('cv-send-btn').style.display='none';
+}
+
+function addMsg(data){
+  const ck=chatKey(currentUser.id,currentChatId);
+  const all=DB.get('messages')||{};
+  const arr=all[ck]||[];
+  arr.push({id:Date.now(),...data,from:currentUser.id,time:Date.now()});
+  all[ck]=arr;
+  DB.set('messages',all);
+  renderMsgs();
+  scheduleReply(ck);
+}
+
+function scheduleReply(ck){
+  setTimeout(()=>{
+    const typing=document.createElement('div');
+    typing.className='msg in';
+    typing.id='typing-indicator';
+    typing.innerHTML='<div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+    document.getElementById('cv-msgs').appendChild(typing);
+    document.getElementById('cv-msgs').scrollTop=99999;
+    setTimeout(()=>{
+      const ti=document.getElementById('typing-indicator');
+      if(ti)ti.remove();
+      const replies=["😊 Ha, tushundim!","Zo'r!","Rahmat!","Menga ham shunday ko'rindi 😄","Yaxshi!","OK, kelishib qoldik ✓","Toshkent uslubi bilan! 🏙️","Abi-Chats zo'r! 🚀","Ha albatta!","Qo'ng'iroq qilamiz keyin 📞"];
+      const all=DB.get('messages')||{};
+      const arr=all[ck]||[];
+      arr.push({id:Date.now(),from:currentChatId,text:replies[Math.floor(Math.random()*replies.length)],time:Date.now(),type:'text',read:false});
+      all[ck]=arr;
+      DB.set('messages',all);
+      renderMsgs();
+    },Math.random()*1500+800);
+  },300);
+}
+
+function simulateTyping(){}
+
+function onMsgKey(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}
+}
+function onMsgInput(){
+  const t=document.getElementById('cv-input').textContent.trim();
+  document.getElementById('cv-mic').style.display=t?'none':'flex';
+  document.getElementById('cv-send-btn').style.display=t?'flex':'none';
+}
+
+// ── ATTACH ──
+function toggleAttach(){
+  const r=document.getElementById('attach-row');
+  r.classList.toggle('hidden');
+}
+function attachImg(){document.getElementById('file-img').click();}
+function attachVideo(){document.getElementById('file-video').click();}
+function attachFile(){document.getElementById('file-any').click();}
+function attachLocation(){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(p=>{
+      addMsg({type:'location',coords:`${p.coords.latitude.toFixed(4)}, ${p.coords.longitude.toFixed(4)}`});
+    },()=>{addMsg({type:'location',coords:'41.2995, 69.2401 (Toshkent)'});});
+  } else {
+    addMsg({type:'location',coords:'41.2995, 69.2401 (Toshkent)'});
+  }
+  document.getElementById('attach-row').classList.add('hidden');
+}
+function attachAudio(){showToast('🎵 Audio yozib olinmoqda...');document.getElementById('attach-row').classList.add('hidden');}
+
+function handleImgUpload(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>addMsg({type:'image',src:ev.target.result});
+  reader.readAsDataURL(file);
+  document.getElementById('attach-row').classList.add('hidden');
+  e.target.value='';
+}
+function handleVideoUpload(e){
+  const file=e.target.files[0];if(!file)return;
+  addMsg({type:'video',name:file.name,size:formatSize(file.size)});
+  document.getElementById('attach-row').classList.add('hidden');
+  e.target.value='';
+}
+function handleFileUpload(e){
+  const file=e.target.files[0];if(!file)return;
+  addMsg({type:'file',name:file.name,size:formatSize(file.size)});
+  document.getElementById('attach-row').classList.add('hidden');
+  e.target.value='';
+}
+function formatSize(b){if(b<1024)return b+'B';if(b<1048576)return(b/1024).toFixed(1)+'KB';return(b/1048576).toFixed(1)+'MB';}
+
+// ── CALLS ──
+function renderCalls(){
+  const items=[
+    {name:'Abi',dir:'in',type:'voice',time:'Bugun 14:30'},
+    {name:'Shukrona',dir:'out',type:'voice',time:'2 kun oldin'},
+  ];
+  const colors=['#007AFF','#BF5AF2','#32D4C8'];
+  document.getElementById('calls-list').innerHTML=items.map((c,i)=>`
+    <div class="call-item">
+      <div class="call-ava" style="background:linear-gradient(135deg,${colors[i]},${colors[(i+1)%3]})">${c.name.charAt(0)}</div>
+      <div class="call-info">
+        <div class="call-name">${c.name}</div>
+        <div class="call-sub">
+          <span class="call-${c.dir}">${c.dir==='in'?'↙ Kiruvchi':c.dir==='out'?'↗ Chiquvchi':'↙ O\'tkazib yuborilgan'}</span>
+          · ${c.type==='video'?'📹':'📞'} · ${c.time}
+        </div>
+      </div>
+      <div class="call-actions">
+        <div class="call-btn" onclick="makeCallTo('${c.name}',false)">📞</div>
+        <div class="call-btn" onclick="makeCallTo('${c.name}',true)" style="background:rgba(50,212,200,0.15);border-color:rgba(50,212,200,0.3)">🎥</div>
+      </div>
+    </div>`).join('');
+}
+
+function makeCallTo(name,video){
+  document.getElementById('co-name').textContent=name;
+  document.getElementById('co-ava').textContent=name.charAt(0);
+  document.getElementById('co-status').textContent=video?'Video qo\'ng\'iroq...':'Qo\'ng\'iroq qilinmoqda...';
+  document.getElementById('co-timer').style.display='none';
+  const co=document.getElementById('call-overlay');
+  co.classList.add('open');
+  setTimeout(()=>{
+    document.getElementById('co-status').textContent=video?'Video aloqa':'Gaplashmoqda';
+    document.getElementById('co-timer').style.display='block';
+    startCallTimer();
+  },2000);
+}
+
+function startVoiceCall(){if(currentChatId)makeCallTo(document.getElementById('cv-name').textContent,false);}
+function startVideoCall(){if(currentChatId)makeCallTo(document.getElementById('cv-name').textContent,true);}
+
+function startCallTimer(){
+  clearInterval(callTimer);callSec=0;
+  callTimer=setInterval(()=>{
+    callSec++;
+    const m=Math.floor(callSec/60),s=callSec%60;
+    document.getElementById('co-timer').textContent=`${m}:${s.toString().padStart(2,'0')}`;
+  },1000);
+}
+
+function endCall(){
+  clearInterval(callTimer);
+  document.getElementById('call-overlay').classList.remove('open');
+  showToast('Qo\'ng\'iroq tugadi');
+}
+function toggleMute(){isMuted=!isMuted;showToast(isMuted?'🔇 Mikrofon o\'chirildi':'🎤 Mikrofon yoqildi');}
+function toggleVideo(){isVideoOn=!isVideoOn;showToast(isVideoOn?'📷 Video yoqildi':'🚫 Video o\'chirildi');}
+
+// ── ADD CONTACT ──
+function openAddContact(){
+  const ac=document.getElementById('add-contact');
+  ac.style.display='flex';
+  setTimeout(()=>ac.classList.add('open'),10);
+  renderAllUsers();
+}
+function closeAddContact(){
+  const ac=document.getElementById('add-contact');
+  ac.classList.remove('open');
+  setTimeout(()=>{ac.style.display='none';},350);
+}
+function renderAllUsers(){
+  const users=DB.get('users')||{};
+  const myContacts=currentUser.contacts||[];
+  const list=document.getElementById('all-users-list');
+  const others=Object.values(users).filter(u=>u.id!==currentUser.id);
+  if(!others.length){list.innerHTML='<div style="color:var(--text3);font-size:14px;text-align:center;padding:20px">Foydalanuvchilar yo\'q</div>';return;}
+  list.innerHTML=others.map(u=>`
+    <div class="chat-item" style="border-radius:12px;margin-bottom:6px;background:var(--card2);border:1px solid var(--border)">
+      <div class="chat-ava">${(u.name||u.id).charAt(0).toUpperCase()}</div>
+      <div class="chat-info"><div class="chat-name">${u.name||u.id}</div><div class="chat-msg">${u.email||u.id}</div></div>
+      ${myContacts.includes(u.id)?
+        `<button onclick="openChatWithUser('${u.id}')" style="background:rgba(0,122,255,0.15);border:1px solid rgba(0,122,255,0.3);border-radius:10px;padding:8px 12px;color:var(--blue2);font-size:13px;cursor:pointer">Yozing</button>`:
+        `<button onclick="addContactById('${u.id}')" style="background:linear-gradient(135deg,rgba(0,122,255,0.2),rgba(50,212,200,0.1));border:1px solid rgba(0,122,255,0.4);border-radius:10px;padding:8px 12px;color:var(--blue2);font-size:13px;font-weight:600;cursor:pointer">+ Qo'sh</button>`
+      }
+    </div>`).join('');
+}
+function searchContact(){
+  const q=document.getElementById('contact-search').value.trim().toLowerCase();
+  if(!q){document.getElementById('ac-result').classList.remove('show');return;}
+  const users=DB.get('users')||{};
+  const found=Object.values(users).find(u=>u.id.toLowerCase().includes(q)||u.email?.toLowerCase().includes(q)||(u.phone||'').includes(q));
+  if(found&&found.id!==currentUser.id){
+    document.getElementById('ac-ava').textContent=(found.name||found.id).charAt(0).toUpperCase();
+    document.getElementById('ac-name').textContent=found.name||found.id;
+    document.getElementById('ac-id').textContent=found.email||found.id;
+    document.getElementById('ac-result').dataset.uid=found.id;
+    document.getElementById('ac-result').classList.add('show');
+  } else {
+    document.getElementById('ac-result').classList.remove('show');
+  }
+}
+function addContact(){
+  const uid=document.getElementById('ac-result').dataset.uid;
+  if(uid)addContactById(uid);
+}
+function addContactById(uid){
+  const u=DB.get('users')||{};
+  if(!u[currentUser.id])return;
+  if(!u[currentUser.id].contacts)u[currentUser.id].contacts=[];
+  if(!u[currentUser.id].contacts.includes(uid))u[currentUser.id].contacts.push(uid);
+  DB.set('users',u);
+  currentUser.contacts=u[currentUser.id].contacts;
+  DB.set('current_user',currentUser);
+  showToast('Kontakt qo\'shildi! ✓');
+  renderAllUsers();
+  renderChatList();
+}
+function openChatWithUser(uid){
+  closeAddContact();
+  setTimeout(()=>openChat(uid),400);
+}
+
+// ── NEW GROUP ──
+function openNewGroup(){
+  document.getElementById('ctx-menu').classList.remove('open');
+  const ng=document.getElementById('new-group');
+  ng.style.display='flex';
+  setTimeout(()=>ng.classList.add('open'),10);
+  renderGroupMembersList();
+}
+function renderGroupMembersList(){
+  const users=DB.get('users')||{};
+  const list=document.getElementById('group-members-list');
+  if(!list)return;
+  const contacts=currentUser.contacts||[];
+  list.innerHTML=contacts.map(cid=>{
+    const u=users[cid]||{name:cid,id:cid};
+    return`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
+      <input type="checkbox" id="gm-${cid}" style="width:18px;height:18px;accent-color:var(--blue)">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#007AFF,#32D4C8);display:flex;align-items:center;justify-content:center;font-weight:700">${(u.name||u.id).charAt(0).toUpperCase()}</div>
+      <div>${u.name||u.id}</div>
+    </div>`;
+  }).join('');
+}
+function createGroup(){
+  const name=document.getElementById('group-name').value.trim();
+  if(!name){showToast('Guruh nomi kiriting!');return;}
+  showToast(`"${name}" guruhi yaratildi! 👥`);
+  document.getElementById('new-group').classList.remove('open');
+  setTimeout(()=>{document.getElementById('new-group').style.display='none';},350);
+  document.getElementById('group-name').value='';
+  document.getElementById('group-desc').value='';
+}
+
+// ── SETTINGS ──
+function updateProfileUI(){
+  if(!currentUser)return;
+  const n=currentUser.name||currentUser.id;
+  document.getElementById('profile-ava-main').textContent=n.charAt(0).toUpperCase();
+  document.getElementById('profile-name-display').textContent=n;
+  document.getElementById('profile-info-display').textContent=currentUser.bio||currentUser.email||currentUser.id;
+  document.getElementById('settings-phone').textContent=currentUser.phone||currentUser.id;
+  document.getElementById('settings-email').textContent=currentUser.email||'-';
+}
+
+function openEditProfile(){
+  document.getElementById('ep-name').value=currentUser.name||'';
+  document.getElementById('ep-phone').value=currentUser.phone||'';
+  document.getElementById('ep-email').value=currentUser.email||'';
+  document.getElementById('ep-bio').value=currentUser.bio||'';
+  document.getElementById('ep-links').value=currentUser.links||'';
+  document.getElementById('edit-profile-sheet').classList.add('open');
+}
+function saveProfile(){
+  const users=DB.get('users')||{};
+  const u=users[currentUser.id];
+  if(u){
+    u.name=document.getElementById('ep-name').value.trim()||u.name;
+    u.phone=document.getElementById('ep-phone').value.trim();
+    u.email=document.getElementById('ep-email').value.trim();
+    u.bio=document.getElementById('ep-bio').value.trim();
+    u.links=document.getElementById('ep-links').value.trim();
+    DB.set('users',users);
+    Object.assign(currentUser,u);
+    DB.set('current_user',currentUser);
+  }
+  closeSheet('edit-profile-sheet');
+  updateProfileUI();
+  showToast('Profil saqlandi ✓');
+}
+
+function openLangSheet(){document.getElementById('lang-sheet').classList.add('open');}
+function setLang(code,name){
+  document.querySelectorAll('.lang-opt').forEach(el=>el.classList.remove('active'));
+  document.getElementById('lang-'+code).classList.add('active');
+  document.getElementById('lang-display').textContent=name;
+  closeSheet('lang-sheet');
+  showToast('Til o\'zgartirildi: '+name);
+}
+
+function closeSheet(id){document.getElementById(id).classList.remove('open');}
+function closeSheetIfBg(e,id){if(e.target.id===id)closeSheet(id);}
+
+function doLogout(){
+  DB.del('current_user');
+  currentUser=null;
+  document.getElementById('app').style.display='none';
+  document.getElementById('auth').style.display='block';
+  document.getElementById('login-id').value='';
+  document.getElementById('login-pass').value='';
+  switchAuthTab('login');
+  showToast('Chiqildi 👋');
+}
+
+// ── TAB SWITCH ──
+function switchTab(name){
+  ['chats','community','calls','settings'].forEach(t=>{
+    document.getElementById('tab-'+t)?.classList.toggle('active',t===name);
+    document.getElementById('page-'+t)?.classList.toggle('active',t===name);
+  });
+  const titleMap={chats:'Abi-Chats',community:'Hamjamiyat',calls:'Qo\'ng\'iroqlar',settings:'Sozlamalar'};
+  document.getElementById('header-title-text').textContent=titleMap[name]||'Abi-Chats';
+  if(name==='settings')updateProfileUI();
+  if(name==='chats')renderChatList();
+}
+
+// ── CTX MENU ──
+function toggleCtxMenu(){document.getElementById('ctx-menu').classList.toggle('open');}
+
+// ── MISC ──
+function openCamera(){showToast('📷 Kamera ochilyapti...');}
+function startRecording(){showToast('🎤 Ovozli xabar yozilmoqda...');}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── START ──
+init();
+</script>
 </body>
 </html>
